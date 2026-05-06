@@ -167,6 +167,47 @@ class LegalSection(PromptSection):
         )
 
 
+class ReclamoCMFSection(PromptSection):
+    """Instrucciones adicionales cuando el usuario formaliza un reclamo CMF.
+
+    Se incluye siempre en el pipeline; el modelo la aplica únicamente cuando
+    detecta una intención RECLAMO* del plugin CMF.
+    """
+
+    def render(self, ctx: PromptContext) -> str:
+        has_cmf = any(p.key == "cmf" for p in ctx.registry.all_plugins())
+        if not has_cmf:
+            return "## RECLAMOS CMF\n(plugin CMF no configurado)"
+        has_sernac = any(p.key == "sernac" for p in ctx.registry.all_plugins())
+        canal_derivacion = (
+            "entidad directa → CMF Online (cmfchile.cl)"
+            + (" → SERNAC (si aplica como consumidor)" if has_sernac else "")
+            + " → tribunales."
+        )
+        return (
+            "## RECLAMOS CMF — guía de formalización\n"
+            "Cuando la intención sea RECLAMO, RECLAMO_PRODUCTO, RECLAMO_SERVICIO "
+            "o RECLAMO_INFORMACION, debes:\n"
+            "1. Identificar el tipo de entidad (banco, AFP, aseguradora, mutuaria, "
+            "corredora).\n"
+            "2. Preguntar o verificar si ya reclamó directamente a la entidad "
+            "(prerequisito CMF: la entidad debe responder primero).\n"
+            "3. Preguntar o verificar los plazos transcurridos desde el problema.\n"
+            "4. Cruzar con normativa aplicable: Ley 19.496 (Protección al "
+            "Consumidor), circulares CMF vigentes, DFL 3 (Ley General de Bancos).\n"
+            f"5. Indicar el canal correcto en orden: {canal_derivacion}\n"
+            "6. Nunca inventar URLs. Solo usar URLs presentes en los servicios "
+            "curados devueltos por las tools.\n"
+            "Sub-intenciones:\n"
+            "- RECLAMO_PRODUCTO: cobros indebidos, cargos no reconocidos, tarjetas, "
+            "cuentas corrientes.\n"
+            "- RECLAMO_SERVICIO: seguro no paga, cobranza abusiva, incumplimiento "
+            "de póliza.\n"
+            "- RECLAMO_INFORMACION: publicidad engañosa, falta de info, términos no "
+            "explicados, documentación incompleta."
+        )
+
+
 class DerivationSection(PromptSection):
     """Reglas de derivación entre organismos cuando no hay match.
 
@@ -210,6 +251,7 @@ DEFAULT_SECTIONS: tuple[type[PromptSection], ...] = (
     IntencionesGlobalesSection,
     FlowSection,
     LegalSection,
+    ReclamoCMFSection,
     DerivationSection,
     SecurityRulesSection,
     StyleSection,
@@ -246,6 +288,7 @@ __all__ = [
     "PromptContext",
     "PromptPipeline",
     "PromptSection",
+    "ReclamoCMFSection",
     "SecurityRulesSection",
     "StyleSection",
 ]

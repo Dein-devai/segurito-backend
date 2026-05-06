@@ -1,0 +1,121 @@
+[
+  {
+    "id": "reclamo-cobro-indebido-tarjeta",
+    "titulo": "Cobro indebido en tarjeta de crédito",
+    "descripcion": "El banco cobró un cargo que no reconozco en mi estado de cuenta.",
+    "entidad_tipo": "banco",
+    "intencion": "RECLAMO_PRODUCTO",
+    "normativa_relacionada": [
+      "Ley 19.496 Art. 14 — derecho a que el proveedor informe verazmente",
+      "DFL 3 Art. 155 — obligación de informar cobros al titular"
+    ],
+    "pasos_recomendados": [
+      "Reclamar directamente al banco por escrito (carta o formulario web).",
+      "Conservar número de reclamo y fecha.",
+      "Si el banco no responde en 10 días hábiles o rechaza sin fundamento, acudir a CMF Online (cmfchile.cl).",
+      "Adjuntar estado de cuenta y comprobante de notificación al banco."
+    ]
+  },
+  {
+    "id": "reclamo-seguro-no-paga",
+    "titulo": "Aseguradora no paga siniestro",
+    "descripcion": "Mi aseguradora rechazó o ignoró el pago del siniestro de mi seguro de auto.",
+    "entidad_tipo": "aseguradora",
+    "intencion": "RECLAMO_SERVICIO",
+    "normativa_relacionada": [
+      "DFL 251 Art. 542 — obligación de pago oportuno del siniestro",
+      "Ley 19.496 Art. 23 — cláusulas abusivas en contratos de adhesión"
+    ],
+    "pasos_recomendados": [
+      "Notificar formalmente a la aseguradora indicando número de póliza y siniestro.",
+      "Si no responde en 10 días hábiles, presentar reclamo en CMF Online.",
+      "Adjuntar póliza, declaración de siniestro y resolución de rechazo (si existe).",
+      "Si el monto lo amerita, considerar acción judicial civil."
+    ]
+  },
+  {
+    "id": "reclamo-cobranza-abusiva",
+    "titulo": "Cobranza telefónica abusiva por empresa de crédito",
+    "descripcion": "Empresa de crédito llama fuera de horario legal o a terceros para cobrar deuda.",
+    "entidad_tipo": "banco",
+    "intencion": "RECLAMO_SERVICIO",
+    "normativa_relacionada": [
+      "Ley 19.496 Art. 37 — prácticas de cobranza abusivas prohibidas",
+      "Circular CMF N° 2.345 — normas de cobranza para bancos fiscalizados"
+    ],
+    "pasos_recomendados": [
+      "Registrar fecha, hora y número desde el que llamaron.",
+      "Notificar al banco o empresa por escrito exigiendo cese de la práctica.",
+      "Presentar denuncia en SERNAC si la entidad no es fiscalizada por CMF.",
+      "Presentar reclamo en CMF Online si la entidad es un banco o financiera CMF."
+    ]
+  },
+  {
+    "id": "reclamo-publicidad-engañosa-credito",
+    "titulo": "Publicidad engañosa en crédito de consumo",
+    "descripcion": "El banco ofreció una tasa de interés en publicidad que al firmar era diferente.",
+    "entidad_tipo": "banco",
+    "intencion": "RECLAMO_INFORMACION",
+    "normativa_relacionada": [
+      "Ley 18.010 Art. 8 — obligación de informar la tasa de interés efectiva",
+      "Ley 19.496 Art. 28 — prohibición de publicidad falsa o engañosa"
+    ],
+    "pasos_recomendados": [
+      "Conservar la publicidad original (panfleto, correo, captura de pantalla).",
+      "Reclamar al banco indicando la discrepancia entre publicidad y contrato.",
+      "Si no hay respuesta satisfactoria, presentar reclamo en CMF Online.",
+      "Puede complementar con denuncia en SERNAC por infracción a Ley del Consumidor."
+    ]
+  },
+  {
+    "id": "reclamo-afp-cotizaciones-no-enteradas",
+    "titulo": "AFP no registra cotizaciones descontadas por el empleador",
+    "descripcion": "El empleador descuenta las cotizaciones de la liquidación pero no las entera en la AFP.",
+    "entidad_tipo": "afp",
+    "intencion": "RECLAMO_PRODUCTO",
+    "normativa_relacionada": [
+      "DL 3.500 Art. 19 — obligación del empleador de enterar cotizaciones",
+      "Ley 17.322 — cobranza judicial de cotizaciones previsionales"
+    ],
+    "pasos_recomendados": [
+      "Verificar el estado de cuenta en la AFP (puede hacerse en línea).",
+      "Notificar al empleador por escrito exigiendo el entero inmediato.",
+      "Denunciar ante la Inspección del Trabajo si el empleador no regulariza.",
+      "La AFP puede iniciar acciones de cobranza judicial contra el empleador."
+    ]
+  },
+  {
+    "id": "reclamo-mutuaria-incumplimiento-credito",
+    "titulo": "Mutuaria no desembolsa crédito hipotecario aprobado",
+    "descripcion": "La mutuaria aprobó el crédito hipotecario pero se niega a desembolsar sin causa.",
+    "entidad_tipo": "mutuaria",
+    "intencion": "RECLAMO_SERVICIO",
+    "normativa_relacionada": [
+      "Ley 18.010 — operaciones de crédito de dinero",
+      "Ley 19.496 Art. 12 — derecho a retracto y cumplimiento del contrato"
+    ],
+    "pasos_recomendados": [
+      "Solicitar a la mutuaria explicación escrita de la negativa.",
+      "Revisar si la carta de aprobación tiene condiciones suspensivas incumplidas.",
+      "Presentar reclamo en CMF Online si la mutuaria es fiscalizada.",
+      "Consultar con un abogado si existe carta de aprobación sin condiciones."
+    ]
+  },
+  {
+    "id": "reclamo-corredora-operacion-no-autorizada",
+    "titulo": "Corredora de bolsa realizó operación no autorizada",
+    "descripcion": "Mi corredora vendió acciones de mi portafolio sin mi autorización.",
+    "entidad_tipo": "corredora",
+    "intencion": "RECLAMO_PRODUCTO",
+    "normativa_relacionada": [
+      "Ley 18.045 Art. 4 — prohibición de operaciones no autorizadas",
+      "Circular CMF N° 1.869 — normas de conducta para corredoras de bolsa"
+    ],
+    "pasos_recomendados": [
+      "Solicitar de inmediato el historial de órdenes y confirmaciones a la corredora.",
+      "Reclamar por escrito exigiendo reversión de la operación o compensación.",
+      "Presentar reclamo en CMF Online adjuntando historial de operaciones.",
+      "Si hay apropiación indebida, interponer querella criminal."
+    ]
+  }
+]

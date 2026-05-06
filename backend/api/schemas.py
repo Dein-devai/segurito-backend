@@ -4,12 +4,20 @@ from __future__ import annotations
 from pydantic import BaseModel, Field
 
 
+class Attachment(BaseModel):
+    mime_type: str
+    filename: str
+    base64_data: str  # máximo ~5 MB decodificado
+    description: str | None = None  # OCR o texto extraído (puede colocarlo el bridge)
+
+
 class ChatRequest(BaseModel):
     message: str = Field(..., min_length=1, max_length=2000)
     conversation_id: str | None = Field(
         default=None,
         description="Si se omite, el servidor genera uno nuevo (CONSULTA multi-turno).",
     )
+    attachments: list[Attachment] | None = None  # opcional; None = comportamiento anterior
 
 
 class ToolTrace(BaseModel):

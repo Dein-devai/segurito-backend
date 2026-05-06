@@ -48,6 +48,31 @@ def chat(
             detail=f"message excede {settings.max_user_input_chars} chars",
         )
 
+    # Validar adjuntos opcionales: máx 3, tipos soportados en MVP.
+    _MAX_ATTACHMENTS = 3
+    _MAX_B64_CHARS = 5 * 1024 * 1024 * 4 // 3  # ~5 MB decodificado → chars base64
+    _SUPPORTED_MIME = {"image/jpeg", "image/png", "image/webp", "image/gif"}
+    if req.attachments:
+        if len(req.attachments) > _MAX_ATTACHMENTS:
+            raise HTTPException(
+                status_code=400,
+                detail=f"máximo {_MAX_ATTACHMENTS} adjuntos por mensaje",
+            )
+        for att in req.attachments:
+            if len(att.base64_data) > _MAX_B64_CHARS:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"adjunto '{att.filename}' excede 5 MB",
+                )
+            if att.mime_type not in _SUPPORTED_MIME:
+                raise HTTPException(
+                    status_code=400,
+                    detail=(
+                        f"tipo '{att.mime_type}' no soportado. "
+                        "Soportados: image/jpeg, image/png, image/webp, image/gif"
+                    ),
+                )
+
     # Rate limit por conversación si el cliente la trae explícita.
     if req.conversation_id:
         try:
@@ -80,7 +105,11 @@ def chat(
         cost_tracker=cost_tracker,
     )
     try:
-        result = service.chat(req.message, conversation_id=req.conversation_id)
+        result = service.chat(
+            req.message,
+            conversation_id=req.conversation_id,
+            attachments=req.attachments,
+        )
     except RateLimitExceeded as exc:
         raise HTTPException(
             status_code=429,

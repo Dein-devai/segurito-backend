@@ -25,7 +25,7 @@ from anthropic.types import (
     ToolUseBlock,
 )
 
-from backend.api.schemas import ChatResponse, ReasoningStep, ToolTrace
+from backend.api.schemas import Attachment, ChatResponse, ReasoningStep, ToolTrace
 from backend.core.exceptions import (
     LLMError,
     ToolLoopMaxIterationsError,
@@ -238,6 +238,48 @@ class ChatService:
         elapsed = int((time.monotonic() - started) * 1000)
         return response, elapsed
 
+    @staticmethod
+    def _build_user_content(
+        user_message: str,
+        attachments: list[Attachment] | None,
+    ) -> str | list[dict[str, Any]]:
+        """Envuelve el mensaje y adjuntos en el formato requerido por Anthropic.
+
+        Soporta imágenes base64 (image/jpeg, image/png, image/webp, image/gif).
+        Para el MVP, PDFs/docs deben venir pre-procesados como texto en
+        `attachment.description`.
+        """
+        wrapped_text = f"<user_input>\n{user_message}\n</user_input>"
+        if not attachments:
+            return wrapped_text
+
+        content: list[dict[str, Any]] = []
+        for att in attachments:
+            if att.mime_type.startswith("image/"):
+                content.append(
+                    {
+                        "type": "image",
+                        "source": {
+                            "type": "base64",
+                            "media_type": att.mime_type,
+                            "data": att.base64_data,
+                        },
+                    }
+                )
+            elif att.description:
+                # PDF u otro tipo: incluir el texto extraído como bloque de texto.
+                content.append(
+                    {
+                        "type": "text",
+                        "text": (
+                            f"[Adjunto: {att.filename}]\n{att.description}"
+                        ),
+                    }
+                )
+        # El texto del usuario siempre va al final.
+        content.append({"type": "text", "text": wrapped_text})
+        return content
+
     def _run_loop(
         self,
         user_message: str,
@@ -247,8 +289,9 @@ class ChatService:
         triage_escalate: bool,
         reasoning: list[ReasoningStep],
         conversation_id: str | None = None,
+        attachments: list[Attachment] | None = None,
     ) -> _LoopOutcome:
-        wrapped = f"<user_input>\n{user_message}\n</user_input>"
+        wrapped = self._build_user_content(user_message, attachments)
         messages: list[dict[str, Any]] = list(history) + [
             {"role": "user", "content": wrapped}
         ]
@@ -320,7 +363,10 @@ class ChatService:
 
     # --- public API -------------------------------------------------------
     def chat(
-        self, message: str, conversation_id: str | None = None
+        self,
+        message: str,
+        conversation_id: str | None = None,
+        attachments: list[Attachment] | None = None,
     ) -> ChatResponse:
         interaction_id = str(uuid.uuid4())
         started = time.monotonic()
@@ -346,6 +392,7 @@ class ChatService:
                 triage_escalate=triage_escalate,
                 reasoning=reasoning,
                 conversation_id=conv.id,
+                attachments=attachments,
             )
         except ToolLoopTimeoutError:
             outcome = _LoopOutcome(

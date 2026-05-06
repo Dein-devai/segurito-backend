@@ -27,8 +27,15 @@ def plugin(fake_store: MagicMock) -> CmfPlugin:
 
 
 def test_intenciones_son_reclamo_consulta_tramite() -> None:
-    assert set(INTENCIONES_CMF.keys()) == {"RECLAMO", "CONSULTA", "TRAMITE"}
-    assert VALID_INTENCIONES_CMF == ("RECLAMO", "CONSULTA", "TRAMITE")
+    assert set(INTENCIONES_CMF.keys()) == {
+        "RECLAMO",
+        "RECLAMO_PRODUCTO",
+        "RECLAMO_SERVICIO",
+        "RECLAMO_INFORMACION",
+        "CONSULTA",
+        "TRAMITE",
+    }
+    assert set(VALID_INTENCIONES_CMF) == set(INTENCIONES_CMF.keys())
 
 
 def test_plugin_cumple_contrato_basico(plugin: CmfPlugin) -> None:
