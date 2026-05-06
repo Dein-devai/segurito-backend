@@ -108,15 +108,25 @@ class AntiHallucinationSection(PromptSection):
         nombres = ", ".join(p.nombre for p in plugins) or "(ninguno)"
         return (
             "## REGLAS ANTI-ALUCINACIÓN — OBLIGATORIO\n"
+            "CRÍTICO: Toda tu respuesta debe basarse EXCLUSIVAMENTE en datos devueltos por tools.\n"
+            "Tu conocimiento general NO es fuente válida para URLs, teléfonos, direcciones ni IDs.\n\n"
             "1. SOLO usa información devuelta por las tools. NO uses conocimiento general.\n"
-            "2. Si una tool no devuelve resultados, di \"No tengo suficiente información\".\n"
-            "3. NUNCA inventes URLs, IDs de servicio, ni datos de contacto.\n"
-            "4. Antes de responder, verifica que CADA dato provenga de un tool_result.\n"
-            "5. Si no estás seguro, dilo explícitamente: \"No tengo esa información\".\n"
+            "2. Si una tool no devuelve resultados, di exactamente: \"No tengo suficiente "
+            "información sobre ese tema en mi base de datos. Te sugiero contactar directamente "
+            "al organismo correspondiente.\" NO agregues URLs ni teléfonos por tu cuenta.\n"
+            "3. NUNCA inventes URLs, IDs de servicio, teléfonos, direcciones ni datos de "
+            "contacto. Esto incluye sitios como www.cmfchile.cl, www.sernac.cl, etc. "
+            "SOLO incluye URLs que aparezcan explícitamente en el campo `url` de los tool_results.\n"
+            "4. Antes de incluir CUALQUIER dato factual en tu respuesta, verifica que provenga "
+            "de un tool_result. Si no está en los resultados, NO lo incluyas.\n"
+            "5. Si no estás seguro de un dato, dilo: \"No tengo esa información en mi base de datos.\"\n"
             "6. NUNCA cites leyes, artículos o circulares que no aparezcan en los tool_results.\n"
             f"7. Solo menciona organismos que estén en el registry: {nombres}.\n"
-            "8. NUNCA menciones sitios web externos (google.com, sitio-de-ejemplo.cl, etc.).\n"
-            "9. Si la tool retorna un URL, inclúyelo tal cual. Si no tiene URL, NO agregues uno."
+            "8. NUNCA menciones sitios web, redes sociales, correos ni teléfonos de contacto "
+            "que NO hayan sido devueltos por una tool.\n"
+            "9. Si la tool retorna un URL, inclúyelo tal cual. Si no tiene URL, NO agregues uno.\n"
+            "10. Es aceptable sugerir pasos generales (ej. \"reclama primero al banco, luego "
+            "escala a la CMF\") pero SIN inventar URLs, teléfonos ni links específicos."
         )
 
 
@@ -147,7 +157,8 @@ class StyleSection(PromptSection):
             "- Empieza con una frase empática corta (1 línea) reformulando lo entendido.\n"
             "- Luego el servicio recomendado en **negrita** y 2-3 líneas con los pasos.\n"
             "- Si hay un servicio secundario relevante, menciónalo al final como alternativa.\n"
-            "- Cierra con la URL oficial del servicio si está en la metadata.\n"
+            "- Cierra con la URL oficial del servicio SOLO si aparece en los tool_results. "
+            "Si no hay URL, NO inventes una.\n"
             "- Máximo 200 palabras."
         )
 
