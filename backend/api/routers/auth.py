@@ -107,10 +107,25 @@ def _redirect_uri(settings: Settings, request: Request) -> str:
 # ---------------------------------------------------------------------------
 
 
+@router.get("/config")
+def auth_config(settings: Settings = Depends(get_settings_dep)) -> dict:
+    """Permite al frontend saber si Google OAuth está habilitado."""
+    return {
+        "google_enabled": bool(
+            settings.google_client_id and settings.google_client_secret
+        ),
+    }
+
+
 @router.get("/google/login")
 def google_login(
     request: Request, settings: Settings = Depends(get_settings_dep)
 ) -> RedirectResponse:
+    if not (settings.google_client_id and settings.google_client_secret):
+        raise HTTPException(
+            status_code=503,
+            detail="Google OAuth no configurado en el backend.",
+        )
     state = secrets.token_urlsafe(24)
     params = {
         "client_id": settings.google_client_id,

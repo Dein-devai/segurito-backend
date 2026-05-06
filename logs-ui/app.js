@@ -4,8 +4,13 @@
 // Config
 // ---------------------------------------------------------------------------
 const API_BASE =
-  document.body.dataset.apiBase || "http://127.0.0.1:8000";
+  document.body.dataset.apiBase || window.location.origin;
 const REFRESH_MS = 5000;
+// Token desde la query string (?token=...) o data-attribute.
+const ADMIN_TOKEN =
+  new URLSearchParams(window.location.search).get("token") ||
+  document.body.dataset.token ||
+  "";
 
 // ---------------------------------------------------------------------------
 // Estado en memoria
@@ -86,9 +91,11 @@ function escapeHtml(s) {
 }
 
 async function fetchJson(path) {
-  const res = await fetch(`${API_BASE}${path}`, {
-    headers: { Accept: "application/json" },
-  });
+  const headers = { Accept: "application/json" };
+  if (ADMIN_TOKEN) {
+    headers["Authorization"] = `Bearer ${ADMIN_TOKEN}`;
+  }
+  const res = await fetch(`${API_BASE}${path}`, { headers });
   if (!res.ok) {
     throw new Error(`${res.status} ${res.statusText}`);
   }

@@ -93,16 +93,19 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(feedback_router.router, tags=["feedback"])
     app.include_router(health_router.router, tags=["meta"])
     app.include_router(admin_router.router)
-    # Auth (Google OAuth opcional). Solo se monta si hay credenciales.
-    if settings.google_client_id and settings.google_client_secret and settings.jwt_secret:
+    # Auth: /auth/me y /auth/logout siempre disponibles si hay JWT_SECRET.
+    # /auth/google/* solo se habilita si además hay Google credentials.
+    if settings.jwt_secret:
         from backend.api.routers import auth as auth_router
 
         app.include_router(auth_router.router, tags=["auth"])
+        if not (settings.google_client_id and settings.google_client_secret):
+            log.info(
+                "Google OAuth deshabilitado: GOOGLE_CLIENT_ID/SECRET no configurados. "
+                "/auth/me y /auth/logout funcionan con JWT existente."
+            )
     else:
-        log.info(
-            "auth router deshabilitado: "
-            "GOOGLE_CLIENT_ID/SECRET o JWT_SECRET no configurados"
-        )
+        log.info("auth router deshabilitado: JWT_SECRET no configurado")
 
     # Dashboard estático (logs-ui). Servido bajo /admin/ui para que el JS
     # pueda usar URLs relativas hacia /admin/* y evitar CORS.
