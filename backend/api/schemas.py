@@ -20,6 +20,14 @@ class ChatRequest(BaseModel):
         default=None,
         description="Si se omite, el servidor genera uno nuevo (CONSULTA multi-turno).",
     )
+    session_id: str | None = Field(
+        default=None,
+        max_length=128,
+        description=(
+            "Identificador estable de cliente web (UUID v4 en localStorage). "
+            "Se usa para rate-limit y correlación cuando el usuario es anónimo."
+        ),
+    )
     attachments: list[Attachment] | None = Field(
         default=None,
         description="Archivos adjuntos opcionales (imágenes, documentos).",

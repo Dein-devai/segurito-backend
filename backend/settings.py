@@ -118,6 +118,18 @@ class Settings(BaseSettings):
     cors_origins: tuple[str, ...] = Field(default=("*",), alias="SEGURITO_CORS_ORIGINS")
     log_level: str = Field(default="INFO", alias="SEGURITO_LOG_LEVEL")
 
+    # --- Auth & admin (deploy público) -------------------------------------
+    admin_token: str = Field(default="", alias="ADMIN_TOKEN")
+    jwt_secret: str = Field(default="", alias="JWT_SECRET")
+    jwt_ttl_seconds: int = Field(default=60 * 60 * 24 * 7, alias="JWT_TTL_SECONDS")
+    google_client_id: str = Field(default="", alias="GOOGLE_CLIENT_ID")
+    google_client_secret: str = Field(default="", alias="GOOGLE_CLIENT_SECRET")
+    oauth_redirect_uri: str = Field(default="", alias="OAUTH_REDIRECT_URI")
+    frontend_url: str = Field(default="http://localhost:5173", alias="FRONTEND_URL")
+
+    # --- Persistencia (Postgres opcional, fallback SQLite) -----------------
+    database_url: str = Field(default="", alias="DATABASE_URL")
+
     # --- MCP server ---------------------------------------------------------
     mcp_host: str = Field(default="127.0.0.1", alias="SEGURITO_MCP_HOST")
     mcp_port: int = Field(default=8765, alias="SEGURITO_MCP_PORT")

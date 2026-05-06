@@ -8,6 +8,7 @@ from __future__ import annotations
 from functools import lru_cache
 
 import anthropic
+from fastapi import Depends, Header, HTTPException, Query, status
 
 from backend.bootstrap import build_registry
 from backend.prompt.pipeline import PromptPipeline
@@ -74,3 +75,36 @@ def reset_dependencies() -> None:
         get_cost_tracker_dep,
     ):
         fn.cache_clear()
+
+
+def verify_admin_token(
+    authorization: str | None = Header(default=None),
+    token: str | None = Query(default=None),
+    settings: Settings = Depends(get_settings_dep),
+) -> None:
+    """Protege endpoints administrativos.
+
+    Acepta el token en `Authorization: Bearer <token>` o como query
+    `?token=<token>` (útil para iframes que no pueden setear headers).
+
+    Si `ADMIN_TOKEN` está vacío, deniega todo (modo seguro por defecto).
+    """
+    expected = settings.admin_token
+    if not expected:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="admin desactivado: ADMIN_TOKEN no configurado",
+        )
+    provided: str | None = None
+    if authorization:
+        parts = authorization.split(" ", 1)
+        if len(parts) == 2 and parts[0].lower() == "bearer":
+            provided = parts[1].strip()
+    if provided is None and token:
+        provided = token.strip()
+    if not provided or provided != expected:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="admin token inválido",
+            headers={"WWW-Authenticate": "Bearer"},
+        )

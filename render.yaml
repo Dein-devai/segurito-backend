@@ -1,0 +1,47 @@
+# Render Web Service config para rama QA.
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: segurito-api
+    runtime: python
+    plan: free
+    branch: QA
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.api.app:create_app --factory --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    # Disco persistente opcional (si se aprovisiona, mantener `db_path`
+    # apuntando aquí para no perder logs SQLite entre redeploys). Comentar
+    # si no se quiere pagar por disco.
+    # disk:
+    #   name: segurito-data
+    #   mountPath: /var/data
+    #   sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.5
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: SEGURITO_CORS_ORIGINS
+        sync: false  # ej: https://segurito-frontend.vercel.app,http://localhost:5173
+      - key: ADMIN_TOKEN
+        generateValue: true
+      - key: JWT_SECRET
+        generateValue: true
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: OAUTH_REDIRECT_URI
+        sync: false  # ej: https://segurito-api.onrender.com/auth/google/callback
+      - key: FRONTEND_URL
+        sync: false  # ej: https://segurito-frontend.vercel.app
+      - key: SEGURITO_COST_BUDGET_DAY_USD
+        value: "5.0"
+      - key: SEGURITO_LOG_LEVEL
+        value: INFO
+      - key: SEGURITO_DB_PATH
+        value: /opt/render/project/src/segurito.db
+      - key: SEGURITO_CHROMA_PATH
+        value: /opt/render/project/src/chroma_db

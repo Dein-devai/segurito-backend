@@ -61,6 +61,21 @@ def chat(
                 },
                 headers={"Retry-After": str(max(1, int(exc.retry_after_s)))},
             ) from exc
+    elif req.session_id:
+        # Cliente web anónimo sin conversation_id todavía: usamos session_id
+        # como clave para evitar que un mismo navegador inunde el endpoint
+        # creando conversaciones nuevas por cada turno.
+        try:
+            limiter.check_conversation(req.session_id)
+        except RateLimitExceeded as exc:
+            raise HTTPException(
+                status_code=429,
+                detail={
+                    "scope": exc.scope,
+                    "retry_after_s": int(exc.retry_after_s),
+                },
+                headers={"Retry-After": str(max(1, int(exc.retry_after_s)))},
+            ) from exc
 
     # Budget USD: si ya superamos, cortamos al toque.
     if cost_tracker.would_exceed(0.0):

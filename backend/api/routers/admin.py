@@ -6,10 +6,14 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 
-from backend.api.dependencies import get_repository_dep
+from backend.api.dependencies import get_repository_dep, verify_admin_token
 from backend.repository import InteractionRepository
 
-router = APIRouter(prefix="/admin", tags=["admin"])
+router = APIRouter(
+    prefix="/admin",
+    tags=["admin"],
+    dependencies=[Depends(verify_admin_token)],
+)
 
 
 @router.get("/summary")

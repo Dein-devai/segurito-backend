@@ -66,17 +66,43 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         version="0.2.0",
         lifespan=lifespan,
     )
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=list(settings.cors_origins),
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+    cors_origins = list(settings.cors_origins)
+    if cors_origins == ["*"]:
+        log.warning(
+            "CORS abierto a *: aceptable solo en dev local. "
+            "En producción configura SEGURITO_CORS_ORIGINS con dominios exactos."
+        )
+        # Con allow_credentials=False puedes usar wildcard.
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=["*"],
+            allow_methods=["*"],
+            allow_headers=["*"],
+            allow_credentials=False,
+        )
+    else:
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=cors_origins,
+            allow_methods=["*"],
+            allow_headers=["*"],
+            allow_credentials=True,
+        )
     app.add_middleware(RateLimitMiddleware, limiter=get_rate_limiter_dep())
     app.include_router(chat_router.router, tags=["chat"])
     app.include_router(feedback_router.router, tags=["feedback"])
     app.include_router(health_router.router, tags=["meta"])
     app.include_router(admin_router.router)
+    # Auth (Google OAuth opcional). Solo se monta si hay credenciales.
+    if settings.google_client_id and settings.google_client_secret and settings.jwt_secret:
+        from backend.api.routers import auth as auth_router
+
+        app.include_router(auth_router.router, tags=["auth"])
+    else:
+        log.info(
+            "auth router deshabilitado: "
+            "GOOGLE_CLIENT_ID/SECRET o JWT_SECRET no configurados"
+        )
 
     # Dashboard estático (logs-ui). Servido bajo /admin/ui para que el JS
     # pueda usar URLs relativas hacia /admin/* y evitar CORS.
