@@ -1,0 +1,80 @@
+[
+  {
+    "id": "reclamo-cobro-indebido-tarjeta",
+    "titulo": "Cobro indebido en tarjeta de crédito",
+    "descripcion": "El banco cobró un cargo que no reconozco en mi estado de cuenta de tarjeta de crédito.",
+    "entidad_tipo": "banco",
+    "intencion": "RECLAMO_PRODUCTO",
+    "normativa_relacionada": ["Ley 19.496 Art. 14", "Circular CMF N° 3.550"],
+    "pasos_recomendados": [
+      "Reclamar directamente al banco por escrito",
+      "Si no responden en 10 días hábiles, acudir a CMF Online",
+      "Adjuntar estado de cuenta y comprobante de pago"
+    ]
+  },
+  {
+    "id": "reclamo-seguro-no-paga",
+    "titulo": "Seguro que no paga siniestro",
+    "descripcion": "La aseguradora rechaza el pago de un siniestro sin justificación válida.",
+    "entidad_tipo": "aseguradora",
+    "intencion": "RECLAMO_SERVICIO",
+    "normativa_relacionada": ["Ley 19.496 Art. 23", "DFL 251 Ley de Seguros"],
+    "pasos_recomendados": [
+      "Reclamar por escrito a la aseguradora con copia de la póliza",
+      "Si no responden en 30 días, acudir a CMF Online",
+      "Si es seguro retail (garantía), derivar a SERNAC"
+    ]
+  },
+  {
+    "id": "reclamo-cobranza-abusiva-mutuaria",
+    "titulo": "Cobranza abusiva en mutuaria",
+    "descripcion": "Intereses de cobranza superan el monto original o exceden la tasa máxima convencional.",
+    "entidad_tipo": "mutuaria",
+    "intencion": "RECLAMO_PRODUCTO",
+    "normativa_relacionada": ["DFL 3 Art. 11", "Ley 18.010", "Circular CMF N° 3.460"],
+    "pasos_recomendados": [
+      "Solicitar detalle de cargos y tasas por escrito",
+      "Verificar tasa máxima convencional vigente (CMF la publica)",
+      "Si excede, reclamar a la mutuaria y luego a CMF Online"
+    ]
+  },
+  {
+    "id": "reclamo-afp-no-devuelve",
+    "titulo": "AFP no devuelve aportes excesivos",
+    "descripcion": "La AFP rechaza la devolución de cotizaciones pagadas en exceso.",
+    "entidad_tipo": "AFP",
+    "intencion": "RECLAMO_SERVICIO",
+    "normativa_relacionada": ["DL 3500 Art. 22", "Circular CMF N° 2.000"],
+    "pasos_recomendados": [
+      "Solicitar certificado de cotizaciones a la AFP",
+      "Reclamar por escrito con el certificado como respaldo",
+      "Si no responden en 30 días, acudir a CMF Online"
+    ]
+  },
+  {
+    "id": "reclamo-seguro-desgravamen-no-solicitado",
+    "titulo": "Seguro de desgravamen cobrado sin consentimiento",
+    "descripcion": "El banco cobra un seguro de desgravamen que el cliente nunca solicitó ni firmó.",
+    "entidad_tipo": "banco",
+    "intencion": "RECLAMO_PRODUCTO",
+    "normativa_relacionada": ["Ley 19.496 Art. 12", "Circular CMF N° 3.550"],
+    "pasos_recomendados": [
+      "Solicitar copia del contrato del seguro al banco",
+      "Si no existe firma o consentimiento, exigir devolución de primas",
+      "Reclamar al banco y luego a CMF Online si no hay respuesta"
+    ]
+  },
+  {
+    "id": "reclamo-publicidad-enganosa-credito",
+    "titulo": "Publicidad engañosa en crédito de consumo",
+    "descripcion": "El banco ofrece una tasa en publicidad y aplica otra distinta en el contrato.",
+    "entidad_tipo": "banco",
+    "intencion": "RECLAMO_INFORMACION",
+    "normativa_relacionada": ["Ley 19.496 Art. 28", "Circular CMF N° 3.510"],
+    "pasos_recomendados": [
+      "Guardar la publicidad (pantallazo, folleto, etc.)",
+      "Reclamar al banco citando la publicidad vs contrato",
+      "Si no hay solución, acudir a SERNAC y CMF Online"
+    ]
+  }
+]

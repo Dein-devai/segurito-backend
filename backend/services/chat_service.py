@@ -247,10 +247,14 @@ class ChatService:
         triage_escalate: bool,
         reasoning: list[ReasoningStep],
         conversation_id: str | None = None,
+        user_content: list[dict[str, Any]] | None = None,
     ) -> _LoopOutcome:
-        wrapped = f"<user_input>\n{user_message}\n</user_input>"
+        if user_content is None:
+            user_content = [
+                {"type": "text", "text": f"<user_input>\n{user_message}\n</user_input>"}
+            ]
         messages: list[dict[str, Any]] = list(history) + [
-            {"role": "user", "content": wrapped}
+            {"role": "user", "content": user_content}
         ]
         traces: list[ToolTrace] = []
         started = time.monotonic()
@@ -320,7 +324,10 @@ class ChatService:
 
     # --- public API -------------------------------------------------------
     def chat(
-        self, message: str, conversation_id: str | None = None
+        self,
+        message: str,
+        conversation_id: str | None = None,
+        attachments: list[dict[str, str]] | None = None,
     ) -> ChatResponse:
         interaction_id = str(uuid.uuid4())
         started = time.monotonic()
@@ -331,6 +338,26 @@ class ChatService:
         history = [
             {"role": turn.role, "content": turn.content} for turn in conv.turns
         ]
+
+        # Construir contenido del mensaje incluyendo attachments de imagen
+        user_content: list[dict[str, Any]] = []
+        user_content.append(
+            {"type": "text", "text": f"<user_input>\n{message}\n</user_input>"}
+        )
+        if attachments:
+            for att in attachments:
+                mime = att.get("mime_type", "")
+                if mime.startswith("image/"):
+                    user_content.append(
+                        {
+                            "type": "image",
+                            "source": {
+                                "type": "base64",
+                                "media_type": mime,
+                                "data": att["base64_data"],
+                            },
+                        }
+                    )
 
         reasoning: list[ReasoningStep] = []
         triage_escalate, triage_step = self._run_triage(message)
@@ -346,6 +373,7 @@ class ChatService:
                 triage_escalate=triage_escalate,
                 reasoning=reasoning,
                 conversation_id=conv.id,
+                user_content=user_content,
             )
         except ToolLoopTimeoutError:
             outcome = _LoopOutcome(

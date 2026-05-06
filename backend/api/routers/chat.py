@@ -79,8 +79,32 @@ def chat(
         rate_limiter=limiter,
         cost_tracker=cost_tracker,
     )
+
+    # Validar attachments
+    attachments = req.attachments
+    if attachments:
+        if len(attachments) > 3:
+            raise HTTPException(
+                status_code=400,
+                detail="Máximo 3 adjuntos por mensaje.",
+            )
+        for att in attachments:
+            size_bytes = len(att.base64_data) * 3 // 4
+            if size_bytes > 5 * 1024 * 1024:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Adjunto '{att.filename}' excede 5MB.",
+                )
+
     try:
-        result = service.chat(req.message, conversation_id=req.conversation_id)
+        result = service.chat(
+            req.message,
+            conversation_id=req.conversation_id,
+            attachments=[
+                {"mime_type": a.mime_type, "base64_data": a.base64_data}
+                for a in (attachments or [])
+            ],
+        )
     except RateLimitExceeded as exc:
         raise HTTPException(
             status_code=429,

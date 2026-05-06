@@ -167,6 +167,29 @@ class LegalSection(PromptSection):
         )
 
 
+class ReclamoCMFSection(PromptSection):
+    """Instrucciones adicionales cuando el usuario está formalizando un reclamo CMF.
+
+    Se incluye condicionalmente solo si la intención detectada es RECLAMO o
+    una sub-intención de reclamo CMF.
+    """
+
+    def render(self, ctx: PromptContext) -> str:  # noqa: ARG002
+        return (
+            "## RECLAMO CMF — Instrucciones adicionales\n"
+            "Cuando el usuario esté formalizando un reclamo ante la CMF, debes:\n"
+            "1. Identificar el tipo de entidad (banco, AFP, aseguradora, mutuaria, "
+            "corredora).\n"
+            "2. Verificar si ya reclamó directamente a la entidad (prerequisito CMF).\n"
+            "3. Verificar plazos transcurridos desde el hecho.\n"
+            "4. Cruzar con normativa aplicable: Ley 19.496 (Protección al Consumidor), "
+            "circulares CMF, DFL 3.\n"
+            "5. Indicar canal correcto: entidad directa → CMF Online → SERNAC (si "
+            "aplica) → tribunales.\n"
+            "6. Nunca inventar URLs. Solo usar URLs presentes en los servicios curados.\n"
+        )
+
+
 class DerivationSection(PromptSection):
     """Reglas de derivación entre organismos cuando no hay match.
 
@@ -210,6 +233,7 @@ DEFAULT_SECTIONS: tuple[type[PromptSection], ...] = (
     IntencionesGlobalesSection,
     FlowSection,
     LegalSection,
+    ReclamoCMFSection,
     DerivationSection,
     SecurityRulesSection,
     StyleSection,
@@ -246,6 +270,7 @@ __all__ = [
     "PromptContext",
     "PromptPipeline",
     "PromptSection",
+    "ReclamoCMFSection",
     "SecurityRulesSection",
     "StyleSection",
 ]

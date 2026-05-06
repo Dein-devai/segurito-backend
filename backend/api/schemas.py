@@ -4,11 +4,25 @@ from __future__ import annotations
 from pydantic import BaseModel, Field
 
 
+class Attachment(BaseModel):
+    mime_type: str = Field(..., description="Tipo MIME del archivo, ej. image/jpeg")
+    filename: str = Field(..., description="Nombre del archivo original")
+    base64_data: str = Field(..., description="Contenido del archivo en base64")
+    description: str | None = Field(
+        default=None,
+        description="Texto extraído del archivo (OCR, descripción).",
+    )
+
+
 class ChatRequest(BaseModel):
     message: str = Field(..., min_length=1, max_length=2000)
     conversation_id: str | None = Field(
         default=None,
         description="Si se omite, el servidor genera uno nuevo (CONSULTA multi-turno).",
+    )
+    attachments: list[Attachment] | None = Field(
+        default=None,
+        description="Archivos adjuntos opcionales (imágenes, documentos).",
     )
 
 

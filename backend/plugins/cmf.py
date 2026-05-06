@@ -25,6 +25,27 @@ INTENCIONES_CMF: dict[str, IntencionDef] = {
             "alguien lo resuelva."
         ),
     ),
+    "RECLAMO_PRODUCTO": IntencionDef(
+        nombre="RECLAMO_PRODUCTO",
+        descripcion=(
+            "Problemas con productos financieros: cobros indebidos, cargos no "
+            "reconocidos, tarjetas de crédito, cuentas corrientes, mutuarias."
+        ),
+    ),
+    "RECLAMO_SERVICIO": IntencionDef(
+        nombre="RECLAMO_SERVICIO",
+        descripcion=(
+            "Problemas con servicios: negativa de pago de seguros, malas prácticas "
+            "de cobranza, incumplimiento de póliza, AFP que no devuelve aportes."
+        ),
+    ),
+    "RECLAMO_INFORMACION": IntencionDef(
+        nombre="RECLAMO_INFORMACION",
+        descripcion=(
+            "Falta de información, publicidad engañosa, términos no explicados, "
+            "documentación incompleta por parte de la entidad financiera."
+        ),
+    ),
     "CONSULTA": IntencionDef(
         nombre="CONSULTA",
         descripcion=(
@@ -52,7 +73,12 @@ Cuando la consulta sea sobre estos productos, usa las tools del plugin CMF:
 - `buscar_servicios_cmf(query, intencion, n_results)` para encontrar servicios oficiales.
 - `obtener_detalle_servicio_cmf(service_id)` para ficha completa de un servicio.
 
-Intenciones reconocidas: RECLAMO, CONSULTA, TRAMITE."""
+Intenciones reconocidas: RECLAMO, RECLAMO_PRODUCTO, RECLAMO_SERVICIO, RECLAMO_INFORMACION, CONSULTA, TRAMITE.
+
+Sub-intenciones de reclamo:
+- **RECLAMO_PRODUCTO**: cobros indebidos, cargos no reconocidos, problemas con tarjetas de crédito, cuentas corrientes, mutuarias.
+- **RECLAMO_SERVICIO**: seguros que no pagan, malas prácticas de cobranza, incumplimiento de póliza, AFP que no devuelve aportes.
+- **RECLAMO_INFORMACION**: publicidad engañosa, falta de transparencia, términos no explicados, documentación incompleta."""
 
 
 def _format_service_cmf(item: ServiceItem) -> str:
