@@ -1,0 +1,69 @@
+@startuml
+!theme plain
+
+title Segurito WhatsApp — Vista de Despliegue (Local)
+
+node "Laptop / Servidor Hackathon" as Laptop {
+    package "Proceso Node.js" as NodeProc {
+        component [whatsapp-web.js\nClient] as WAClient
+        component [Segurito Bridge\n(Express opcional)] as Bridge
+    }
+
+    package "Proceso Python" as PyProc {
+        component [FastAPI\n(Uvicorn)] as FastAPI
+        component [ChatService\nOrchestrator] as ChatSvc
+    }
+
+    package "Persistencia Local" as Persist {
+        database [ChromaDB\n(archivos)] as Chroma
+        database [SQLite\nsegurito.db] as SQLite
+        folder [.wwebjs_auth\nsesión WA] as WASession
+    }
+
+    package "Datos" as Data {
+        folder [data/cmf/\nservices.json] as CMFData
+        folder [data/legal/\narticulos.json] as LegalData
+    }
+}
+
+cloud "Anthropic API" as Anthropic
+cloud "WhatsApp Web" as WhatsApp
+
+actor Usuario as User
+
+User --> WhatsApp : envía mensaje
+WhatsApp --> WAClient : mensaje entrante
+WAClient --> Bridge : evento 'message'
+
+Bridge --> FastAPI : HTTP POST /chat
+FastAPI --> ChatSvc : orquesta
+
+ChatSvc --> Anthropic : llamadas API
+ChatSvc --> Chroma : búsqueda RAG
+ChatSvc --> SQLite : logging
+
+ChatSvc --> FastAPI : ChatResponse
+FastAPI --> Bridge : JSON
+
+Bridge --> WAClient : envía respuesta
+WAClient --> WhatsApp : mensaje saliente
+WhatsApp --> User : recibe respuesta
+
+WAClient .. WASession : persiste sesión
+ChatSvc .. CMFData : lectura
+ChatSvc .. LegalData : lectura
+
+note right of NodeProc
+  Requiere Chrome/Chromium
+  instalado para Puppeteer.
+  Primera vez: escanear QR.
+  Siguientes: LocalAuth restaura.
+end note
+
+note right of PyProc
+  Puerto 8000 por defecto.
+  CORS habilitado para origen
+  del bridge (localhost).
+end note
+
+@enduml

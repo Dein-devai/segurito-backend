@@ -1,0 +1,61 @@
+# --- Secretos / configuración local ---
+.env
+.env.*
+!.env.example
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.Python
+build/
+dist/
+pip-wheel-metadata/
+
+# --- Entornos virtuales ---
+.venv/
+venv/
+env/
+ENV/
+
+# --- Tests / coverage ---
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+
+# --- Type checkers / linters ---
+.mypy_cache/
+.ruff_cache/
+.dmypy.json
+dmypy.json
+
+# --- Datos en runtime (DBs, índices, logs) ---
+chroma_db/
+*.sqlite3
+*.db
+logs/
+*.log
+
+# --- Caches de modelos / huggingface (si se ubican en el repo) ---
+.cache/
+hf_cache/
+
+# --- IDEs / editores ---
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- Memorias del agente (locales por dev) ---
+/memories/

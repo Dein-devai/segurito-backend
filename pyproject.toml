@@ -1,0 +1,73 @@
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = [".venv", "chroma_db", "__pycache__"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "UP",   # pyupgrade
+    "SIM",  # flake8-simplify
+    "N",    # pep8-naming
+    "C90",  # mccabe complexity
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+    "B008",  # function-call in default argument (FastAPI uses Depends())
+]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["N802", "N803", "B017", "C901"]
+"main.py" = ["ALL"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = false
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+files = ["backend"]
+
+[[tool.mypy.overrides]]
+module = ["chromadb.*", "sentence_transformers.*", "mcp.*", "anthropic.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+markers = [
+    "integration: tests that hit real Chroma / file system",
+    "e2e: tests that hit real Anthropic API (require ANTHROPIC_API_KEY)",
+]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+]
+
+[tool.coverage.run]
+source = ["backend"]
+branch = true
+omit = ["backend/__init__.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+    "\\.\\.\\.",
+]
+show_missing = true
+skip_covered = false

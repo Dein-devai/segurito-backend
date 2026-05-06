@@ -1,0 +1,66 @@
+@startuml
+!theme plain
+skinparam state {
+    BackgroundColor<<entry>> LightGreen
+    BackgroundColor<<exit>> LightCoral
+    BackgroundColor<<choice>> LightYellow
+}
+
+title Template Reclamo CMF — Máquina de Estados
+
+[*] -> bienvenida : usuario envía mensaje
+bienvenida : Pregunta: "¿Es un reclamo o consulta?"
+bienvenida -> identificar_producto : respuesta = "reclamo"
+bienvenida -> consulta_rapida : respuesta = "consulta"
+
+identificar_producto : Pregunta: "¿Con qué entidad?"
+identificar_producto : Opciones: Banco, AFP, Aseguradora,
+identificar_producto : Mutuaria, Corredora, Tarjeta, Otro
+identificar_producto -> nombre_entidad : siempre
+
+nombre_entidad : Pregunta: "¿Nombre de la entidad?"
+nombre_entidad -> descripcion_problema : siempre
+
+descripcion_problema : Pregunta: "Describe el problema"
+descripcion_problema -> adjuntar_evidencia : siempre
+
+adjuntar_evidencia : Pregunta: "Adjunta documentos o escribe 'saltar'"
+adjuntar_evidencia -> plazo_problema : siempre
+
+plazo_problema : Pregunta: "¿Cuánto tiempo hace?"
+plazo_problema : Opciones: <1 mes, 1-3 meses, 3-6 meses, >6 meses
+plazo_problema -> respuesta_entidad : siempre
+
+respuesta_entidad : Pregunta: "¿Ya reclamaste a la entidad?"
+respuesta_entidad : Opciones: Sí respondieron / Sí no respondieron / No
+respuesta_entidad -> confirmar_envio : siempre
+
+confirmar_envio : Pregunta: "Resumen generado + ¿Confirmas?"
+confirmar_envio -> generar_consulta : respuesta = "sí"
+confirmar_envio -> descripcion_problema : respuesta = "no, editar"
+
+state generar_consulta << exit >>
+generar_consulta : Backend analiza con normativa
+generar_consulta : Entrega diagnóstico + pasos a seguir
+generar_consulta -> [*] : conversación finalizada
+
+state consulta_rapida << choice >>
+consulta_rapida : Envía directo al backend
+consulta_rapida : Backend responde libremente
+consulta_rapida -> [*] : respuesta entregada
+
+note right of bienvenida
+  El backend detecta si es reclamo
+  en el primer mensaje (triage).
+  Si organismo != CMF, salta a
+  derivación en vez de este flujo.
+end note
+
+note right of confirmar_envio
+  El resumen se arma con todos
+  los datos recolectados en
+  state.data y se envía al
+  backend como un solo message.
+end note
+
+@enduml

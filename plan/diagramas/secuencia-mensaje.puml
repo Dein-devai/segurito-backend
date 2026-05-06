@@ -1,0 +1,133 @@
+@startuml
+!theme plain
+skinparam sequenceMessageAlign center
+
+title Segurito WhatsApp — Flujo de un mensaje end-to-end
+
+actor Usuario as U
+participant "WhatsApp\nBridge" as Bridge
+participant "State\nManager" as SM
+participant "Template\nEngine" as TE
+participant "Backend\nFastAPI" as BE
+participant "ChatService\nOrchestrator" as CS
+participant "Anthropic\nAPI" as LLM
+
+database "ChromaDB" as DB
+
+== Mensaje inicial (sin estado) ==
+U -> Bridge : "tengo un problema con mi banco"
+activate Bridge
+
+Bridge -> SM : buscar(chatId)
+SM --> Bridge : null (nueva conversación)
+Bridge -> SM : crear(chatId, topic="default")
+
+Bridge -> BE : POST /chat
+note right
+  {
+    "message": "tengo un problema con mi banco",
+    "conversation_id": null
+  }
+end note
+activate BE
+
+BE -> CS : chat(message)
+activate CS
+
+CS -> LLM : triage(Haiku)
+LLM --> CS : intencion=RECLAMO, organismo=CMF
+
+CS -> LLM : tool-loop(Sonnet)
+LLM --> CS : response + tools_used
+
+CS -> DB : buscar_servicios_cmf("banco")
+DB --> CS : [servicio_1, servicio_2]
+
+CS --> BE : ChatResponse
+note right
+  {
+    "response": "Detecté un problema...",
+    "organismo_detectado": "cmf",
+    "intencion": "RECLAMO",
+    "conversation_id": "uuid-123"
+  }
+end note
+deactivate CS
+deactivate BE
+
+Bridge -> SM : actualizar(
+  chatId,
+  conversationId="uuid-123",
+  topic="reclamo-cmf",
+  step="bienvenida"
+)
+
+Bridge -> TE : obtenerPregunta("reclamo-cmf", "bienvenida")
+TE --> Bridge : "Hola, soy Segurito..."
+
+Bridge -> U : "Hola, soy Segurito. Veo que tienes un problema con un producto financiero. ¿Quieres que te ayude a formalizar un reclamo?"
+deactivate Bridge
+
+== Segundo mensaje (dentro del template) ==
+U -> Bridge : "sí, quiero reclamar"
+activate Bridge
+
+Bridge -> SM : buscar(chatId)
+SM --> Bridge : topic="reclamo-cmf", step="bienvenida"
+
+Bridge -> SM : guardarRespuesta(
+  chatId,
+  step="bienvenida",
+  respuesta="sí"
+)
+Bridge -> TE : siguientePaso("reclamo-cmf", "bienvenida", "sí")
+TE --> Bridge : step="identificar-producto"
+
+Bridge -> TE : obtenerPregunta("reclamo-cmf", "identificar-producto")
+TE --> Bridge : "¿Con qué entidad?"
+
+Bridge -> U : "¿Con qué tipo de entidad tienes el problema?\n1. Banco\n2. AFP\n3. Aseguradora\n4. Mutuaria"
+deactivate Bridge
+
+== Último paso (enviar resumen al backend) ==
+U -> Bridge : "2"
+activate Bridge
+
+Bridge -> SM : buscar(chatId)
+SM --> Bridge : topic="reclamo-cmf", step="confirmar-envio"
+
+Bridge -> SM : obtenerDatosCompletos(chatId)
+SM --> Bridge : { tipo_entidad: "afp", ... }
+
+Bridge -> Bridge : armarResumen(datos)
+
+Bridge -> BE : POST /chat
+note right
+  {
+    "message": "Resumen del caso: tipo entidad=AFP,
+     problema=cobro indebido, plazo=2 meses...",
+    "conversation_id": "uuid-123"
+  }
+end note
+activate BE
+
+BE -> CS : chat(resumen)
+activate CS
+CS -> LLM : tool-loop (consultar marco legal)
+LLM --> CS : normativa aplicable
+CS --> BE : ChatResponse con análisis
+note right
+  {
+    "response": "Según la Circular CMF N°...",
+    "model_used_final": "claude-sonnet-4-5",
+    "total_cost_usd": 0.003
+  }
+end note
+deactivate CS
+deactivate BE
+
+Bridge -> SM : actualizar(topic="default")
+Bridge -> U : "Según la normativa, tu caso corresponde a... [análisis completo]"
+deactivate Bridge
+
+@enduml

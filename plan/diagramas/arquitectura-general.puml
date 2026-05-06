@@ -1,0 +1,92 @@
+@startuml
+!theme plain
+skinparam componentStyle rectangle
+skinparam linetype ortho
+
+title Segurito WhatsApp — Vista de Componentes
+
+package "Capa WhatsApp (Node.js)" as WA {
+    component [Client\nwhatsapp-web.js] as Client
+    component [State\nManager] as StateMgr
+    component [Message\nHandler] as MsgHandler
+    component [Template\nEngine] as TemplateEng
+    component [Media\nProcessor] as MediaProc
+    component [API\nClient] as ApiClient
+}
+
+package "Capa Backend (Python 3.11)" as BE {
+    component [FastAPI\nRouter] as Router
+    component [ChatService\nOrquestador] as ChatSvc
+    component [ModelRouter\nHaiku/Sonnet/Opus] as ModelRouter
+    component [Conversation\nStore (TTL 30m)] as ConvStore
+    component [Rate\nLimiter] as RateLimit
+    component [Cost\nTracker] as CostTracker
+    component [Plugin\nRegistry] as Registry
+    component [Prompt\nPipeline] as PromptPipe
+}
+
+package "Plugins" as Plugins {
+    component [Plugin\nCMF] as PluginCMF
+    component [Plugin\nLegal] as PluginLegal
+    component [Plugin\nSERNAC] as PluginSERNAC
+    component [Plugin\nSII] as PluginSII
+}
+
+package "Persistencia" as Persist {
+    database [ChromaDB\n(RAG)] as Chroma
+    database [SQLite\nLog] as SQLite
+}
+
+package "Infraestructura" as Infra {
+    component [Anthropic\nAPI] as Anthropic
+}
+
+actor Usuario as User
+
+User --> Client : mensaje de texto\n/imagen/documento
+
+Client --> MsgHandler : evento 'message'
+MsgHandler --> StateMgr : leer/escribir estado
+MsgHandler --> TemplateEng : qué template/paso
+MsgHandler --> MediaProc : procesar adjuntos
+MsgHandler --> ApiClient : armar payload
+
+ApiClient --> Router : POST /chat (JSON)
+
+Router --> ChatSvc : ChatService.chat()
+ChatSvc --> RateLimit : check budgets
+ChatSvc --> ModelRouter : elegir modelo
+ChatSvc --> ConvStore : historial
+ChatSvc --> PromptPipe : system prompt
+ChatSvc --> Registry : tools disponibles
+ChatSvc --> Anthropic : messages.create()
+
+Registry --> PluginCMF : buscar servicios
+Registry --> PluginLegal : consultar marco legal
+Registry --> PluginSERNAC : hand-off
+Registry --> PluginSII : hand-off
+
+PluginCMF --> Chroma : embeddings servicios
+PluginLegal --> Chroma : embeddings articulos
+
+ChatSvc --> CostTracker : registrar costo
+ChatSvc --> SQLite : guardar interacción
+
+Router --> ApiClient : ChatResponse (JSON)
+ApiClient --> MsgHandler : parsear respuesta
+MsgHandler --> Client : enviar mensaje a usuario
+
+note right of Client
+  LocalAuth persiste sesión
+  en ~/.wwebjs_auth/
+  (clientId: "segurito")
+end note
+
+note right of ChatSvc
+  Cascada:
+  1. Haiku triage
+  2. Sonnet default
+  3. Opus escalation
+end note
+
+@enduml

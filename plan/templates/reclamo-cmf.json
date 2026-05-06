@@ -1,0 +1,130 @@
+{
+  "id": "reclamo-cmf",
+  "name": "Reclamo ante la CMF",
+  "description": "Flujo guiado para que un ciudadano formalice un reclamo relacionado con productos o servicios financieros fiscalizados por la CMF.",
+  "triggerKeywords": [
+    "reclamo",
+    "reclamar",
+    "problema con mi banco",
+    "problema con mi afp",
+    "seguro no paga",
+    "cobro indebido",
+    "me cobraron de más",
+    "tarjeta",
+    "mutuaria",
+    "corredora",
+    "mercado de valores"
+  ],
+  "steps": [
+    {
+      "id": "bienvenida",
+      "type": "text",
+      "question": "Hola, soy Segurito. Veo que tienes un problema con un producto o servicio financiero. Para ayudarte mejor, ¿me confirmas si quieres que te oriente en un reclamo formal? Responde 'sí' para continuar o 'consulta' si solo tienes una duda.",
+      "saveAs": "confirmacion_reclamo",
+      "next": "identificar_producto"
+    },
+    {
+      "id": "identificar_producto",
+      "type": "choice",
+      "question": "¿Con qué tipo de entidad o producto tienes el problema? Elige una opción:",
+      "choices": [
+        { "label": "Banco", "value": "banco" },
+        { "label": "AFP", "value": "afp" },
+        { "label": "Aseguradora", "value": "aseguradora" },
+        { "label": "Mutuaria", "value": "mutuaria" },
+        { "label": "Corredora de bolsa / seguros", "value": "corredora" },
+        { "label": "Tarjeta de crédito / Cuenta corriente", "value": "tarjeta" },
+        { "label": "Otro", "value": "otro" }
+      ],
+      "saveAs": "tipo_entidad",
+      "next": "nombre_entidad"
+    },
+    {
+      "id": "nombre_entidad",
+      "type": "text",
+      "question": "¿Cuál es el nombre de la entidad? Por ejemplo: Banco de Chile, AFP Habitat, Sura Seguros.",
+      "saveAs": "nombre_entidad",
+      "next": "descripcion_problema"
+    },
+    {
+      "id": "descripcion_problema",
+      "type": "text",
+      "question": "Describe brevemente el problema. Por ejemplo: 'me cobraron un cargo no reconocido de $50.000' o 'mi seguro no me quiere pagar el siniestro del auto'.",
+      "saveAs": "descripcion",
+      "next": "adjuntar_evidencia"
+    },
+    {
+      "id": "adjuntar_evidencia",
+      "type": "document",
+      "question": "Si tienes documentos que respalden tu caso (cartola, contrato, captura de pantalla, correo), adjúntalos ahora. Escribe 'saltar' si aún no los tienes.",
+      "saveAs": "evidencia",
+      "next": "plazo_problema"
+    },
+    {
+      "id": "plazo_problema",
+      "type": "choice",
+      "question": "¿Hace cuánto tiempo ocurrió el problema?",
+      "choices": [
+        { "label": "Menos de 1 mes", "value": "menos_1_mes" },
+        { "label": "Entre 1 y 3 meses", "value": "1_3_meses" },
+        { "label": "Entre 3 y 6 meses", "value": "3_6_meses" },
+        { "label": "Más de 6 meses", "value": "mas_6_meses" }
+      ],
+      "saveAs": "plazo",
+      "next": "respuesta_entidad"
+    },
+    {
+      "id": "respuesta_entidad",
+      "type": "choice",
+      "question": "¿Ya reclamaste directamente a la entidad por este problema?",
+      "choices": [
+        { "label": "Sí, y me respondieron", "value": "si_respondieron" },
+        { "label": "Sí, pero no me respondieron", "value": "si_no_respondieron" },
+        { "label": "No he reclamado todavía", "value": "no" }
+      ],
+      "saveAs": "reclamo_previo",
+      "next": "confirmar_envio"
+    },
+    {
+      "id": "confirmar_envio",
+      "type": "confirm",
+      "question": "Resumen de tu caso:\n\nEntidad: {nombre_entidad}\nProblema: {descripcion}\nPlazo: {plazo}\nReclamo previo: {reclamo_previo}\n\n¿Confirmas que quieres que analice tu caso con la normativa vigente de la CMF? Responde 'sí' para continuar o 'editar' para modificar.",
+      "saveAs": "confirmacion_final",
+      "next": "generar_consulta"
+    },
+    {
+      "id": "generar_consulta",
+      "type": "backend_call",
+      "question": "generado_por_backend",
+      "saveAs": null,
+      "next": null
+    }
+  ],
+  "transitions": {
+    "bienvenida": {
+      "onAnswer": {
+        "consulta": "EXIT_TO_DEFAULT",
+        "pregunta": "EXIT_TO_DEFAULT",
+        "default": "identificar_producto"
+      }
+    },
+    "adjuntar_evidencia": {
+      "onAnswer": {
+        "saltar": "plazo_problema",
+        "no tengo": "plazo_problema",
+        "default": "plazo_problema"
+      }
+    },
+    "confirmar_envio": {
+      "onAnswer": {
+        "no": "descripcion_problema",
+        "editar": "descripcion_problema",
+        "default": "generar_consulta"
+      }
+    }
+  },
+  "onComplete": {
+    "action": "send_to_backend",
+    "payloadFormat": "Resumen del caso del usuario:\n- Tipo de entidad: {tipo_entidad}\n- Nombre entidad: {nombre_entidad}\n- Descripción: {descripcion}\n- Plazo: {plazo}\n- Reclamo previo: {reclamo_previo}\n- Evidencia adjunta: {evidencia}\n\nAnaliza este caso según la normativa CMF e indica los pasos a seguir."
+  }
+}

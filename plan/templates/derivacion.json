@@ -1,0 +1,63 @@
+{
+  "id": "derivacion",
+  "name": "Derivación a otra entidad",
+  "description": "Cuando el backend detecta que el caso no es de competencia CMF, se informa al usuario a dónde derivar.",
+  "triggerKeywords": [],
+  "steps": [
+    {
+      "id": "mensaje_derivacion",
+      "type": "text",
+      "question": "Según el análisis de tu consulta, este caso corresponde a {organismo_destino} y no a la CMF. Te recomiendo contactarlos directamente:\n\n{canal_contacto}\n\n¿Necesitas ayuda con otro tema relacionado con productos o servicios financieros?",
+      "saveAs": null,
+      "next": null
+    }
+  ],
+  "transitions": {},
+  "onComplete": {
+    "action": "end_conversation",
+    "payloadFormat": null
+  },
+  "organismos": {
+    "sernac": {
+      "nombre": "SERNAC",
+      "descripcion": "Servicio Nacional del Consumidor",
+      "canales": [
+        "Web: www.sernac.cl",
+        "Fono: 800 700 100",
+        "App: SERNAC Chile"
+      ]
+    },
+    "sii": {
+      "nombre": "SII",
+      "descripcion": "Servicio de Impuestos Internos",
+      "canales": [
+        "Web: www.sii.cl",
+        "Fono: 600 363 363"
+      ]
+    },
+    "suseso": {
+      "nombre": "SUSESO",
+      "descripcion": "Superintendencia de Seguridad Social",
+      "canales": [
+        "Web: www.suseso.cl",
+        "Fono: 600 300 5000"
+      ]
+    },
+    "supen": {
+      "nombre": "SUPEN",
+      "descripcion": "Superintendencia de Pensiones",
+      "canales": [
+        "Web: www.supen.cl",
+        "Fono: 800 202 100"
+      ]
+    },
+    "tribunales": {
+      "nombre": "Tribunales de Justicia",
+      "descripcion": "Poder Judicial de Chile",
+      "canales": [
+        "Web: www.pjud.cl",
+        "Consulta: tribunal correspondiente según comuna"
+      ]
+    }
+  }
+}

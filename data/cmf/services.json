@@ -1,0 +1,716 @@
+[
+  {
+    "id": "art-28600",
+    "document": "CMF sin papel\nLa Comision para el Mercado Financiero pone a disposicion de fiscalizados y ciudadanos esta plataforma para enviar documentos sin tener que ir a las oficinas. Basta ingresar con la Clave Unica que entrega el Registro Civil. Algunos tramites disponibles son: correspondencia a la CMF y solicitud de acreencias bancarias no sujetas a caducidad (nomina de depositantes).\nDirigido a: Ciudadanos y entidades fiscalizadas que necesiten enviar documentacion a la CMF de forma electronica. NO debe usarse para solicitud de informe de deudas, reclamos contra entidades fiscalizadas, consultas generales, revisar estado de presentacion ni denuncias (esos tramites se hacen en Atencion en linea).\nPasos: 1) Ingresar al portal CMF sin papel con su Clave Unica. 2) Seleccionar el tipo de documento a enviar (correspondencia, acreencias, etc.). 3) Adjuntar los formularios y documentos requeridos. 4) Enviar la presentacion. 5) Consultar el estado del caso en la misma plataforma.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-28600.html",
+      "titulo": "CMF sin papel",
+      "intencion": "TRAMITE",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "publico_general",
+      "tipo_entidad": "general",
+      "dirigido_a": "Ciudadanos y entidades fiscalizadas que necesiten enviar documentacion a la CMF de forma electronica.",
+      "documentos_requeridos": "Clave Unica del Registro Civil. Segun el tramite, formularios especificos descargables (carta de presentacion para correspondencia, formulario de acreencias bancarias, etc.).",
+      "tiempo": "Inmediato para el envio; el tramite especifico tiene su propio plazo.",
+      "costo": "Gratuito.",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-51161",
+    "document": "Consulte los seguros en que es asegurado o contratante\nEntrega información respecto de los seguros en que usted es el asegurado o contratante.\nDirigido a: Esta información puede ser solicitada por cualquier persona natural.\nPasos: Debe ingresar al Sistema de Consultas de Seguros SICS, para lo cual debe contar con su Clave Única, otorgada por el Registro Civil. Luego, escriba su RUT y clave única, y haga clic en \"Autenticar\". Seleccione \"Asegurado o contratante\", bajo la opción \"Servicios\".\nComo usted es el asegurado persona natural la consulta se efectuará de manera automática.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-51161.html",
+      "titulo": "Consulte los seguros en que es asegurado o contratante",
+      "intencion": "CONSULTA",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "asegurados",
+      "tipo_entidad": "seguros",
+      "dirigido_a": "Esta información puede ser solicitada por cualquier persona natural.",
+      "documentos_requeridos": "Como usted es el asegurado o contratante persona natural, el Sistema no le pedirá más datos que el ingreso con su RUT y clave única.\nImportante:\nLa información es proporcionada por las compañías de seguros con ocasión de la consulta que se efectúe en el Sistema.",
+      "tiempo": "Como usted es el contratante o asegurado persona natural, el Sistema informará en tiempo real y automático los seguros que mantenga, según la información proporcionada por las aseguradoras.",
+      "costo": "Gratuito.",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-26828",
+    "document": "Acreencias bancarias afectas a caducidad\nServicio de consulta publica que permite buscar acreencias bancarias afectas a caducidad: depositos, saldos o fondos no reclamados en bancos e instituciones financieras fiscalizadas por la CMF que estan sujetos al plazo legal de caducidad. El acceso se realiza a traves del buscador de Acreencias Bancarias en acreencias.cmfchile.cl.\nDirigido a: Publico general, personas naturales o juridicas que deseen verificar si tienen acreencias bancarias afectas a caducidad a su nombre o de un familiar.\nPasos: 1) Ingresar al buscador de Acreencias Bancarias en acreencias.cmfchile.cl. 2) Ingresar el RUT del titular a consultar. 3) Revisar el listado de acreencias asociadas. 4) Si existen acreencias, contactar a la institucion bancaria correspondiente para iniciar el proceso de cobro.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-26828.html",
+      "titulo": "Acreencias bancarias afectas a caducidad",
+      "intencion": "CONSULTA",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "clientes_financieros",
+      "tipo_entidad": "bancos",
+      "dirigido_a": "Publico general, personas naturales o juridicas que deseen verificar si tienen acreencias bancarias afectas a caducidad a su nombre o de un familiar.",
+      "documentos_requeridos": "Ninguno para la consulta en linea (solo se requiere RUT del titular).",
+      "tiempo": "Inmediato (consulta en linea).",
+      "costo": "Gratuito.",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-1241",
+    "document": "Consulte sobre las acciones de un familiar fallecido para posesión efectiva\nUsted puede consultar por las acciones de un familiar fallecido.\nDirigido a: Público general.\nPasos: Para realizar la consulta debe ingresar al módulo de Atención web al ciudadano, para lo cual debe contar con su Clave Única, otorgada por el Registro Civil. Luego, escriba su RUN y clave única, y haga clic en \"Autenticar\". Seleccione la opción Consultas y envíe su consulta a través del formulario desplegado en pantalla.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-1241.html",
+      "titulo": "Consulte sobre las acciones de un familiar fallecido para posesión efectiva",
+      "intencion": "CONSULTA",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "inversionistas",
+      "tipo_entidad": "valores",
+      "dirigido_a": "Público general.",
+      "documentos_requeridos": "Su Cédula de identidad escaneada por ambos lados o documento de identificación escaneado/a por ambos lados validado por el organismo correspondiente, si es extranjero.\nCertificado de defunción del causante fallecido (a)\nSi usted es pariente o heredero, además debe adjuntar los siguientes documentos, según su parentesco:\nSi usted es Cónyuge o conviviente civil del accionista: Certificado de matrimonio o de Unión Civil, al día\nSi usted es padre o madre: Certificado de nacimiento de su hijo (a) fallecido(a)\nSi usted es hijo (a): Su Certificado de nacimiento\nSi usted es heredero (a) legal (nieto (a), hermano (a), sobrino (a), primo(a), etc…): Copia de la Posesión efectiva testada o intestada, o en su defecto, documento que acredite que este trámite se está cursando junto a certificados que acrediten parentesco.\nSi usted no es pariente del causante: Copia del testamento o resolución judicial",
+      "tiempo": "",
+      "costo": "Gratuito.",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-1240",
+    "document": "Consulte acciones a su nombre\nUsted puede consultar por acciones que estén a su nombre.\nDirigido a: Titulares de acciones.\nPasos: Para realizar la consulta debe ingresar al módulo de Atención web al ciudadano, para lo cual debe contar con su Clave Única, otorgada por el Registro Civil. Luego, escriba su RUN y clave única, y haga clic en \"Autenticar\". Seleccione la opción Consultas y envíe su consulta a través del formulario desplegado en pantalla.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-1240.html",
+      "titulo": "Consulte acciones a su nombre",
+      "intencion": "CONSULTA",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "inversionistas",
+      "tipo_entidad": "valores",
+      "dirigido_a": "Titulares de acciones.",
+      "documentos_requeridos": "Su cédula de identidad escaneada por ambos lados.\nDocumento de identificación escaneado por ambos lados, si es extranjero.",
+      "tiempo": "El plazo de respuesta dependerá de la evaluación de admisibilidad que realice esta Comisión y de las gestiones que deban realizarse para la recopilación de la información solicitada.",
+      "costo": "Gratuito.",
+      "marco_legal": "Art. 7 Ley N° 18.046"
+    }
+  },
+  {
+    "id": "art-1664",
+    "document": "Consulte acciones a nombre de un tercero\nUsted puede consultar sobre las acciones de un tercero.\nPasos: Para realizar la consulta debe ingresar al módulo de Atención web al ciudadano, para lo cual debe contar con su Clave Única, otorgada por el Registro Civil. Luego, escriba su RUN y clave única, y haga clic en \"Autenticar\". Seleccione la opción Consultas y envíe su consulta a través del formulario desplegado en pantalla.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-1664.html",
+      "titulo": "Consulte acciones a nombre de un tercero",
+      "intencion": "CONSULTA",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "inversionistas",
+      "tipo_entidad": "valores",
+      "dirigido_a": "",
+      "documentos_requeridos": "Su Cédula de identidad escaneada por ambos lados o documento de identificación escaneado/a por ambos lados validado por el organismo correspondiente, si es extranjero\nCédula de identidad del accionista titular escaneada por ambos lados o documento de identificación escaneado/a por ambos lados del accionista validado por el organismo correspondiente, si es extranjero\nMandato o poder del accionista firmado ante Notario o copia de la escritura pública del mandato.\nDeclaración Jurada si requiere acciones de su hijo/a menor de edad que está a su cargo.",
+      "tiempo": "El plazo de respuesta dependerá de la evaluación de admisibilidad que realice esta Comisión y de las gestiones que deban realizarse para la recopilación de la información solicitada.",
+      "costo": "No tiene costo.",
+      "marco_legal": "Art. 7 Ley N° 18.046."
+    }
+  },
+  {
+    "id": "art-79775",
+    "document": "Informe de Deudas de Personas Jurídicas\nPermite conocer las deudas que mantienen las personas jurídicas con entidades sujetas a la supervisión de la Comisión para el Mercado Financiero (CMF).\nLas personas jurídicas que cuentan con clave de la CMF (o ex Superintendencia de Bancos e Instituciones Financieras (SBIF)), pueden ingresar al siguiente link: click aquí. Escriba el RUT de la persona jurídica y clave de la CMF, y haga clic en \"ver informe\". Siga las instrucciones que aparecen en pantalla.\nPara realizar la solicitud en línea de la clave CMF y/o el informe de deudas de persona jurídica, el solicitante o representante tiene que contar con la clave única que le otorga el Registro Civil, si no cuenta con Clave Única, puede obtenerla por Internet en el siguiente link: Registro Civil\nPasos: Si usted es representante de la persona jurídica:\nIngresar a nuestro sitio de Atención en línea accediendo con clave única.\nDiríjase a la opción Informe de Deudas para Personas Jurídicas.\nCompletar formulario que se despliega y adjuntar toda la documentación requerida.\nPresione el botón de enviar y habrá efectuado la solicitud.\nComo resultado del trámite, habrá solicitado el informe de deudas respectivo que será enviado al correo electrónico que señale, en un plazo máximo de 10 días hábiles.\nSi usted es persona jurídica y ya cuenta con clave de la CMF (o ex SBIF)\nIngresar al siguiente link: click aquí\nEscriba el RUT de la Persona Jurídica y la clave CMF luego haga clic en \"ver informe\".\nComo resultado del trámite obtendrá un Informe de Deudas inmediatamente.\nSi usted solicita el informe de deudas de persona jurídica por cuenta de un tercero:\nIngresar a nuestro sitio de Atención en línea accediendo con clave única.\nDiríjase a la opción Informe de Deudas para Personas Jurídicas por Terceros.\nCompletar formulario que se despliega y adjuntar toda la documentación requerida.\nPresione el botón de enviar y habrá efectuado la solicitud.\nComo resultado del trámite, habrá solicitado el informe de deudas respectivo que será enviado al correo electrónico que señale, en un plazo máximo de 10 días hábiles.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-79775.html",
+      "titulo": "Informe de Deudas de Personas Jurídicas",
+      "intencion": "TRAMITE",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "clientes_financieros",
+      "tipo_entidad": "bancos",
+      "dirigido_a": "",
+      "documentos_requeridos": "Fotocopia de la cédula de identidad vigente por ambos lados del representante legal.\nFotocopia por ambos lados del RUT o E-RUT (SII) de la Empresa, Sociedad o Entidad.\nFotocopia de la escritura pública (con vigencia) en que se le designa como representante legal, con especificación de los poderes bancarios con los que actúa ante este Organismo.\nEn caso de solicitar el informe por cuenta de un tercero, deberá presentar un poder notarial (no podrá exceder de un año de antigüedad) de parte del representante legal, que lo faculte expresamente para solicitar informe de deudas ante este Organismo\nEs importante señalar que, si no cumple todos los requisitos, nos encontraremos imposibilitados de tramitar su solicitud.",
+      "tiempo": "",
+      "costo": "Gratuito.",
+      "marco_legal": "Artículo 14, de la Ley General de Bancos, referido a las características de los datos contenidos en el informe de deudas."
+    }
+  },
+  {
+    "id": "art-95399",
+    "document": "Informe de Deudas de Personas Naturales\nPermite conocer las deudas que usted como persona natural, mantiene con entidades sujetas a la supervisión de la Comisión para el Mercado Financiero (CMF).\nPara obtener el informe en línea, el solicitante debe contar con la clave única que entrega el Registro Civil, accediendo al siguiente link: Conoce tu deuda\nSi no cuenta con Clave Única, puede obtenerla en el siguiente link: Registro Civil\nPasos: Si quien solicita el informe es el titular:\nDebe ingresar con su Clave Única otorgada por el Registro Civil al siguiente link: click aqui\nEscriba su RUN y clave única, y haga clic en \"Ingresa\".\nComo resultado del trámite, accederá al portal \"Conoce tu deuda\" donde podrá revisar y descargar su informe de deudas, accediendo además a distintos contenidos de educación financiera.\nSi quien solicita el informe es heredero/a de un titular fallecido/a:\nIngresar a nuestro sitio de Atención en línea accediendo con su clave única.\nDiríjase a \"Consultas/Su consulta es sobre:\" opción Informe de Deudas, se desplegará una serie de alternativas donde deberá hacer click en Informe de Deudas por Heredero/a.\nDeberá completar el formulario que se desplegará y adjuntar toda la documentación requerida.\nPresione el botón de enviar y habrá efectuado su solicitud.\nComo resultado del trámite, habrá solicitado el informe de deudas respectivo que será enviado al correo electrónico que señale, en un plazo máximo de 10 días hábiles.\nSi quien solicita el informe lo realiza en representación de un/a tercero/a:\nIngresar a nuestro sitio de Atención en línea accediendo con su clave única.\nDiríjase a \"Consultas/Su consulta es sobre:\" opción Informe de Deudas, se desplegará una serie de alternativas donde deberá hacer click en Informe de Deudas por Terceros (Persona Natural).\nCompletar formulario que se despliega y adjuntar toda la documentación requerida.\nPresione el botón de enviar y habrá efectuado su solicitud.\nComo resultado del trámite, habrá solicitado el informe de deudas respectivo que será enviado en un plazo máximo de 10 días hábiles.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-95399.html",
+      "titulo": "Informe de Deudas de Personas Naturales",
+      "intencion": "TRAMITE",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "clientes_financieros",
+      "tipo_entidad": "bancos",
+      "dirigido_a": "",
+      "documentos_requeridos": "1. Si quien solicita el informe es el titular:\nPara el trámite en línea:\nPara el trámite en línea solo requiere de clave única para acceder a la información en Conoce tu deuda\nPara solicitar en oficinas:\nPara solicitar su informe de deudas en oficinas deberá presentar su cédula de identidad vigente al funcionario/a.\n2. Si quien solicita el informe de deudas es heredero/a de un titular fallecido/a:\nDocumentos requeridos:\nTanto para realizar el trámite en línea como para solicitarlo en oficinas, deberá acompañar:\nFotocopia de la cédula de identidad vigente del solicitante por ambos lados.\nCertificado de Defunción del titular fallecido/a (no podrá exceder de 60 días de antigüedad desde la fecha de emisión)\nSi el/la fallecido/a es el/la Cónyuge o Conviviente Civil de quien solicita, debe adjuntar además el Certificado de Matrimonio (o en su caso, certificado de Acuerdo Unión Civil) (no podrá exceder de 60 días de antigüedad desde la fecha de emisión)\nSi el fallecido es el Hijo(a) de quien solicita, deberá adjuntar además el Certificado de Nacimiento del hijo(a) (no podrá exceder de 60 días de antigüedad desde la fecha de emisión).\nSi el fallecido/a es el Padre o Madre de quien solicita, deberá adjuntar además el Certificado de Nacimiento del solicitante (no podrá exceder de 60 días de antigüedad desde la fecha de emisión).\nEn los demás casos el solicitante deberá presentar certificado de posesión efectiva que reconozca su calidad de heredero.\n\"Es importante señalar que, si no se cumplen todos estos requisitos, nos encontraremos imposibilitados de tramitar su Solicitud.\"\n3. Si quien solicita el informe lo realiza en representación de un/a tercero/a:\nDocumentos requeridos:\nTanto para realizar el trámite en línea como para solicitarlo en oficinas, deberá acompañar:\nFotocopia de la cédula de identidad vigente por ambos lados del solicitante.\nPoder o mandato notarial (no podrá exceder de un año de antigüedad) que lo faculte expresamente para solicitar informe de deudas en representación de la persona.\n\"Es importante señalar que, si no se cumplen todos estos requisitos, nos encontraremos imposibilitados de tramitar su Solicitud.\"",
+      "tiempo": "",
+      "costo": "Gratuito.",
+      "marco_legal": "Artículo 14, de la Ley General de Bancos, referido a las características de los datos contenidos en el informe de deudas."
+    }
+  },
+  {
+    "id": "art-1242",
+    "document": "Consulte sobre las acciones de un tercero, por cuenta del heredero para posesión efectiva\nUsted puede consultar sobre las acciones de un tercero, por cuenta del heredero para posesión efectiva.\nDirigido a: Público general.\nPasos: Para realizar la consulta debe ingresar al módulo de Atención web al ciudadano, para lo cual debe contar con su Clave Única, otorgada por el Registro Civil. Luego, escriba su RUN y clave única, y haga clic en \"Autenticar\". Seleccione la opción Consultas y envíe su consulta a través del formulario desplegado en pantalla.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-1242.html",
+      "titulo": "Consulte sobre las acciones de un tercero, por cuenta del heredero para posesión efectiva",
+      "intencion": "CONSULTA",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "inversionistas",
+      "tipo_entidad": "valores",
+      "dirigido_a": "Público general.",
+      "documentos_requeridos": "Su Cédula de identidad escaneada por ambos lados o documento de identificación escaneado/a por ambos lados validado por el organismo correspondiente, si es extranjero\nCertificado de defunción del causante fallecido (a)\nSegún parentesco del causante, debe adjuntar además:\nSi es Cónyuge o conviviente civil del accionista: Certificado de matrimonio o de Unión Civil, al día\nSi es padre o madre: Certificado de nacimiento de su hijo (a) fallecido(a)\nSi es hijo (a): Su Certificado de nacimiento\nSi es heredero (a) legal (nieto (a), hermano (a), sobrino (a), primo(a), etc…): Copia de la Posesión efectiva testada o intestada, o en su defecto, documento que acredite que este trámite se está cursando junto a certificados que acrediten parentesco.\nSi no es pariente del causante: Copia del testamento o resolución judicial\nSi actúa en representación de un tercero, poder o mandato firmado ante Notario, con copia por ambos lados de cédula de identidad del mandatario.",
+      "tiempo": "",
+      "costo": "Gratuito.",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-51875",
+    "document": "Consulte los seguros de un familiar fallecido o declarado incapaz judicialmente\nEl padre o madre, hijo (a), cónyuge, conviviente civil puede solicitar información de los seguros en que su hijo (a), padre o madre, cónyuge, conviviente civil fallecido o con incapacidad judicialmente declarada figura como asegurado o contratante.\nDirigido a: Esta información puede ser solicitada por el padre o madre, hijo, cónyuge, conviviente civil de una persona fallecida o con incapacidad judicialmente declarada.\nPasos: Debe ingresar al Sistema de Consultas de Seguros SICS, para lo cual debe contar con su Clave Única, otorgada por el Registro Civil. Luego, escriba su RUT y clave única, y haga clic en \"Autenticar\". Posteriormente, seleccione la opción que corresponda bajo la opción servicios:\nSi usted es cónyuge de la persona por la cual consulta debe seleccionar \"Cónyuge\".\nSi usted es conviviente civil de la persona por la cual consulta debe seleccionar \"Conviviente Civil\".\nSi usted es hijo de la persona por la cual consulta debe seleccionar \"Padre o Madre\".\nSi usted es padre o madre de la persona por la cual consulta debe seleccionar \"Hijo (a)\".\nSe le solicitará llenar un formulario con la siguiente información:\nRUT de la persona fallecida o incapacitado (a) judicialmente.\nNombre, primer apellido y segundo apellido del asegurado fallecido (a) o incapacitado (a) judicialmente.\nEl correo electrónico en que usted desea recibir la respuesta a su consulta.\nAdicionalmente se le solicitará adjuntar los documentos que respalden su calidad de padre o madre, hijo (a), cónyuge, conviviente civil.\nLuego, usted deberá autorizar a la CMF para requerir a las entidades supervisadas, antecedentes que permitan dar respuesta a lo consultado dejando activo el botón para la autorización \"Sí\".\nFinalmente deberá seleccionar la opción \"Enviar\".\nUna vez acreditada la calidad invocada recibirá un correo electrónico con el link al Sistema de Consultas de Seguros.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-51875.html",
+      "titulo": "Consulte los seguros de un familiar fallecido o declarado incapaz judicialmente",
+      "intencion": "CONSULTA",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "asegurados",
+      "tipo_entidad": "seguros",
+      "dirigido_a": "Esta información puede ser solicitada por el padre o madre, hijo, cónyuge, conviviente civil de una persona fallecida o con incapacidad judicialmente declarada.",
+      "documentos_requeridos": "Para realizar esta consulta debe tener los siguientes documentos en formato digital:\nSu cédula de identidad vigente escaneada por ambos lados.\nPadre o madre fallecido o con incapacidad judicialmente declarada:\nEn caso de defunción: certificado de defunción escaneado de su padre/madre con una antigüedad no superior a 60 días desde su emisión.\nEn caso de incapacidad de su padre o madre: resolución judicial escaneada que declare la incapacidad (provisoria o definitiva).\nSu certificado de nacimiento con una antigüedad no superior a 60 días desde su emisión.\nHijo fallecido o declarado incapaz judicialmente:\nEn caso de defunción: certificado de defunción escaneado de su hijo (a) con una antigüedad no superior a 60 días desde su emisión.\nEn caso de incapacidad de su hijo (a): resolución judicial escaneada que declare la incapacidad (provisoria o definitiva).\nCertificado de nacimiento de su hijo (a) con una antigüedad no superior a 60 días desde su emisión.\nCónyuge fallecido o declarado incapaz judicialmente:\nEn caso de defunción: certificado de defunción escaneado de su cónyuge con una antigüedad no superior a 60 días desde su emisión.\nEn caso de incapacidad de su cónyuge: resolución judicial escaneada que declare la incapacidad (provisoria o definitiva).\nCertificado de matrimonio con una antigüedad no superior a 60 días desde su emisión.\nConviviente civil de una persona fallecida o con incapacidad judicialmente declarada:\nEn caso de defunción: certificado de defunción escaneado de su conviviente civil con una antigüedad no superior a 60 días desde su emisión.\nEn caso de incapacidad de su conviviente civil: resolución judicial escaneada que declare la incapacidad (provisoria o definitiva).\nCertificado de Unión Civil con una antigüedad no superior a 60 días desde su emisión.\nPara enviar los archivos requeridos, debe seleccionar desde dónde desea adjuntar el documento, dar clic en el botón \"Examinar\" y elegir los documentos desde su computador.\nEl tamaño máximo para cada archivo es de 8 MB. Se puede enviar más de un archivo si es necesario. Las extensiones que acepta el Sistema son: doc, docx, jpg, xlsx, txt, xls, pdf.\nImportante:\nLa Comisión calificará la admisibilidad de la consulta, pudiendo ser rechazada lo que será informado al correo electrónico registrado, indicando la causal del rechazo. La comunicación se remitirá dentro de un plazo no superior a 10 días hábiles, contado desde recibida la consulta en la Comisión.\nLa información es proporcionada por las compañías de seguros con ocasión de la consulta que se efectúe en el Sistema.\nLa integridad y veracidad de los antecedentes proporcionados por los consultantes, al efectuar su consulta en el Sistema son de exclusiva responsabilidad de quien los proporciona.",
+      "tiempo": "Como usted es según corresponda el padre o madre, hijo (a), cónyuge, conviviente civil, su solicitud será tramitada en cuanto la CMF pueda determinar la admisibilidad del requerimiento según los documentos acompañados en la consulta.",
+      "costo": "Gratuito.",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-26827",
+    "document": "Seguimiento de Reclamos Bancarios\nServicio que permite consultar el estado de tramite de una solicitud o reclamo presentado ante la CMF en contra de un banco o institucion financiera fiscalizada. La consulta se realiza a traves de la aplicacion de Consulta de Reclamos del portal CMF.\nDirigido a: Personas naturales o juridicas que ya presentaron previamente una solicitud o reclamo bancario ante la CMF y desean conocer el estado de avance de su tramitacion.\nPasos: 1) Ingresar a la aplicacion de Consulta de Reclamos en reclamos.cmfchile.cl/consultapresentaciones/aplicacion. 2) Ingresar los datos requeridos (RUT y/o numero de presentacion). 3) Visualizar el estado actual del tramite.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-26827.html",
+      "titulo": "Seguimiento de Reclamos Bancarios",
+      "intencion": "CONSULTA",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "clientes_financieros",
+      "tipo_entidad": "bancos",
+      "dirigido_a": "Personas naturales o juridicas que ya presentaron previamente una solicitud o reclamo bancario ante la CMF y desean conocer el estado de avance de su tramitacion.",
+      "documentos_requeridos": "Numero de ingreso o folio del reclamo, o RUT del solicitante.",
+      "tiempo": "Inmediato (consulta en linea).",
+      "costo": "Gratuito.",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-27174",
+    "document": "Conocer sobre la historia bancaria\nPermite acceder información de la Comisión para el Mercado Financiero (CMF) que reúne los grandes hitos de la historia bancaria, incluyendo nacimiento de entidades financieras y normativas relevante, todo organizado cronológicamente.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-27174.html",
+      "titulo": "Conocer sobre la historia bancaria",
+      "intencion": "CONSULTA",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "clientes_financieros",
+      "tipo_entidad": "bancos",
+      "dirigido_a": "",
+      "documentos_requeridos": "No es necesario ningún documento.",
+      "tiempo": "",
+      "costo": "Gratuito.",
+      "marco_legal": "Ley General de Bancos"
+    }
+  },
+  {
+    "id": "art-51876",
+    "document": "Consulte los seguros del fallecido de quien usted es heredero o a cuyo heredero representa\nLos herederos pueden solicitar información de los seguros en que la persona fallecida figura como asegurado o contratante.\nY el representante de una persona que tiene la calidad de heredero o heredera, puede solicitar información respecto de los seguros en que la persona fallecida era el asegurado o contratante.\nDirigido a: Esta información puede ser solicitada por herederos (distintos del cónyuge, conviviente civil, hijos o padres) y por el representante del heredero o heredera.\nPasos: Debe ingresar al Sistema de Consultas de Seguros SICS, para lo cual debe contar con su Clave Única, otorgada por el Registro Civil. Luego, escriba su RUT y clave única, y haga clic en \"Autenticar\". Seleccione según corresponda bajo la opción Servicios:\nOtros herederos\nRepresentante de persona natural\nSeguros por representante de persona con interés legítimo\nHeredero o heredera de persona fallecida\nSe le solicitará llenar un formulario con la siguiente información:\nFallecido de quien es heredero:\nRUT de la persona fallecida.\nNombre, primer apellido y segundo apellido del asegurado fallecido (a).\nEl correo electrónico en que usted desea recibir la respuesta a su consulta.\nFallecido a cuyo heredero representa:\nRUT del representante.\nCopia íntegra del poder o mandato, por escritura pública o documento privado suscrito ante notario (Articulo 22 Ley 19.880)\nNombre, primer apellido y segundo apellido del asegurado o contratante, persona natural.\nEl correo electrónico en que usted desea recibir la respuesta a su consulta.\nAdicionalmente se le solicitará adjuntar los documentos que respalden su calidad de heredero o heredera o su calidad de representante del heredero o heredera.\nLuego, usted deberá autorizar a la CMF para requerir a las entidades supervisadas, antecedentes que permitan dar respuesta a lo consultado dejando activo el botón para la autorización \"Sí\".\nFinalmente deberá seleccionar la opción \"Enviar\"\nUna vez acreditada la calidad invocada recibirá un correo electrónico con el link al Sistema de Consultas de Seguros.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-51876.html",
+      "titulo": "Consulte los seguros del fallecido de quien usted es heredero o a cuyo heredero representa",
+      "intencion": "CONSULTA",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "asegurados",
+      "tipo_entidad": "seguros",
+      "dirigido_a": "Esta información puede ser solicitada por herederos (distintos del cónyuge, conviviente civil, hijos o padres) y por el representante del heredero o heredera.",
+      "documentos_requeridos": "Para realizar esta consulta debe tener los siguientes documentos en formato digital:\nSu cédula de identidad vigente escaneada por ambos lados.\nCertificado de posesión efectiva.\nFallecido de quien es heredero:\nCertificado de defunción escaneado de la persona fallecida de la cual usted es heredero con una antigüedad no superior a 60 días desde su emisión.\nFallecido a cuyo heredero representa:\nCertificado de defunción escaneado de la persona por el cual consulta.\nCopia íntegra del poder o mandato, por escritura pública o documento privado suscrito ante notario (artículo 22 Ley 19.880).\nPara enviar los archivos requeridos, debe seleccionar desde dónde desea adjuntar el documento, dar clic en el botón \"Examinar\" y elegir los documentos desde su computador.\nEl tamaño máximo para cada archivo es de 8 MB. Se puede enviar más de un archivo si es necesario. Las extensiones que acepta el Sistema son: doc, docx, jpg, xlsx, txt, xls, pdf.\nImportante:\nLa Comisión calificará la admisibilidad de la consulta, pudiendo ser rechazada lo que será informado al correo electrónico registrado, indicando la causal del rechazo. La comunicación se remitirá dentro de un plazo no superior a 10 días hábiles, contado desde recibida la consulta en la Comisión.\nLa información es proporcionada por las compañías de seguros con ocasión de la consulta que se efectúe en el Sistema.\nLa integridad y veracidad de los antecedentes proporcionados por los consultantes, al efectuar su consulta en el Sistema son de exclusiva responsabilidad de quien los proporciona.",
+      "tiempo": "La solicitud será cursada en cuanto la CMF determine la admisibilidad del requerimiento, según los documentos acompañados en la consulta.",
+      "costo": "Gratuito.",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-51927",
+    "document": "Consulte los seguros como representante de un tercero\nA través de un representante el cónyuge, conviviente civil, hijo (a), padre o madre, puede solicitar información respecto de los seguros en que su familiar fallecido o la persona declarada incapacitada judicialmente era asegurado o contratante.\nEl representante de una persona jurídica puede solicitar información respecto de los seguros en que la empresa o entidad que representa es el asegurado o contratante.\nEl representante de una persona natural puede solicitar información respecto de los seguros en que la persona que representa es el asegurado o contratante.\nEl liquidador concursal puede solicitar información respecto de los seguros en que la empresa, entidad o persona natural figura como asegurado o contratante.\nDirigido a: Esta información puede ser solicitada por al cónyuge, conviviente civil, hijo (a), padre o madre, que consulta a través de un representante, por el representante de una persona jurídica opersona natural y por un liquidador concursal.\nPasos: Debe ingresar al Sistema de Consultas de Seguros SICS, para lo cual debe contar con su Clave Única, otorgada por el Registro Civil. Luego, escriba su RUT y clave única, y haga clic en \"Autenticar\". Seleccione según corresponda bajo la opción Servicios:\nRepresentante de persona natural\nSeguros por representante de persona con interés legítimo\nCónyuge / Conviviente Civil / Hijos / Padre o Madre de contratante o asegurado fallecido\nCónyuge / Conviviente Civil / Hijos / Padre o Madre de contratante o asegurado declarado incapacitado judicialmente\".\nSeguros por representante de asegurado o contratante persona jurídica\nRepresentante de persona natural/Seguros por representante de asegurado o contratante de persona natural\nSe le solicitará llenar un formulario con la siguiente información:\nEn caso de asegurado o contratante persona natural:\nRUT del asegurado o contratante.\nNombre, primer apellido y segundo apellido del asegurado o contratante.\nEl correo electrónico en que usted desea recibir la respuesta a su consulta.\nEn caso de asegurado o contratante persona jurídica:\nRUT de la entidad o persona jurídica que usted representa.\nNombre o razón social de la entidad o persona jurídica asegurada o contratante, que representa.\nEl correo electrónico en que usted desea recibir la respuesta a su consulta.\nAdicionalmente se le solicitará adjuntar los documentos que respalden su calidad de representante o liquidador concursal.\nLuego, usted deberá autorizar a la CMF para requerir a las entidades supervisadas, antecedentes que permitan dar respuesta a lo consultado dejando activo el botón para la autorización \"Sí\".\nFinalmente deberá seleccionar la opción \"Enviar\"\nUna vez acreditada la calidad invocada recibirá un correo electrónico con el link al Sistema de Consultas de Seguros.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-51927.html",
+      "titulo": "Consulte los seguros como representante de un tercero",
+      "intencion": "CONSULTA",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "asegurados",
+      "tipo_entidad": "seguros",
+      "dirigido_a": "Esta información puede ser solicitada por al cónyuge, conviviente civil, hijo (a), padre o madre, que consulta a través de un representante, por el representante de una persona jurídica opersona natural y por un liquidador concursal.",
+      "documentos_requeridos": "Para realizar esta consulta debe tener los siguientes documentos en formato digital:\nFamiliar fallecido:\nSu cédula de identidad vigente escaneada por ambos lados.\nCertificado de defunción escaneado de la persona por el cual consulta.\nSi el mandante es el o la cónyuge de la persona fallecida: certificado de matrimonio.\nSi el mandante es el o la conviviente civil de la persona fallecida: certificado de Unión Civil.\nSi el mandante es el hijo o hija de la persona fallecida: certificado de nacimiento.\nSi el mandante es el padre o madre de la persona fallecida: certificado de nacimiento del hijo(a) fallecido (a).\nCopia íntegra del poder o mandato, por escritura pública o documento privado suscrito ante notario (artículo 22 Ley 19.880).\nTratándose de hijos menores de edad representados por su padre o madre, en que se consulta por los seguros de su padre o madre fallecidos, los documentos obligatorios son 3:\nCédula de identidad vigente, escaneada por ambos lados del representante (padre o madre, según corresponda).\nCertificado de nacimiento del hijo menor de edad\nCertificado de defunción del padre o madre del menor de edad por el cual se consultan los seguros.\nPersona declarada incapaz judicialmente:\nSu cédula de identidad vigente escaneada por ambos lados.\nResolución judicial escaneada que declare la incapacidad (provisoria o definitiva).\nSi el mandante es el o la cónyuge de la persona declarada incapacitada judicialmente: certificado de matrimonio al día.\nSi el mandante es el o la conviviente civil de la persona declarada incapacitada judicialmente: certificado de Unión Civil al día.\nSi el mandante es el hijo o hija de la persona declarada incapacitada judicialmente: certificado de nacimiento.\nSi el mandante es el padre o madre de la persona declarada incapacitada judicialmente: certificado de nacimiento del hijo(a) fallecido (a).\nCopia íntegra del poder o mandato, por escritura pública o documento privado suscrito ante notario (artículo 22 Ley 19.880).\nAsegurado o contratante persona jurídica, persona natural:\nCédula de identidad vigente escaneada por ambos lados, del representante o liquidador concursal.\nCopia íntegra del poder o mandato, por escritura pública o documento privado suscrito ante notario (artículo 22 Ley 19.880) o copia íntegra de la resolución judicial que lo designa en el cargo de liquidador concursal, según corresponda\nRepresentante del copropietario:\nCédula de identidad vigente, escaneada por ambos lados del representante.\n\nCopia del poder o mandato, por escritura pública o documento privado suscrito ante notario (artículo 22 Ley 19.880).\nTodos los certificados emitidos por el Registro Civil e Identificación deberán tener una antigüedad no superior a 60 días desde su emisión.\nPara enviar los archivos requeridos, debe seleccionar desde dónde desea adjuntar el documento, dar clic en el botón \"Examinar\" y elegir los documentos desde su computador.\nEl tamaño máximo para cada archivo es de 8 MB. Se puede enviar más de un archivo si es necesario. Las extensiones que acepta el Sistema son: doc, docx, jpg, xlsx, txt, xls, pdf.\nImportante:\nLa Comisión calificará la admisibilidad de la consulta, pudiendo ser rechazada lo que será informado al correo electrónico registrado, indicando la causal del rechazo. La comunicación se remitirá dentro de un plazo no superior a 10 días hábiles, contado desde recibida la consulta en la Comisión.\nLa información es proporcionada por las compañías de seguros con ocasión de la consulta que se efectúe en el Sistema.\nLa integridad y veracidad de los antecedentes proporcionados por los consultantes, al efectuar su consulta en el Sistema son de exclusiva responsabilidad de quien los proporciona.",
+      "tiempo": "La solicitud será cursada en cuanto la CMF determine la admisibilidad del requerimiento, según los documentos acompañados en la consulta.",
+      "costo": "Gratuito.",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-26816",
+    "document": "Consulte sobre información general de Bancos e Instituciones Financieras, Valores y Seguros\nMediante este trámite se podrán realizar consultas de temas generales relacionadas con las áreas de Seguros, Valores, Bancos e Instituciones Financieras u otros temas varios relacionados con otras entidades supervisadas por la CMF\nDirigido a: Este trámite está dirigido a cualquier persona natural o jurídica.\nPaso a paso: Cómo realizar el trámite\nEn Internet, vaya al portal \"Atención en línea\"\nPara ello deberá contar con su Clave Única, otorgada por el Registro Civil\nEscriba su RUN y Clave Única, y haga clic en \"Ingresa\"\nEn \"Consultas\" seleccione \"Temas en General\"\nComplete los datos requeridos y haga clic en \"enviar\".\nConsulte el estado de su trámite:\nEn el sitio web de la Comisión para el Mercado Financiero (CMF).\nEn la oficina de partes de la CMF, ubicada en Avenida Libertador Bernardo O'Higgins 1449, Torre 1 piso 1, Santiago. También puede enviar una carta a esta dirección.\nPasos: En Internet, vaya al portal \"Atención en línea\"\nPara ello deberá contar con su Clave Única, otorgada por el Registro Civil\nEscriba su RUN y Clave Única, y haga clic en \"Ingresa\"\nEn \"Consultas\" seleccione \"Temas en General\"\nComplete los datos requeridos y haga clic en \"enviar\".\nConsulte el estado de su trámite:\nEn el sitio web de la Comisión para el Mercado Financiero (CMF).\nEn la oficina de partes de la CMF, ubicada en Avenida Libertador Bernardo O'Higgins 1449, Torre 1 piso 1, Santiago. También puede enviar una carta a esta dirección.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-26816.html",
+      "titulo": "Consulte sobre información general de Bancos e Instituciones Financieras, Valores y Seguros",
+      "intencion": "CONSULTA",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "publico_general",
+      "tipo_entidad": "general",
+      "dirigido_a": "Este tramite esta dirigido a cualquier persona natural o juridica.",
+      "documentos_requeridos": "",
+      "tiempo": "En oficinas, inmediata.\nOtros medios, depende de la complejidad de la consulta, desde 1 día hábil.",
+      "costo": "No tiene costo.",
+      "marco_legal": "Art. 5 de la Ley N° 18.575\nArt. 5 N°2 D.L. N° 3.538 de 1980\nArt. 5 N°25 D.L. N° 3.538 de 1980"
+    }
+  },
+  {
+    "id": "art-663",
+    "document": "Consulte Estado de Trámite de solicitud o reclamo presentado en contra de una entidad fiscalizada\nSi ha presentado un reclamo en contra de una entidad fiscalizada o una consulta para la CMF a través de la Oficina de Partes, vía Internet o por escrito a través del Sernac, puede consultar sobre el estado de trámite en el sistema de atención web.\nDirigido a: Público en general, inversionistas y asegurados.\nPasos: Paso a paso: trámite en línea\nPara realizar la consulta debe ingresar al módulo de Atención web al ciudadano, para lo cual debe contar con su Clave Única, otorgada por el Registro Civil. Luego, escriba su RUN y clave única, y haga clic en \"Autenticar\" y seleccione la opción Estado de Trámites",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-663.html",
+      "titulo": "Consulte Estado de Trámite de solicitud o reclamo presentado en contra de una entidad fiscalizada",
+      "intencion": "CONSULTA",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "publico_general",
+      "tipo_entidad": "general",
+      "dirigido_a": "Público en general, inversionistas y asegurados.",
+      "documentos_requeridos": "Ninguno.",
+      "tiempo": "Inmediata.",
+      "costo": "Gratuito.",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-757",
+    "document": "Consulte sobre la existencia de Rentas Vitalicias\nPuede consultar por las rentas vitalicias contratadas por una persona fallecida.\nLa CMF realiza la consulta en su base de datos acerca de las rentas vitalicias contratadas a las empresas aseguradoras, puesto que estas, envían el stock de pólizas de rentas vitalicias trimestralmente a esta entidad.\nDirigido a: Asegurados y/o Familiares de una persona fallecida.\nPasos: En Internet, vaya al portal \"CMF sin papel\".\nComplete los campos solicitados y en la opción \"Tipo de documento\", seleccione \"Consulta sobre la existencia de Rentas Vitalicias\".",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-757.html",
+      "titulo": "Consulte sobre la existencia de Rentas Vitalicias",
+      "intencion": "CONSULTA",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "asegurados",
+      "tipo_entidad": "seguros",
+      "dirigido_a": "Asegurados y/o Familiares de una persona fallecida.",
+      "documentos_requeridos": "Para realizar esta consulta debe tener los siguientes documentos:\nFotocopia cédula de identidad del solicitante\nCertificado que acredite el parentesco\nCertificado defunción de la persona fallecida\nPoder simple o Mandato si actúa en representación de otra persona",
+      "tiempo": "",
+      "costo": "Gratuito.",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-769",
+    "document": "Solicitud de información pública de acuerdo con Ley de Transparencia\nA través de este sistema podrá solicitar a la CMF información pública, de acuerdo con lo establecido en la Ley N° 20.285, sobre acceso a la información pública, llamada también Ley de Transparencia.\nDirigido a: Público general.\nPasos: Para formular una solicitud de acceso a la información pública, puede enviar su presentación directamente por vía electrónica a través del portal de transparencia de la CMF. Una vez que ingrese al link, deberá seleccionar la opción formulario on line, allí podrá realizar su presentación estando previamente registrado y también sin registrarse.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-769.html",
+      "titulo": "Solicitud de información pública de acuerdo con Ley de Transparencia",
+      "intencion": "TRAMITE",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "publico_general",
+      "tipo_entidad": "general",
+      "dirigido_a": "Público general.",
+      "documentos_requeridos": "Ninguno.",
+      "tiempo": "",
+      "costo": "Gratuito.",
+      "marco_legal": "La Ley N° 20.285 sobre acceso a la información pública, llamada también Ley de Transparencia y su reglamento, el Decreto N°13 del Ministerio Secretaría General De La Presidencia."
+    }
+  },
+  {
+    "id": "art-20321",
+    "document": "Consulte sobre los precios del SOAP\nServicio de información de la CMF con un listado actualizado de los precios de referencia del Seguro Obligatorio de Accidentes Personales (SOAP), informados en sitios Web de las Compañías, en peso chileno. Es un archivo descargable en formato Excel.\nDirigido a: Público general.\nPasos: Descargue el documento con los precios del SOAP actualizados.\nSOAP precios al 10/04/2026 (xlsx, 14 kb)",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-20321.html",
+      "titulo": "Consulte sobre los precios del SOAP",
+      "intencion": "CONSULTA",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "asegurados",
+      "tipo_entidad": "seguros",
+      "dirigido_a": "Público general.",
+      "documentos_requeridos": "Ninguno.",
+      "tiempo": "",
+      "costo": "Gratuito.",
+      "marco_legal": "Ley N° 18.490, de 1986.\nprecios soap, precios soap cmf, precios seguro obligatorio de accidentes personales"
+    }
+  },
+  {
+    "id": "art-773",
+    "document": "Solicitud de gastos funerarios para bomberos fallecidos durante su servicio\nEl Decreto Ley N° 1.757 establece una serie de beneficios para los bomberos voluntarios y sus familiares más cercanos, uno de estos es el de \"Gastos funerarios\", que consiste en el reembolso de los gastos correspondientes al pago de los servicios funerarios y de sepultación, cuando un bombero fallece en acto de servicio.\nEste beneficio tiene un tope de 12 ingresos mínimos mensuales.\nDirigido a: La solicitud de este beneficio puede ser presentada por:\nQuienes acrediten haber incurrido en los gastos de sepultación.\nPasos: Ingrese su solicitud con su clave única en el link de CMF sin Papel\nComplete los campos solicitados y en la opción \"Tipo documento\" haga clic en \"correspondencia a la CMF\".",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-773.html",
+      "titulo": "Solicitud de gastos funerarios para bomberos fallecidos durante su servicio",
+      "intencion": "TRAMITE",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "asegurados",
+      "tipo_entidad": "seguros",
+      "dirigido_a": "La solicitud de este beneficio puede ser presentada por:\nQuienes acrediten haber incurrido en los gastos de sepultación.",
+      "documentos_requeridos": "Para acceder a este beneficio se debe presentar:\nCertificado del Superintendente de Bomberos que acredita que el fallecido era miembro voluntario del Cuerpo de Bomberos.\nEstar inscrito en el Registro Nacional de Bomberos al momento del accidente.\nInforme fundado en una investigación sumaria que dé cuenta de las circunstancias del accidente.\nCertificado de Carabineros de Chile del territorio administrativo donde resultó fallecido, con la siguiente información: fecha y hora del accidente, y descripción del Acto de servicio que estaba ejecutando (extinción de incendio, rescate, ejercicios de compañía, guardia nocturna, etc.)\nInforme del médico tratante de uno de los establecimientos del Servicio de Salud, hospitales clínicos de la U. Católica o Chile, hospitales de las Fuerzas Armadas y de Orden o de las mutualidades de empleadores establecidos por la Ley N° 16.744.\nCertificado de defunción\nBoletas o facturas de la funeraria a nombre de quien realizó el gasto.",
+      "tiempo": "",
+      "costo": "Gratuito.",
+      "marco_legal": "El Decreto Ley N° 1.757 sobre beneficios a bomberos accidentados o enfermos, producto de haber participado en un acto de servicio."
+    }
+  },
+  {
+    "id": "art-768",
+    "document": "Consulte sobre el texto de una póliza de seguro\nEn el Depósito de Pólizas de uso público de esta Comisión, puede consultar los textos de los modelos de póliza que se contratan en el mercado, sus modificaciones y cláusulas adicionales.\nLas entidades aseguradoras no pueden realizar contratos con modelos de pólizas que no hayan sido previamente depositados en este registro, salvo las excepciones legales.\nDirigido a: Asegurados y público en general.\nPasos: Para consultar el Depósito de Pólizas, puede completar uno o más de los criterios de selección que aparecen en el recuadro de búsqueda: código de la póliza, fecha de emisión, texto depositado, tema.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-768.html",
+      "titulo": "Consulte sobre el texto de una póliza de seguro",
+      "intencion": "CONSULTA",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "asegurados",
+      "tipo_entidad": "seguros",
+      "dirigido_a": "Asegurados y público en general.",
+      "documentos_requeridos": "No se requiere ningún documento.",
+      "tiempo": "",
+      "costo": "Gratuito.",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-770",
+    "document": "Solicitud de pago o reembolso de prestaciones médicas para bomberos\nEl Decreto Ley N° 1.757 establece una serie de beneficios para los bomberos voluntarios y sus familiares más cercanos, uno de estos es el de \"Prestaciones médicas\", que consiste en atención médica integral gratuita, incluidas las atenciones hospitalarias y quirúrgicas hasta el alta definitiva, aparatos ortopédicos y medicamentos.\nDebe atenderse en la Red del Sistema de Salud, Mutualidades de Empleadores establecidos por la Ley N°16.744 (que atienden a trabajadores por accidentes del trabajo y enfermedades profesionales), hospitales de las Fuerzas Armadas y de Orden, hospitales clínicos de la U. Católica o Chile y en el Hospital Clínico José Joaquín Aguirre.\nDirigido a: Bomberos accidentados o enfermos, a raíz de participar en un acto de servicio.\nPasos: Ingrese su solicitud con su clave única en el link de CMF sin Papel\nComplete los campos solicitados y en la opción \"Tipo documento\" haga clic en \"correspondencia a la CMF\".",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-770.html",
+      "titulo": "Solicitud de pago o reembolso de prestaciones médicas para bomberos",
+      "intencion": "TRAMITE",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "asegurados",
+      "tipo_entidad": "seguros",
+      "dirigido_a": "Bomberos accidentados o enfermos, a raíz de participar en un acto de servicio.",
+      "documentos_requeridos": "Para acceder a este beneficio se debe presentar:\nCertificado del Superintendente de Bomberos que acredita que es bombero.\nEstar inscrito en Registro Nacional de Bomberos al momento del accidente.\nInforme fundado en una investigación sumaria que dé cuenta de las circunstancias del accidente.\nCertificado de Carabineros de Chile del territorio administrativo donde resultó lesionado, con la siguiente información: fecha y hora del accidente y descripción del Acto de servicio en el cual participaba (extinción de incendio, rescate, ejercicios de compañía, guardia nocturna, etc.)\nInforme del médico tratante de uno de los establecimientos del Servicio de Salud, hospitales clínicos de la U. Católica o Chile, hospitales de las Fuerzas Armadas y de Orden o de las mutualidades de empleadores establecidos por la Ley N°16.744.\nLas boletas o facturas del centro asistencial donde recibió las atenciones médicas relacionadas con el accidente.",
+      "tiempo": "",
+      "costo": "Gratuito.",
+      "marco_legal": "El Decreto Ley N° 1.757 sobre beneficios a bomberos accidentados o enfermos, producto de haber participado en un acto de servicio."
+    }
+  },
+  {
+    "id": "art-775",
+    "document": "Solicitud de renta vitalicia de sobrevivencia para bomberos\nEl Decreto Ley N° 1.757 establece una serie de beneficios para los bomberos voluntarios y sus familiares más cercanos, uno de estos es el de \" Renta vitalicia de sobrevivencia\" consistente en una renta mensual con un tope de 25 UF que se otorga en conjunto al cónyuge sobreviviente y los hijos menores de 18 años de un bombero fallecido en acto de servicio, o, en caso que se trate de un bombero que ya percibía una Renta Vitalicia por Invalidez, es una pensión equivalente al porcentaje del monto que percibía el voluntario al fallecer.\nCabe señalar que si el voluntario percibía una renta de invalidez de 30 UF, la renta de sobrevivencia a percibir tendrá un tope de 25 UF.\nDirigido a: Tienen derecho a este beneficio:\nCónyuge sobreviviente.\nHijos menores de edad.\nHijos mayores de 18 años y hasta los 24 años que sean estudiantes.\nHijos mayores de 18 años incapacitados de ejercer una profesion u oficio a la fecha de fallecimiento del voluntario.\nLos padres que vivan a expensas del voluntario, cuando no existen hijos, ni cónyuge sobreviviente.\nPasos: Ingrese su solicitud con su clave única en el link de CMF sin Papel\nComplete los campos solicitados y en la opción \"Tipo documento\" haga clic en \"correspondencia a la CMF\".",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-775.html",
+      "titulo": "Solicitud de renta vitalicia de sobrevivencia para bomberos",
+      "intencion": "TRAMITE",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "asegurados",
+      "tipo_entidad": "seguros",
+      "dirigido_a": "Tienen derecho a este beneficio:\nCónyuge sobreviviente.\nHijos menores de edad.\nHijos mayores de 18 años y hasta los 24 años que sean estudiantes.\nHijos mayores de 18 años incapacitados de ejercer una profesion u oficio a la fecha de fallecimiento del voluntario.\nLos padres que vivan a expensas del voluntario, cuando no existen hijos, ni cónyuge sobreviviente.",
+      "documentos_requeridos": "Para acceder a este beneficio se debe presentar:\nCertificado del Superintendente de Bomberos que acredite que es bombero.\nEstar inscrito en el Registro Nacional de Bomberos al momento del accidente.\nInforme fundado en una investigación sumaria que dé cuenta de las circunstancias del accidente.\nCertificado de Carabineros de Chile del territorio administrativo donde resultó fallecido, con la siguiente información: fecha y hora del accidente y descripción del Acto de servicio en el cual participaba (extinción de incendio, rescate, ejercicios de compañía, guardia nocturna, etc.)\nInforme del médico tratante de uno de los establecimientos del Servicio de Salud, hospitales clínicos de las universidades Católica o de Chile, hospitales de las Fuerzas Armadas y de Orden o de las mutualidades de empleadores establecidos por la Ley N°16.744.\nCertificado de defunción del voluntario, certificado de matrimonio del voluntario y certificado de nacimiento de cada uno de los hijos.\nDeclaración jurada que indique que no existen otros beneficiarios.\nDeclaración jurada de la cónyuge que no ha vuelto a contraer nupcias.\nLos hijos mayores de 18 años y menores de 24 años, deben presentar un certificado de estudios de una institución reconocida por el Ministerio de Educación.\nLos padres sobrevivientes deberán adjuntar declaración jurada que indique que vivía a expensas del voluntario, que no existe cónyuge, ni hijos sobrevivientes. Además, deberá aportar antecedentes de las rentas del hijo(a) fallecido y acreditar situación económica personal.",
+      "tiempo": "",
+      "costo": "Gratuito.",
+      "marco_legal": "El Decreto Ley N° 1.757 sobre beneficios a bomberos accidentados o enfermos, producto de haber participado en un acto de servicio."
+    }
+  },
+  {
+    "id": "art-774",
+    "document": "Solicitud de renta vitalicia por invalidez para bomberos\nEl Decreto Ley N° 1.757 establece una serie de beneficios para los bomberos voluntarios y sus familiares más cercanos, uno de estos es la \"Renta vitalicia por invalidez\", que es una renta mensual que se otorga cuando un bombero voluntario, a causa de haber participado en un acto de servicio, sufre un accidente que lo deja con una invalidez temporal o definitiva que disminuye su capacidad de trabajo.\nEl grado de invalidez debe ser determinado por la Comisión Médica Preventiva e Invalidez (COMPIN), correspondiente al territorio administrativo donde ocurrió el accidente.\nEl monto de la renta a beneficiar tiene un tope de 30 UF, dependiendo de si se trata de una invalidez total (pérdida de la capacidad de trabajo igual o superior a dos tercios) o parcial (pérdida de la capacidad de trabajo inferior a dos tercios).\nPor ley se otorga una renta transitoria mensual después del primer dictamen de la COMPIN, por un periodo de tres años. Luego se efectúa una reevaluación de la incapacidad. Si esta persiste o ha aumentado, la renta puede transformarse en definitiva.\nSi el voluntario que percibe la Renta Vitalicia fallece, sus beneficiarios tendrán derecho a percibir en conjunto una renta equivalente al monto que recibía el fallecido, con un tope máximo de 25 UF.\nDirigido a: Bomberos con invalidez, a raíz de accidentarse al participar en un acto de servicio.\nPasos: Ingrese su solicitud con su clave única en el link de CMF sin Papel\nComplete los campos solicitados y en la opción \"Tipo documento\" haga clic en \"correspondencia a la CMF\".",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-774.html",
+      "titulo": "Solicitud de renta vitalicia por invalidez para bomberos",
+      "intencion": "TRAMITE",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "asegurados",
+      "tipo_entidad": "seguros",
+      "dirigido_a": "Bomberos con invalidez, a raíz de accidentarse al participar en un acto de servicio.",
+      "documentos_requeridos": "Para acceder a este beneficio se debe presentar:\nCertificado del Superintendente de Bomberos que acredite que es bombero.\nEstar inscrito en el Registro Nacional de Bomberos al momento del accidente.\nInforme fundado en una investigación sumaria que dé cuenta de las circunstancias del accidente.\nCertificado de Carabineros de Chile del territorio administrativo donde resultó lesionado, con la siguiente información: fecha y hora del accidente, y descripción del Acto de servicio en el cual participaba (extinción de incendio, rescate, ejercicios de compañía, guardia nocturna, etc.)\nResolución de la evaluación de la COMPIN, que certifica que la lesión o enfermedad es a causa del accidente que tuvo, por haber participado en el acto de servicio denunciado a Carabineros, y el grado de discapacidad física o intelectual determinado.",
+      "tiempo": "",
+      "costo": "Gratuito.",
+      "marco_legal": "El Decreto Ley N° 1.757 sobre beneficios a bomberos accidentados o enfermos, producto de haber participado en un acto de servicio."
+    }
+  },
+  {
+    "id": "art-771",
+    "document": "Solicitud de subsidio por incapacidad laboral para bomberos\nEl Decreto Ley N° 1.757 establece una serie de beneficios para los bomberos voluntarios y sus familiares más cercanos, uno de estos es el de \"Subsidio por incapacidad laboral\", que consiste en un pago por el periodo en que los bomberos voluntarios accidentados o enfermos, a consecuencia directa de haber participado en un acto de servicio, se encuentren imposibilitados de desempeñar sus trabajos, actividades laborales o de estudiantes.\nEste subsidio se otorga mientras dure la incapacidad y hasta por el plazo de dos años.\nEl artículo 1° del DL N° 1.757 señala que la Comisión de Medicina Preventiva e Invalidez (COMPIN) correspondiente al territorio administrativo donde sufrió el accidente, debe acreditar que las lesiones o la enfermedad son a causa directa del accidente sufrido en un acto de servicio específico.\nAdemás, la COMPIN debe certificar que el voluntario estuvo completamente incapacitado de realizar sus actividades laborales, y el periodo de inicio y término de la incapacidad.\nUna vez que se haya aprobado el beneficio, la CMF remitirá, por carta certificada, un cheque a nombre del voluntario, o se le depositará en la cuenta de un banco. El voluntario deberá indicar formalmente por escrito el medio de pago, aportando los datos necesarios.\nEl monto del subsidio dependerá de la cantidad de días que duró el reposo médico y de la situación laboral del bombero voluntario:\nSi es trabajador dependiente se calculará en base al promedio de ingresos de los tres meses anteriores al mes del accidente.\nSi es trabajador independiente se calculará en base al promedio de ingresos declarados, los tres meses anteriores al mes del accidente.\nSi es estudiante o cesante el monto a subsidiar se calculará en base al ingreso mínimo mensual vigente y la cantidad de días que haya durado su incapacidad.\nTitulado: siempre que no hayan transcurrido dos años desde la fecha de la titulación. El monto a subsidiar se calculará en base al ingreso mínimo mensual vigente y la cantidad de días que haya durado la incapacidad.\nDirigido a: Bomberos voluntarios accidentados o enfermos, a raíz de participar en un acto de servicio.\nPasos: Ingrese su solicitud con su clave única en el link de CMF sin Papel\nComplete los campos solicitados y en la opción \"Tipo documento\" haga clic en \"correspondencia a la CMF\".",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-771.html",
+      "titulo": "Solicitud de subsidio por incapacidad laboral para bomberos",
+      "intencion": "TRAMITE",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "asegurados",
+      "tipo_entidad": "seguros",
+      "dirigido_a": "Bomberos voluntarios accidentados o enfermos, a raíz de participar en un acto de servicio.",
+      "documentos_requeridos": "Para acceder a este beneficio se debe presentar:\nCertificado del Superintendente de Bomberos que acredite que es miembro voluntario del Cuerpo de Bomberos.\nEstar inscrito en el Registro Nacional de Bomberos al momento del accidente.\nInforme fundado en una investigación sumaria que dé cuenta de las circunstancias del accidente.\nCertificado de Carabineros de Chile del territorio administrativo donde resultó lesionado. Con la siguiente información: fecha y hora del accidente, y descripción del Acto de servicio en el cual participaba\n(extinción de incendio, rescate, ejercicios de compañía, guardia nocturna, etc.)\nInforme del médico tratante que acredite que las lesiones o enfermedad contraída es a consecuencia directa del accidente que certifica carabineros, de uno de los establecimientos del Servicio de Salud, hospitales clínicos de la U. Católica o Chile, hospitales de las Fuerzas Armadas y de Orden o de las mutualidades de empleadores establecidos por la Ley 16.744.\nLicencias médicas con diagnóstico a la vista, señalando fecha de inicio y término de la incapacidad laboral temporal.\nResolución de la Comisión de Medicina Preventiva e Invalidez (COMPIN) correspondiente al territorio administrativo donde sufrió el accidente en acto de servicio. O debe acreditar que se ha iniciado el proceso de evaluación ante este organismo, mediante la carta en la que el Cuerpo de Bomberos solicitó la evaluación del voluntario, con el timbre y fecha de recepción por parte de la COMPIN.\nSi es un bombero trabajador dependiente, debe acreditar su situación laboral con las liquidaciones de sueldo o las boletas de honorarios, correspondientes a los tres meses anteriores al mes del accidente.\nSi es un bombero trabajador independiente, con un promedio de ingresos en los tres meses anteriores al mes del accidente, menor a 13,5 U.T.M., bastará adjuntar anexo 2, de la Norma de Carácter General N° 233. Si el promedio es superior a dicho monto, deberá acreditar los ingresos declarados, adjuntando boletas de honorarios, declaraciones de renta, certificaciones previsionales, etc.\nSi se trata de un bombero estudiante debe anexar certificado de estudios de un establecimiento educacional acreditado por el Ministerio de Educación.\nSi se trata de un bombero cesante o desempleado debe presentar una declaración jurada de su situación laboral y el finiquito de trabajo.",
+      "tiempo": "",
+      "costo": "Gratuito.",
+      "marco_legal": "El Decreto Ley N° 1.757 sobre beneficios a bomberos accidentados o enfermos, producto de haber participado en un acto de servicio."
+    }
+  },
+  {
+    "id": "art-26880",
+    "document": "Información de Acreencias - Nómina de depositantes\nA través de este servicio Usted puede obtener información respecto a las acreencias vigentes y no vigentes con Bancos e Instituciones Financieras sujetas a la fiscalización de Comisión para el Mercado Financiero.\nEl trámite se puede realizar durante todo el año.\nDirigido a: Esta información puede ser solicitada por cualquier persona natural o jurídica, o terceros en representación de estos, con los poderes que los faculten para ello.\nPasos: En Internet, vaya al portal \"CMF sin papel\".\nComplete los campos solicitados y en la opción \"Tipo de documento\", seleccione \"Consulta acreencias no sujetas a caducidad\".",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-26880.html",
+      "titulo": "Información de Acreencias - Nómina de depositantes",
+      "intencion": "CONSULTA",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "clientes_financieros",
+      "tipo_entidad": "bancos",
+      "dirigido_a": "Esta información puede ser solicitada por cualquier persona natural o jurídica, o terceros en representación de estos, con los poderes que los faculten para ello.",
+      "documentos_requeridos": "Para realizar esta consulta debe tener los siguientes documentos:\nPersonas naturales: el Informe de Acreencias solo puede ser entregado a su titular quien deberá exhibir su Cédula Nacional de Identidad vigente.\nPersonas fallecidas: El Informe de Acreencias solo puede ser entregado a quien demuestre tener un legítimo interés o a quien represente al titular, debiendo exhibir su Cédula Nacional de Identidad vigente, acompañando:\nSi el fallecido es el cónyuge, se debe exhibir el Certificado de Defunción y el Certificado de Matrimonio, ambos en original.\nSi el fallecido es el hijo(a), debe presentar el Certificado de Defunción y el Certificado de Nacimiento, ambos en original.\nEn los demás casos el solicitante deberá presentar la posesión efectiva que reconozca su calidad de heredero.\nSi envía a un tercero, deberá acompañar:\nPoder otorgado por el titular, el que no podrá exceder de un año de antigüedad, que indique expresamente que se faculta al representante para solicitar y retirar el Informe de Acreencias ante la Comisión para el Mercado Financiero.",
+      "tiempo": "",
+      "costo": "No tiene costo",
+      "marco_legal": "Artículo 14, Ley General de Bancos.\nArt. 5 n°2 del DL N° 3.538 de 1980."
+    }
+  },
+  {
+    "id": "art-655",
+    "document": "Solicitud de certificados en línea\nEste servicio está orientado a brindar información respecto de los registros públicos que esta Comisión mantiene.\nLa CMF dispone de una nómina que señala los tipos de certificados que emite, detallados en la sección Paso a paso: trámite en línea.\nDirigido a: Público general.\nPasos: Debe ingresar al portal de la CMF. En la sección \"Atención fiscalizados - SEIL\", en \"Servicios y trámites CMF\" categoría Certificados, encontrará el trámite Emisión de Certificados en línea.\nCompletando los datos de la página podrá solicitar cualquiera de los siguientes certificados:\n• Agentes Administradores de Mutuos Hipotecarios Endosables\n• Clasificadoras de Riesgo\n• Corredor de Seguros Generales y de Vida (persona jurídica)\n• Corredor de Seguros Generales y de Vida (persona natural)\n• Corredores de Bolsa de Productos\n• Corredores de Bolsa y Agentes de Valores\n• Depósito de Fondos\n• Directorio\n• Ejecutivos Principales\n• Gerente General\n• Empresas de Auditoría Externa\n• Entidades Certificadoras de Modelos de Prevención de Delitos\n• Entidades Informantes\n• Inspectores de Cuentas y Auditores Externos (persona jurídica)\n• Inspectores de Cuentas y Auditores Externos (persona natural)\n• Liquidador de Seguros (persona jurídica)\n• Liquidador de Seguros (persona natural)\nAl presionar el botón \"comprar\", deberá completar los siguientes datos obligatorios: Nombre, Rut y correo electrónico.\nAl presionar el botón \"Pagar en Tesorería\" se realiza el pago en el portal de la Tesorería General de la República, finalmente recibirá un correo electrónico con el certificado adjunto.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-655.html",
+      "titulo": "Solicitud de certificados en línea",
+      "intencion": "TRAMITE",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "publico_general",
+      "tipo_entidad": "general",
+      "dirigido_a": "Público general.",
+      "documentos_requeridos": "Ninguno.",
+      "tiempo": "",
+      "costo": "UF 0,34.",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-1259",
+    "document": "Verificación de validez de los certificados en línea\nEste servicio está orientado a verificar la validez de los certificados de los registros públicos que esta Comisión ha emitido en formato digital.\nDirigido a: Público general.\nPasos: Debe ingresar al portal de la CMF. En la sección \"Atención fiscalizados - SEIL\", en \"Servicios y trámites CMF\" categoría Certificados, encontrará el trámite Verificación de validez de los certificados en línea.\nPodrá realizar su solicitud, ingresando un Código de Verificación.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-1259.html",
+      "titulo": "Verificación de validez de los certificados en línea",
+      "intencion": "TRAMITE",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "publico_general",
+      "tipo_entidad": "general",
+      "dirigido_a": "Público general.",
+      "documentos_requeridos": "Ninguno.",
+      "tiempo": "",
+      "costo": "Gratuito.",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-13083",
+    "document": "Suscripción a Hechos Esenciales vía correo electrónico\nEste servicio está orientado a entregar todo hecho o información esencial proporcionado por las entidades fiscalizadas respecto de ellas mismas y de sus negocios, para esto la Comisión para el Mercado Financiero (CMF) pone a disposición del mercado y público en general el servico de suscripción a hechos esenciales del mercado de valores, de seguros y de otras entidades, vía correo electrónico.\nDirigido a: Público en general.\nPasos: Debe ingresar a la página Publicaciones / Suscripción Hechos Esenciales\nSe le solicitará llenar un formulario con la siguiente información:\nNombre del suscriptor (o razón social).\nApellido Paterno.\nApellido Materno.\nGénero.\nCorreo Electrónico.\nClave (mínimo 8 caracteres).\nSeleccionar: País, Región y Comuna.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-13083.html",
+      "titulo": "Suscripción a Hechos Esenciales vía correo electrónico",
+      "intencion": "TRAMITE",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "publico_general",
+      "tipo_entidad": "general",
+      "dirigido_a": "Público en general.",
+      "documentos_requeridos": "Ninguno.",
+      "tiempo": "",
+      "costo": "Gratuito.",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-1247",
+    "document": "Biblioteca\nLa Biblioteca de la CMF es de carácter especializado en los temas de valores, seguros, bancos e instituciones financieras, disponiendo en su fondo bibliográfico de textos y publicaciones periódicas en materias de Derecho, Legislación, Economía, Contabilidad, Auditoría, además de Jurisprudencia propia de la Comisión para el Mercado Financiero.\nA partir del 2 de enero de 2025 la Biblioteca atenderá público de lunes a viernes, en horario de 09:00 a 13:30 hrs.\nDirigido a: Público general, investigadores y estudiantes.\nPasos: Reúna los antecedentes mencionados en el campo documentos requeridos.\nDiríjase a la Biblioteca, ubicada en Avenida Libertador Bernardo O'Higgins 1449, torre 2, piso 2, Santiago.\nHorario de atención: de lunes a viernes, de 9:00 a 13:30 horas.\nExplique el motivo de su visita: acceder a la Biblioteca de la CMF.\nComo resultado del trámite, habrá solicitado acceso a la biblioteca.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-1247.html",
+      "titulo": "Biblioteca",
+      "intencion": "TRAMITE",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "publico_general",
+      "tipo_entidad": "general",
+      "dirigido_a": "Público general, investigadores y estudiantes.",
+      "documentos_requeridos": "Cédula de identidad.\nCertificado emitido por casa de estudios, en caso de estudiantes universitarios memoristas.",
+      "tiempo": "",
+      "costo": "",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-83192",
+    "document": "Incendios en Región de Valparaíso",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-83192.html",
+      "titulo": "Incendios en Región de Valparaíso",
+      "intencion": "OUT_OF_SCOPE",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "asegurados",
+      "tipo_entidad": "seguros",
+      "dirigido_a": "",
+      "documentos_requeridos": "",
+      "tiempo": "",
+      "costo": "",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-102961",
+    "document": "Incendios en Regiones de Ñuble y Biobío",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-102961.html",
+      "titulo": "Incendios en Regiones de Ñuble y Biobío",
+      "intencion": "OUT_OF_SCOPE",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "asegurados",
+      "tipo_entidad": "seguros",
+      "dirigido_a": "",
+      "documentos_requeridos": "",
+      "tiempo": "",
+      "costo": "",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-95447",
+    "document": "Solicitud de audiencia o reunión a la Comisión para el Mercado Financiero (Ley de Lobby)\nPermite solicitar una audiencia o reunión a una autoridad o empleado público de la Comisión para el Mercado Financiero (CMF), que haya sido designado previamente como sujeto pasivo, en el marco de la Ley Nº 20.730.\nVisite la plataforma de Ley de Lobby.\nLa audiencia consiste en que el sujeto pasivo de lobby recibe a un lobista o gestor de intereses particulares, en forma presencial o virtual por medio de una videoconferencia, para tratar alguna de las materias reguladas en la ley, en la oportunidad y modo que disponga el sujeto pasivo.\nLas materias reguladas por la ley corresponden a:\nElaboración, dictación, modificación, derogación o rechazo de actos administrativos, proyectos de ley y leyes, y también de las decisiones que tomen los sujetos pasivos.\nElaboración, tramitación, aprobación, modificación, derogación o rechazo de acuerdos, declaraciones o decisiones del Congreso Nacional o sus miembros, incluidas sus comisiones.\nCelebración, modificación o terminación a cualquier título, de contratos que realicen los sujetos pasivos y que sean necesarios para su funcionamiento.\nDiseño, implementación y evaluación de políticas, planes y programas efectuados por la autoridad.\nEl trámite se puede realizar durante todo el año en la Plataforma Ley de Lobby o en oficinas de atención de público de la CMF.\nDirigido a: Todas las personas.\nPasos: Una vez en el sitio web de la institución, haga clic en el botón de ClaveÚnica, ingrese su RUN y clave, y luego \"continuar\". También puede elegir \"ingresar\" (si está registrado en la plataforma) o \"ingreso sin registro\".\nComplete el formulario con los datos requeridos, y haga clic en \"solicitar\".\nComo resultado del trámite, habrá solicitado una audiencia o reunión. La autoridad o funcionario tendrá tres días para aceptar o rechazar la solicitud. En el caso de ser aceptada, la reunión se efectuará según la disponibilidad de la autoridad.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-95447.html",
+      "titulo": "Solicitud de audiencia o reunión a la Comisión para el Mercado Financiero (Ley de Lobby)",
+      "intencion": "TRAMITE",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "publico_general",
+      "tipo_entidad": "general",
+      "dirigido_a": "Todas las personas.",
+      "documentos_requeridos": "Si bien no es necesario ningún documento, se solicitará:\nNombre completo.\nNúmero de su Cedula de Identidad, DNI o Pasaporte\nCorreo electrónico.\nDirección postal de la persona interesada o del o la representante.\nSi hace el trámite de forma online, ClaveÚnica. También puede registrarse en el sitio.",
+      "tiempo": "",
+      "costo": "No tiene costo.",
+      "marco_legal": "Ley Nº 20.730, que regula el lobby y las gestiones que representen intereses particulares ante las autoridades y funcionarios.\nReglamento de la Ley Nº 20.730."
+    }
+  },
+  {
+    "id": "art-29333",
+    "document": "Solicitud alzamiento hipoteca\nEs un trámite realizado por un interesado - persona natural o jurídica - ante la CMF, con el fin de obtener el alzamiento de una o más hipotecas, prendas, prohibiciones, gravámenes o condiciones, constituidas en favor de una institución que actualmente se encuentra liquidada y respecto de la cual, el/la Presidente/a de la Comisión para el Mercado Financiero (CMF) o los antiguos Superintendentes de Bancos o Valores, asumieron personalmente el carácter de liquidador.\nEn razón de lo anterior, a la Comisión para el Mercado Financiero solo le corresponde alzar hipotecas, prendas, prohibiciones, gravámenes o condiciones objeto de la solicitud, en la medida que se trate de aquellas instituciones en que este Servicio asumió su representación por causa legal sobreviniente, y cuenta con la personería legal para efectos de tramitar la petición.\nCabe señalar que la CMF no está habilitada para proceder al alzamiento de ningún tipo de embargo o prohibición de origen judicial, trámite que solo se puede efectuar ante el Tribunal competente.\nEl trámite se puede realizar durante todo el año.\nPasos: En Internet, vaya al portal \"CMF sin papel\".\nComplete los campos solicitados y en la opción \"Tipo de documento\", seleccione \"Solicitud de Alzamiento de Hipotecas\".",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-29333.html",
+      "titulo": "Solicitud alzamiento hipoteca",
+      "intencion": "TRAMITE",
+      "seccion": "consultas_y_tramites",
+      "subseccion": "clientes_financieros",
+      "tipo_entidad": "bancos",
+      "dirigido_a": "",
+      "documentos_requeridos": "La persona natural o jurídica dueña del bien mueble o inmueble objeto del gravamen, debe presentar:\nCarta conductora con datos de contacto legibles, que señale específicamente las hipotecas, prendas, prohibiciones o gravámenes que solicita alzar, incluyendo los datos de la inscripción (fojas, número, año y otros que corresponda).\nCopia de cédula de identidad por ambos lados y vigente del solicitante\nCertificado de hipotecas y gravámenes, otorgado por el Conservador de Bienes Raíces que corresponda, y copia de la inscripción de la hipoteca o gravamen cuando el dueño del inmueble sea diferente de quien constituyó dicha hipoteca o gravamen.\nCertificado de Dominio Vigente, otorgado por el Conservador de Bienes Raíces competente.\nSi el solicitante corresponde a un mandatario o representante legal del dueño, debe presentar:\nCarta conductora con datos de contacto legibles, que señale específicamente las hipotecas, prendas, prohibiciones o gravámenes que solicita alzar, incluyendo los datos de la inscripción (fojas, número, año y otros que corresponda).\nCopia de cédula de identidad por ambos lados y vigentes, propia y del solicitante\nCertificado de Dominio Vigente, otorgado por el Conservador de Bienes Raíces competente.\nCertificado de hipotecas y gravámenes, otorgado por el Conservador de Bienes Raíces que corresponda, y copia de la inscripción de la hipoteca o gravamen cuando el dueño del inmueble sea diferente de quien constituyó dicha hipoteca o gravamen.\nCopia del mandato o poder notarial otorgado al efecto.\nSe hace presente que luego de la revisión de los antecedentes que se acompañen originalmente a la solicitud, podría hacer necesario requerir nueva información para continuar con su tramitación.",
+      "tiempo": "No estipulado",
+      "costo": "Los trámites efectuados ante la CMF no tienen costo. Sin embargo, para completar el trámite, el requirente deberá pagar los respectivos aranceles directamente al Notario y Conservador de Bienes Raíces.",
+      "marco_legal": "Art. 114 Ley de Sociedades Anónimas.\nArt. 130 Ley General de Bancos."
+    }
+  },
+  {
+    "id": "art-1246",
+    "document": "Arbitraje en controversias con una compañía de seguros\nA diferencia de la reclamación, este es un procedimiento especial de tipo judicial que se tramita y resuelve en forma de juicio, en el que la Comisión para el Mercado Financiero, en los casos que estime calificados y cuando se cumplen las condiciones fijadas por la ley, actuando como Juez Árbitro, puede resolver en forma obligatoria para las partes una controversia entre el asegurado o beneficiario y la Compañía de Seguros.\nDebe revisar y consultar las condiciones generales de su póliza de seguros, si hay una cláusula sobre solución de conflictos, bajo la denominación de \"Arbitraje\", \"Solución de controversias\" u otra análoga.\nDirigido a: Asegurados.\nPaso a paso: Cómo realizar el trámite\nEn Internet, vaya al portal \"CMF sin papel\".\nIngrese al Portal con su Clave Única\nComplete los campos solicitados y en la opción \"Tipo de documento\", seleccione \"Solicitud de arbitraje de seguros\".\nPasos: En Internet, vaya al portal \"CMF sin papel\".\nIngrese al Portal con su Clave Única\nComplete los campos solicitados y en la opción \"Tipo de documento\", seleccione \"Solicitud de arbitraje de seguros\".",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-1246.html",
+      "titulo": "Arbitraje en controversias con una compañía de seguros",
+      "intencion": "RECLAMO",
+      "seccion": "reclamos",
+      "subseccion": "",
+      "tipo_entidad": "seguros",
+      "dirigido_a": "Asegurados.\nPaso a paso: Cómo realizar el trámite\nEn Línea\nEn Oficina\nPor Correo\nEn Internet, vaya al portal \"CMF sin papel\".\nIngrese al Portal con su Clave Única\nComplete los campos solicitados y en la opción \"Tipo de documento\", seleccione \"Solicitud de arbitraje de seguros\".\n\nRealizar en línea",
+      "documentos_requeridos": "",
+      "tiempo": "El plazo de respuesta dependerá de las normas de procedimiento que fijen las partes.",
+      "costo": "",
+      "marco_legal": "Art. 3 letra i) D.F.L. N° 251."
+    }
+  },
+  {
+    "id": "art-666",
+    "document": "Reclamos en contra de entidades de valores ante la CMF\nUsted puede efectuar su reclamo y solicitar respuesta sobre aspectos del mercado de valores.\nLa Comisión para el Mercado Financiero (CMF), es un servicio público del Estado que fiscaliza las entidades que participan de los mercados de valores y seguros en Chile. En el ejercicio de sus funciones, debe velar porque las personas e instituciones que participan en dichos mercados cumplan las disposiciones que rigen su funcionamiento.\nCualquier presentación que se ingrese en la Comisión, ya sea como denuncia, reclamo, queja, consulta, solicitud o petición ciudadana, se tramitará conforme a sus facultades legales y su tiempo de respuesta dependerá principalmente de la complejidad de la materia planteada, las diligencias que deban realizarse, la recopilación de antecedentes y/o análisis técnico del caso.\nTENGA PRESENTE que si la situación que motiva la presentación se refiere a diferencias o controversias con una entidad fiscalizada respecto a la interpretación, aplicación y cumplimiento de las estipulaciones o condiciones de los contratos, o de la determinación y cuantificación económica de eventuales daños o perjuicios, su conocimiento y resolución corresponderá a los tribunales competentes.\nDirigido a: Inversionistas y público general.\nPasos: Debe ingresar al módulo de Atención web al ciudadano, para lo cual debe contar con su Clave Única, otorgada por el Registro Civil. Luego, escriba su RUN y clave única, y haga clic en \"Autenticar\". Seleccione la opción Reclamos y envíe su reclamo a través del formulario desplegado en pantalla.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-666.html",
+      "titulo": "Reclamos en contra de entidades de valores ante la CMF",
+      "intencion": "RECLAMO",
+      "seccion": "reclamos",
+      "subseccion": "",
+      "tipo_entidad": "valores",
+      "dirigido_a": "Inversionistas y público general.",
+      "documentos_requeridos": "Identificación del interesado (nombres y apellidos o razón social);\nAdjuntar poder simple en caso de actuar en representación del interesado, familiares, beneficiarios u otro legítimo interesado;\nDomicilio y/o correo electrónico para notificar los resultados de su reclamación;\nIdentificación de la persona o entidad fiscalizada contra la que se reclama;\nMotivo concreto de la reclamación expresado en forma clara;\nAcreditación del reclamo previo ante la persona o entidad fiscalizada contra quien se formula la reclamación;\nFecha y firma.",
+      "tiempo": "su tiempo de respuesta dependerá de la mayor o menor complejidad de la materia reclamada, las diligencias que deban realizarse, la recopilación de antecedentes y/o análisis técnico del caso.",
+      "costo": "Gratuito.",
+      "marco_legal": "Art. 5 letra b) D.L. N° 3.538."
+    }
+  },
+  {
+    "id": "art-1245",
+    "document": "Reclamos sobre otras entidades\nUsted puede presentar su reclamo sobre las entidades que la CMF supervisa de acuerdo con lo establecido por leyes especiales:\nComisión Calificadora de competencias en recursos y reservas mineras\nCuerpo de Bomberos\nEmpresas públicas\nEntidades Certificadoras de modelos de prevención de delitos\nEntidades Informantes\nFondos Solidarios de Crédito Universitario\nOrganizaciones deportivas profesionales\nSociedad Administradora de Recursos de Terceros\nSociedades afectas al impuesto específico a la actividad minera\nAbogados Calificadores\nOtros fiscalizados.\nLa Comisión para el Mercado Financiero (CMF), es un servicio público del Estado que fiscaliza las entidades que participan de los mercados de valores y seguros en Chile. En el ejercicio de sus funciones, debe velar porque las personas e instituciones que participan en dichos mercados cumplan las disposiciones que rigen su funcionamiento.\nCualquier presentación que se ingrese en la Comisión, ya sea como denuncia, reclamo, queja, consulta, solicitud o petición ciudadana, se tramitará conforme a sus facultades legales y su tiempo de respuesta dependerá principalmente de la complejidad de la materia planteada, las diligencias que deban realizarse, la recopilación de antecedentes y/o análisis técnico del caso.\nTENGA PRESENTE que si la situación que motiva la presentación se refiere a diferencias o controversias con una entidad fiscalizada respecto a la interpretación, aplicación y cumplimiento de las estipulaciones o condiciones de los contratos, o de la determinación y cuantificación económica de eventuales daños o perjuicios, su conocimiento y resolución corresponderá a los tribunales competentes.\nDirigido a: Público general.\nPasos: Debe ingresar al módulo de Atención web al ciudadano, para lo cual debe contar con su Clave Única, otorgada por el Registro Civil. Luego, escriba su RUN y clave única, y haga clic en \"Autenticar\". Seleccione la opción Reclamos y envíe su reclamo a través del formulario desplegado en pantalla.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-1245.html",
+      "titulo": "Reclamos sobre otras entidades",
+      "intencion": "RECLAMO",
+      "seccion": "reclamos",
+      "subseccion": "",
+      "tipo_entidad": "general",
+      "dirigido_a": "Público general.",
+      "documentos_requeridos": "En su consulta o reclamación ante la CMF debe incluir la siguiente información:\nIdentificación del interesado (nombres y apellidos o razón social).\nPoder simple, en el caso de que se actúe en representación del asegurado, familiares, beneficiarios u otro legítimo interesado.\nDomicilio y/o correo electrónico para que le notifiquen los resultados de su reclamación.\nIdentificación de la persona o entidad fiscalizada contra la que se reclama.\nMotivo concreto de la reclamación expresado en forma clara.\nAcreditación del reclamo previo realizado ante la persona o entidad fiscalizada, contra quien se formula la reclamación.\nFecha y firma.\nEs importante adjuntar a la presentación, una fotocopia legible de los antecedentes y documentos del caso, que permitan la comprensión y análisis de la materia.",
+      "tiempo": "",
+      "costo": "Gratuito.",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-1244",
+    "document": "Reclamos en contra de entidades de seguros ante la CMF\nUsted puede efectuar su reclamo y solicitar respuesta sobre aspectos del mercado de seguros.\nLa Comisión para el Mercado Financiero (CMF), es un servicio público del Estado que fiscaliza las entidades que participan de los mercados de valores y seguros en Chile. En el ejercicio de sus funciones, debe velar porque las personas e instituciones que participan en dichos mercados cumplan las disposiciones que rigen su funcionamiento.\nCualquier presentación que se ingrese en la Comisión, ya sea como denuncia, reclamo, queja, consulta, solicitud o petición ciudadana, se tramitará conforme a sus facultades legales y su tiempo de respuesta dependerá principalmente de la complejidad de la materia planteada, las diligencias que deban realizarse, la recopilación de antecedentes y/o análisis técnico del caso.\nTENGA PRESENTE que si la situación que motiva la presentación se refiere a diferencias o controversias con una entidad fiscalizada respecto a la interpretación, aplicación y cumplimiento de las estipulaciones o condiciones de los contratos, o de la determinación y cuantificación económica de eventuales daños o perjuicios, su conocimiento y resolución corresponderá a los tribunales competentes.\nDirigido a: Asegurados.\nPasos: Debe ingresar al módulo de Atención web al ciudadano, para lo cual debe contar con su Clave Única, otorgada por el Registro Civil. Luego, escriba su RUN y clave única, y haga clic en \"Autenticar\". Seleccione la opción Reclamos y envíe su reclamo a través del formulario desplegado en pantalla.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-1244.html",
+      "titulo": "Reclamos en contra de entidades de seguros ante la CMF",
+      "intencion": "RECLAMO",
+      "seccion": "reclamos",
+      "subseccion": "",
+      "tipo_entidad": "seguros",
+      "dirigido_a": "Asegurados.",
+      "documentos_requeridos": "",
+      "tiempo": "El plazo de respuesta dependerá de la evaluación de admisibilidad que realice esta Comisión y de las gestiones que deban realizarse para la recopilación de la información solicitada.",
+      "costo": "",
+      "marco_legal": "Art. 5 letra b) D.L. N° 3.538."
+    }
+  },
+  {
+    "id": "art-26815",
+    "document": "Reclamos contra Bancos e Instituciones Financieras ante la CMF\nUsted puede efectuar su reclamo y solicitar respuesta sobre aspectos del mercado de productos financieros.\nLa Comisión para el Mercado Financiero (CMF), es un servicio público del Estado que fiscaliza las entidades que anteriormente eran fiscalizadas por la Superintendencia de Bancos e Instituciones Financieras. En el ejercicio de sus funciones, debe velar porque las personas e instituciones que participan en dichos mercados cumplan las disposiciones que rigen su funcionamiento.\nCualquier presentación que ingrese en la Comisión, ya sea como denuncia, reclamo, queja, consulta, solicitud o petición ciudadana, se tramitará conforme a sus facultades legales y su tiempo de respuesta dependerá principalmente de la complejidad de la materia planteada, las diligencias que deban realizarse, la recopilación de antecedentes y/o análisis técnico del caso.\nTenga presente que si la situación que motiva la presentación se refiere a diferencias o controversias con una entidad fiscalizada respecto a la interpretación, aplicación y cumplimiento de las estipulaciones o condiciones de los contratos, o de la determinación y cuantificación económica de eventuales daños o perjuicios, su conocimiento y resolución corresponderá a los tribunales competentes.\nDirigido a: Usuarios de Bancos e Instituciones Financieras\nPasos: Debe ingresar al módulo de Atención web al ciudadano, para esto debe contar con su Clave Única otorgada por el Registro Civil.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-26815.html",
+      "titulo": "Reclamos contra Bancos e Instituciones Financieras ante la CMF",
+      "intencion": "RECLAMO",
+      "seccion": "reclamos",
+      "subseccion": "",
+      "tipo_entidad": "bancos",
+      "dirigido_a": "Usuarios de Bancos e Instituciones Financieras",
+      "documentos_requeridos": "Identificación del interesado (nombres y apellidos o razón social);\nDomicilio y/o correo electrónico para notificar los resultados de su reclamación;\nIdentificación de la persona o entidad fiscalizada contra la que se reclama;\nMotivo concreto de la reclamación expresado en forma clara;\nAcompañar los siguientes documentos, según corresponda:\nPara el trámite en oficina o por correo:\nSi usted actúa por cuenta propia:\nCopia de su cedula de identidad vigente.\nSi usted actúa en representación de una persona natural:\nCopia del poder notarial otorgado por el mandante.\nCopia de la cedula de identidad del mandatario.\nSi usted actúa en representación de una persona jurídica:\nCopia de la escritura que lo faculte para actuar.\nCopia de su cedula de identidad vigente.\nSi usted actúa en representación de una comunidad o sucesión hereditaria:\nCertificados que acrediten su calidad de heredero o copia de posesión efectiva.\nCopia de su cedula de identidad vigente.\nPara el trámite en línea:\nSi usted actúa por cuenta propia: Debe ingresar con su Clave Única otorgada por el Registro Civil\nSi usted actúa en representación de una persona natural:\nCopia del poder notarial otorgado por el mandante.\nSi usted actúa en representación de una persona jurídica:\nCopia de la escritura que lo faculte para actuar.\nSi usted actúa en representación de una comunidad o sucesión hereditaria:\nCertificados que acrediten su calidad de heredero o copia de posesión efectiva.",
+      "tiempo": "El plazo de respuesta dependerá de la evaluación de admisibilidad que realice esta Comisión y de las gestiones que deban realizarse para la recopilación de la información solicitada.",
+      "costo": "",
+      "marco_legal": "Art. 5 letra b) D.L. N° 3.538."
+    }
+  },
+  {
+    "id": "art-665",
+    "document": "Reclamo contra la CMF\nEn esta sección puede enviar un reclamo contra algún acto de la CMF o sus funcionarios, mediante el sistema de atención web.\nDirigido a: Público general.\nPasos: Ingrese al módulo de Atención web al ciudadano, para lo cual debe contar con su Clave Única, otorgada por el Registro Civil. Luego, escriba su RUN y clave única, y haga clic en \"Autenticar\". Seleccione la opción \"Reclamo contra la CMF\", complete el formulario y envíelo.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-665.html",
+      "titulo": "Reclamo contra la CMF",
+      "intencion": "OIRS",
+      "seccion": "oirs",
+      "subseccion": "",
+      "tipo_entidad": "general",
+      "dirigido_a": "Público general.",
+      "documentos_requeridos": "Ninguno.",
+      "tiempo": "10 días hábiles contados desde su ingreso a la CMF.",
+      "costo": "Gratuito.",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-778",
+    "document": "Sugerencias a la CMF\nPuede ingresar sus sugerencias en relación con las funciones y procesos desarrollados por la CMF, en la oficina virtual de Atención al Ciudadano de la CMF.\nDirigido a: Público general.\nPasos: Ingrese al módulo de Atención web al ciudadano, para lo cual debe contar con su Clave Única, otorgada por el Registro Civil. Luego, escriba su RUN y clave única, y haga clic en \"Autenticar\". Seleccione la opción \"Sugerencia a la CMF\", complete el formulario y envíelo.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-778.html",
+      "titulo": "Sugerencias a la CMF",
+      "intencion": "OIRS",
+      "seccion": "oirs",
+      "subseccion": "",
+      "tipo_entidad": "general",
+      "dirigido_a": "Público general.",
+      "documentos_requeridos": "Ninguno.",
+      "tiempo": "10 días hábiles contados desde su ingreso a la CMF.",
+      "costo": "Gratuito.",
+      "marco_legal": ""
+    }
+  },
+  {
+    "id": "art-29713",
+    "document": "Felicitaciones a la CMF\nPuede ingresar sus felicitaciones en relación con las funciones y procesos desarrollados por la CMF.\nDirigido a: Público general.\nPasos: Ingrese al módulo de Atención web al ciudadano, para lo cual debe contar con su Clave Única, otorgada por el Registro Civil. Luego, escriba su RUN y clave única, y haga clic en \"Autenticar\". Seleccione la opción \"Felicitación a la CMF\", complete el formulario y envíelo.",
+    "metadata": {
+      "url": "https://www.cmfchile.cl/portal/principal/613/w3-article-29713.html",
+      "titulo": "Felicitaciones a la CMF",
+      "intencion": "OIRS",
+      "seccion": "oirs",
+      "subseccion": "",
+      "tipo_entidad": "general",
+      "dirigido_a": "Público general.",
+      "documentos_requeridos": "Ninguno.",
+      "tiempo": "10 días hábiles contados desde su ingreso a la CMF.",
+      "costo": "Gratuito.",
+      "marco_legal": ""
+    }
+  }
+]

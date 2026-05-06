@@ -1,0 +1,20 @@
+{
+  "id": "consulta-rapida",
+  "name": "Consulta simple",
+  "description": "No aplica template estructurado. Envía el mensaje directamente al backend como consulta libre.",
+  "triggerKeywords": [],
+  "steps": [
+    {
+      "id": "envio_libre",
+      "type": "backend_call",
+      "question": "generado_por_backend",
+      "saveAs": null,
+      "next": null
+    }
+  ],
+  "transitions": {},
+  "onComplete": {
+    "action": "send_to_backend",
+    "payloadFormat": "{message}"
+  }
+}
