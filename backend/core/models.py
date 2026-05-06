@@ -44,10 +44,26 @@ class ToolDef(BaseModel):
     description: str
     input_schema: dict[str, Any]
 
-    def to_anthropic(self) -> dict[str, Any]:
-        """Formato esperado por anthropic.messages.create(tools=[...])."""
+    def to_anthropic(self, strict: bool = True) -> dict[str, Any]:
+        """Formato esperado por anthropic.messages.create(tools=[...]).
+
+        Con strict=True fuerza al modelo a producir argumentos válidos
+        según el schema, reduciendo alucinaciones en los parámetros.
+        """
+        schema = dict(self.input_schema)
+        if strict:
+            schema["additionalProperties"] = False
+            # Asegurar que todos los fields estén en required
+            props = schema.get("properties", {})
+            if "required" not in schema:
+                schema["required"] = list(props.keys())
+            else:
+                for prop_name in props:
+                    if prop_name not in schema["required"]:
+                        schema["required"].append(prop_name)
         return {
             "name": self.name,
             "description": self.description,
-            "input_schema": self.input_schema,
+            "input_schema": schema,
+            **({"strict": True} if strict else {}),
         }

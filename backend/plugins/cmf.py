@@ -134,12 +134,10 @@ def _build_tool_buscar() -> ToolDef:
                 "n_results": {
                     "type": "integer",
                     "description": "Cantidad máxima (1-5).",
-                    "default": 3,
-                    "minimum": 1,
-                    "maximum": 5,
                 },
             },
-            "required": ["query", "intencion"],
+            "required": ["query", "intencion", "n_results"],
+            "additionalProperties": False,
         },
     )
 
@@ -161,6 +159,7 @@ def _build_tool_detalle() -> ToolDef:
                 },
             },
             "required": ["service_id"],
+            "additionalProperties": False,
         },
     )
 
