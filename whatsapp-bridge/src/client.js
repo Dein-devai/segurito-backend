@@ -8,15 +8,20 @@ function createClient() {
   const clientId = process.env.WA_CLIENT_ID || 'segurito-hackathon';
   const dataPath = process.env.WA_DATA_PATH || './.wwebjs_auth';
 
+  const puppeteerCfg = {
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+    ],
+  };
+  if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+    puppeteerCfg.executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
+  }
+
   const client = new Client({
     authStrategy: new LocalAuth({ clientId, dataPath }),
-    puppeteer: {
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-      ],
-    },
+    puppeteer: puppeteerCfg,
   });
 
   client.on('qr', (qr) => {

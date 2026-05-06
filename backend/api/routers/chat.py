@@ -138,5 +138,12 @@ def chat(
         iterations=result.iterations,
         elapsed_ms=result.elapsed_ms,
         tools_used=[t.model_dump() for t in result.tools_used],
+        model_used=result.model_used_final,
+        total_input_tokens=result.total_input_tokens,
+        total_output_tokens=result.total_output_tokens,
+        total_cache_read_tokens=result.total_cache_read_tokens,
+        total_cache_creation_tokens=result.total_cache_creation_tokens,
+        total_cost_usd=result.total_cost_usd,
+        reasoning=[r.model_dump() for r in result.reasoning],
     )
     return result

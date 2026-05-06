@@ -1,4 +1,4 @@
-const { v4: uuidv4 } = require('crypto');
+const crypto = require('crypto');
 
 /**
  * Estado de cada conversación WhatsApp en memoria.
@@ -15,7 +15,7 @@ class StateManager {
   get(chatId) {
     const state = this._states.get(chatId);
     if (!state) return null;
-    this._updateActivity(chatId);
+    this.updateActivity(chatId);
     return state;
   }
 

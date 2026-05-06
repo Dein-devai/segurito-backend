@@ -1,59 +1,201 @@
+"use strict";
+
 const StateManager = require('./stateManager');
 const ApiClient = require('./apiClient');
 const TemplateEngine = require('./templateEngine');
 const { formatForWhatsApp } = require('./utils/whatsappFormatter');
+const { chunkResponse } = require('./utils/chunker');
+const { validate } = require('./utils/validators');
 
 const stateManager = new StateManager();
 const apiClient = new ApiClient();
 const templateEngine = new TemplateEngine();
 
+// ---------------------------------------------------------------------------
+// Copy reusable
+// ---------------------------------------------------------------------------
 const WELCOME_MESSAGE = (
-  '🛡️ *Hola, soy Segurito!* Asistente de organismos del Estado de Chile.\n\n' +
-  '¿En qué puedo ayudarte? Responde con el número:\n\n' +
-  '1️⃣ Tengo un problema con un banco, AFP, seguro o entidad financiera\n' +
-  '2️⃣ Tengo una consulta sobre trámites o servicios\n' +
-  '3️⃣ Me vendieron algo defectuoso o tengo un problema de consumo\n' +
-  '4️⃣ Tengo una consulta sobre impuestos\n' +
-  '5️⃣ Otro tema'
+  '🛡️ *Hola, soy Segurito.* Tu asistente para organismos del Estado de Chile.\n\n' +
+  '¿En qué puedo ayudarte hoy? Responde con el *número* de la opción:\n\n' +
+  '1️⃣  Problema con un *banco, AFP o seguro* (entidad financiera)\n' +
+  '2️⃣  *Trámite o servicio* del Estado\n' +
+  '3️⃣  *Reclamo de consumo* (algo defectuoso, cobro doble, etc.)\n' +
+  '4️⃣  Consulta sobre *impuestos* (SII)\n' +
+  '5️⃣  Otro tema\n\n' +
+  '_En cualquier momento puedes escribir *menú* para volver, *salir* para terminar o *humano* para hablar con una persona._'
 );
 
+const HUMAN_HANDOFF = (
+  '👤 Anotado. Esta es una versión piloto y aún no tengo derivación directa con un agente humano. ' +
+  'Mientras tanto:\n\n' +
+  '• Si es urgente, *Carabineros 133* / *PDI 134*.\n' +
+  '• Para consumo: *SERNAC 800-700-100*.\n' +
+  '• Para banca: *CMF 600-831-0000*.\n\n' +
+  'Si quieres seguir conmigo, escribe *menú*.'
+);
+
+const RESET_MESSAGE = '🔄 Listo, partimos de cero.\n\n';
+
+// Comandos globales aceptados en cualquier estado.
+const CMD_MENU = new Set(['menu', 'menú', '/menu', '/menú', 'inicio', 'volver']);
+const CMD_RESET = new Set(['reset', '/reset', 'reiniciar', 'empezar de nuevo']);
+const CMD_EXIT = new Set(['salir', '/salir', 'cancelar', 'fin', 'terminar']);
+const CMD_HUMAN = new Set(['humano', '/humano', 'agente', 'persona', 'operador']);
+const CMD_HELP = new Set(['ayuda', '/ayuda', '/help', 'help', '?']);
+
+const HELP_MESSAGE = (
+  '🆘 *Comandos disponibles*\n\n' +
+  '• *menú* — vuelve al menú principal\n' +
+  '• *salir* — termina la conversación\n' +
+  '• *humano* — solicita un agente humano\n' +
+  '• *ayuda* — muestra este mensaje\n\n' +
+  'En preguntas con opciones, responde con el *número* o el *texto* de la opción.'
+);
+
+const GREETINGS = [
+  'hola', 'hi', 'hello', 'hey', 'buenas', 'buenos dias', 'buenos días',
+  'buenas tardes', 'buenas noches', 'ola',
+];
+
+// ---------------------------------------------------------------------------
+// Helpers: normalización y matching de inputs
+// ---------------------------------------------------------------------------
+function normalizeText(s) {
+  return (s || '')
+    .toString()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim();
+}
+
+function isGreeting(s) {
+  const n = normalizeText(s);
+  return GREETINGS.some((g) => n === g || n.startsWith(g + ' ') || n.startsWith(g + ','));
+}
+
+function isCommand(text, set) {
+  const n = normalizeText(text).replace(/\s+/g, ' ');
+  return set.has(n);
+}
+
+const WORD_NUMBERS = {
+  uno: 1, una: 1, dos: 2, tres: 3, cuatro: 4, cinco: 5,
+  seis: 6, siete: 7, ocho: 8, nueve: 9, diez: 10,
+};
+const KEYCAPS = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
+
+function parseChoiceNumber(input, max) {
+  const raw = (input || '').trim();
+  for (let i = 0; i < KEYCAPS.length; i++) {
+    if (raw.includes(KEYCAPS[i]) && i >= 1 && i <= max) return i;
+  }
+  const stripped = raw.replace(/[.\)\-:•]/g, ' ').trim();
+  const tokens = normalizeText(stripped).split(/\s+/);
+  for (const t of tokens) {
+    const n = parseInt(t, 10);
+    if (!isNaN(n) && n >= 1 && n <= max) return n;
+    if (t in WORD_NUMBERS) {
+      const w = WORD_NUMBERS[t];
+      if (w >= 1 && w <= max) return w;
+    }
+  }
+  return null;
+}
+
 /**
- * Mapea la respuesta del usuario (número o texto) al valor de una opción.
+ * Mapea respuesta libre del usuario al `value` de una choice.
+ *   1) número (1..N), keycap, palabra ("uno","dos"...)
+ *   2) match exacto contra value/label (normalizado)
+ *   3) sinónimos opcionales en `synonyms`
+ *   4) match parcial label⊂input o input⊂label
+ *   5) fallback: input original
  */
 function mapChoice(userInput, choices) {
   if (!choices || choices.length === 0) return userInput;
 
-  const num = parseInt(userInput, 10);
-  if (!isNaN(num) && num >= 1 && num <= choices.length) {
-    return choices[num - 1].value;
-  }
+  const num = parseChoiceNumber(userInput, choices.length);
+  if (num != null) return choices[num - 1].value;
 
-  const lower = userInput.toLowerCase().trim();
-  for (const choice of choices) {
-    if (choice.value.toLowerCase() === lower) return choice.value;
-    if (choice.label.toLowerCase().includes(lower)) return choice.value;
-  }
+  const n = normalizeText(userInput);
+  if (!n) return userInput;
 
+  for (const c of choices) {
+    if (normalizeText(c.value) === n) return c.value;
+    if (normalizeText(c.label) === n) return c.value;
+  }
+  for (const c of choices) {
+    const syns = (c.synonyms || []).map(normalizeText);
+    if (syns.includes(n)) return c.value;
+  }
+  for (const c of choices) {
+    const labelN = normalizeText(c.label);
+    if (labelN.includes(n) || n.includes(labelN)) return c.value;
+  }
   return userInput;
 }
 
-/**
- * Formatea un mensaje con opciones numeradas.
- */
 function formatMessage(text, choices) {
   if (!choices || choices.length === 0) return text;
-
   const lines = [text, ''];
   choices.forEach((c, i) => {
-    lines.push(`${i + 1}️⃣ ${c.label}`);
+    lines.push(`${i + 1}️⃣  ${c.label}`);
   });
-  lines.push('', '_Responde con el número o la opción._');
+  lines.push('', '_Responde con el *número* o el texto de la opción._');
   return lines.join('\n');
 }
 
-/**
- * Construye el resumen final para enviar al backend.
- */
+// ---------------------------------------------------------------------------
+// Typing indicator + ack >2s + chunking
+// ---------------------------------------------------------------------------
+async function getChat(client, chatId) {
+  try {
+    return await client.getChatById(chatId);
+  } catch {
+    return null;
+  }
+}
+
+async function withTyping(client, chatId, fn, opts = {}) {
+  const ackMs = opts.ackMs ?? 2000;
+  const ackText = opts.ackText ?? '🔎 Estoy revisando esto…';
+
+  const chat = await getChat(client, chatId);
+  let typingTimer = null;
+  let ackTimer = null;
+  try {
+    if (chat) {
+      await chat.sendStateTyping().catch(() => {});
+      typingTimer = setInterval(() => {
+        chat.sendStateTyping().catch(() => {});
+      }, 15000);
+    }
+    ackTimer = setTimeout(() => {
+      client.sendMessage(chatId, ackText).catch(() => {});
+    }, ackMs);
+
+    return await fn();
+  } finally {
+    if (ackTimer) clearTimeout(ackTimer);
+    if (typingTimer) clearInterval(typingTimer);
+    if (chat) chat.clearState().catch(() => {});
+  }
+}
+
+async function sendChunked(client, chatId, text, opts = {}) {
+  const delayMs = opts.delayMs ?? 350;
+  const chunks = chunkResponse(text, 900);
+  for (let i = 0; i < chunks.length; i++) {
+    await client.sendMessage(chatId, chunks[i]);
+    if (i < chunks.length - 1) {
+      await new Promise((r) => setTimeout(r, delayMs));
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Resumen para reclamo CMF
+// ---------------------------------------------------------------------------
 function buildSummary(data) {
   const plazoMap = {
     '1': 'menos_1_mes', '2': '1_3_meses', '3': '3_6_meses', '4': 'mas_6_meses',
@@ -65,7 +207,6 @@ function buildSummary(data) {
     'si_respondieron': 'si_respondieron', 'si_no_respondieron': 'si_no_respondieron',
     'no': 'no', 'no he reclamado': 'no',
   };
-
   const plazo = plazoMap[data.plazo] || data.plazo || 'No especificado';
   const reclamo = reclamoMap[data.reclamo_previo] || data.reclamo_previo || 'No especificado';
 
@@ -81,9 +222,47 @@ function buildSummary(data) {
   );
 }
 
-/**
- * Maneja un mensaje entrante de WhatsApp.
- */
+// ---------------------------------------------------------------------------
+// Comandos globales
+// ---------------------------------------------------------------------------
+async function handleGlobalCommand(chatId, body, client) {
+  if (isCommand(body, CMD_HELP)) {
+    await client.sendMessage(chatId, HELP_MESSAGE);
+    return true;
+  }
+  if (isCommand(body, CMD_HUMAN)) {
+    await client.sendMessage(chatId, HUMAN_HANDOFF);
+    return true;
+  }
+  if (isCommand(body, CMD_EXIT)) {
+    stateManager.delete(chatId);
+    await client.sendMessage(
+      chatId,
+      '👋 Conversación cerrada. Escríbeme *hola* cuando quieras retomar.'
+    );
+    return true;
+  }
+  if (isCommand(body, CMD_RESET)) {
+    stateManager.delete(chatId);
+    await client.sendMessage(chatId, RESET_MESSAGE + WELCOME_MESSAGE);
+    stateManager.set(chatId, { topic: 'welcome', stepId: 'menu', data: {} });
+    return true;
+  }
+  if (isCommand(body, CMD_MENU)) {
+    const state = stateManager.get(chatId) || {};
+    state.topic = 'welcome';
+    state.stepId = 'menu';
+    state.data = {};
+    stateManager.set(chatId, state);
+    await client.sendMessage(chatId, WELCOME_MESSAGE);
+    return true;
+  }
+  return false;
+}
+
+// ---------------------------------------------------------------------------
+// Handler principal
+// ---------------------------------------------------------------------------
 async function handleMessage(message, client) {
   if (message.fromMe) return;
 
@@ -91,12 +270,15 @@ async function handleMessage(message, client) {
   const body = (message.body || '').trim();
   console.log(`[MessageHandler] Received: chatId=${chatId}, body="${body.substring(0, 50)}"`);
 
-  if (!body) {
+  if (!body && !message.hasMedia) {
     await client.sendMessage(chatId, 'Por favor escríbeme tu consulta o selecciona una opción. 😊');
     return;
   }
 
-  // Procesar adjuntos si los hay
+  // 1) Comandos globales
+  if (await handleGlobalCommand(chatId, body, client)) return;
+
+  // 2) Adjuntos
   let attachmentText = '';
   if (message.hasMedia) {
     try {
@@ -114,69 +296,45 @@ async function handleMessage(message, client) {
 
   const fullMessage = attachmentText ? `${body}\n${attachmentText}` : body;
 
-  // Buscar estado existente
+  // 3) Estado
   let state = stateManager.get(chatId);
   console.log(`[MessageHandler] State: ${state ? `topic=${state.topic}, step=${state.stepId}` : 'null'}`);
 
-  // --- SIN ESTADO: Primera interacción → mostrar bienvenida ---
   if (!state) {
-    // Si es un saludo genérico, mostrar bienvenida
-    const greetings = ['hola', 'hi', 'hello', 'hey', 'buenas', 'buenos días', 'buenas tardes', 'buenas noches', 'ola'];
-    const isGreeting = greetings.some(g => body.toLowerCase().includes(g));
-    console.log(`[MessageHandler] isGreeting=${isGreeting}, bodyLower="${body.toLowerCase()}"`);
-    if (isGreeting) {
-      console.log('[MessageHandler] Sending WELCOME_MESSAGE');
+    if (isGreeting(body)) {
       await client.sendMessage(chatId, WELCOME_MESSAGE);
       stateManager.set(chatId, { topic: 'welcome', stepId: 'menu', data: {} });
       return;
     }
-
-    // Si es un mensaje directo sobre un problema, enviar al backend primero
-    console.log('[MessageHandler] No state, no greeting → sending to backend');
     await handleBackendQuery(chatId, fullMessage, null, client);
     return;
   }
 
-  // --- ESTADO: WELCOME → redirigir según selección ---
   if (state.topic === 'welcome') {
-    const selection = body.trim();
-    console.log(`[MessageHandler] Welcome state, selection="${selection}"`);
-    if (selection === '1') {
-      // Iniciar template de reclamo CMF
+    const selection = parseChoiceNumber(body, 5);
+    if (selection === 1) {
       state.topic = 'reclamo-cmf';
       state.stepId = 'bienvenida';
       stateManager.set(chatId, state);
-
       const question = templateEngine.getQuestion('reclamo-cmf', 'bienvenida', {});
       const choices = templateEngine.getChoices('reclamo-cmf', 'bienvenida');
       await client.sendMessage(chatId, formatMessage(question, choices));
       return;
     }
-    if (selection === '2' || selection === '3' || selection === '4' || selection === '5') {
-      // Consulta libre → enviar al backend
+    if (selection === 2 || selection === 3 || selection === 4 || selection === 5) {
       state.topic = 'default';
       stateManager.set(chatId, state);
       await client.sendMessage(chatId, 'Cuéntame tu consulta en detalle y te ayudaré. 👇');
       return;
     }
-
-    // Texto libre → enviar al backend
     state.topic = 'default';
     stateManager.set(chatId, state);
     await handleBackendQuery(chatId, fullMessage, state.conversationId, client);
     return;
   }
 
-  // --- ESTADO: DEFAULT → consulta libre al backend ---
   if (state.topic === 'default') {
-    // Permitir salir del modo default con comandos de menú
-    const lower = body.toLowerCase().trim();
-    const greetings = ['hola', 'hi', 'hello', 'hey', 'buenas', 'buenos días', 'buenas tardes', 'buenas noches', 'ola'];
-    const isReset = lower === 'menú' || lower === 'menu' || lower === 'salir' || lower === 'cancelar' || lower === 'restart';
-    const isGreeting = greetings.some(g => lower.includes(g));
-
-    if (isReset || isGreeting) {
-      console.log(`[MessageHandler] Reset from default → showing WELCOME_MESSAGE (trigger="${lower}")`);
+    if (isGreeting(body)) {
       state.topic = 'welcome';
       state.stepId = 'menu';
       state.data = {};
@@ -184,76 +342,75 @@ async function handleMessage(message, client) {
       await client.sendMessage(chatId, WELCOME_MESSAGE);
       return;
     }
-
-    console.log(`[MessageHandler] Default state → sending to backend with convId=${state.conversationId}`);
     await handleBackendQuery(chatId, fullMessage, state.conversationId, client);
     return;
   }
 
-  // --- ESTADO: TEMPLATE ACTIVO → procesar paso del template ---
-  console.log(`[MessageHandler] Template state: topic=${state.topic}, step=${state.stepId}`);
   await handleTemplateStep(chatId, body, state, client);
 }
 
-/**
- * Envía un mensaje al backend y responde al usuario.
- */
+// ---------------------------------------------------------------------------
+// Backend con typing/ack/chunking
+// ---------------------------------------------------------------------------
 async function handleBackendQuery(chatId, message, conversationId, client) {
+  let state = stateManager.get(chatId);
+  if (!state) {
+    state = stateManager.set(chatId, { topic: 'default', stepId: null, data: {} });
+  }
+
+  let response;
   try {
-    const payload = { message };
-    if (conversationId) payload.conversation_id = conversationId;
-
-    const response = await apiClient.chat(payload);
-
-    let state = stateManager.get(chatId);
-    if (!state) {
-      state = stateManager.set(chatId, { topic: 'default', stepId: null, data: {} });
-    }
-    state.conversationId = response.conversation_id;
-    stateManager.updateActivity(chatId);
-
-    // Verificar si el backend detectó un reclamo CMF
-    const intencion = (response.intencion || '').toUpperCase();
-    const organismo = (response.organismo_detectado || '').toLowerCase();
-    console.log(`[MessageHandler] Backend response: intencion=${intencion}, organismo=${organismo}`);
-
-    if (intencion.includes('RECLAMO') && organismo === 'cmf') {
-      state.topic = 'reclamo-cmf';
-      state.stepId = 'bienvenida';
-      stateManager.set(chatId, state);
-
-      await client.sendMessage(chatId, formatForWhatsApp(response.response));
-      const question = templateEngine.getQuestion('reclamo-cmf', 'bienvenida', {});
-      const choices = templateEngine.getChoices('reclamo-cmf', 'bienvenida');
-      await client.sendMessage(chatId, formatMessage(question, choices));
-      return;
-    }
-
-    // Verificar si es alerta de fraude
-    if (intencion === 'ALERTA') {
-      await client.sendMessage(chatId, formatForWhatsApp(response.response));
-      await client.sendMessage(chatId, WELCOME_MESSAGE);
-      state.topic = 'welcome';
-      state.stepId = 'menu';
-      stateManager.set(chatId, state);
-      return;
-    }
-
-    await client.sendMessage(chatId, formatForWhatsApp(response.response));
+    response = await withTyping(client, chatId, async () => {
+      const payload = { message };
+      if (conversationId) payload.conversation_id = conversationId;
+      return await apiClient.chat(payload);
+    });
   } catch (err) {
     console.error('[MessageHandler] Backend error:', err.message);
-    await client.sendMessage(chatId, '⚠️ Hubo un problema procesando tu consulta. Intenta nuevamente en unos segundos.');
+    await client.sendMessage(
+      chatId,
+      '⚠️ Hubo un problema procesando tu consulta. Intenta nuevamente en unos segundos.\n' +
+      '_Si persiste, escribe *humano* para que te derive._'
+    );
+    return;
   }
+
+  state.conversationId = response.conversation_id;
+  stateManager.updateActivity(chatId);
+
+  const intencion = (response.intencion || '').toUpperCase();
+  const organismo = (response.organismo_detectado || '').toLowerCase();
+  console.log(`[MessageHandler] Backend response: intencion=${intencion}, organismo=${organismo}`);
+
+  if (intencion.includes('RECLAMO') && organismo === 'cmf') {
+    state.topic = 'reclamo-cmf';
+    state.stepId = 'bienvenida';
+    stateManager.set(chatId, state);
+    await sendChunked(client, chatId, formatForWhatsApp(response.response));
+    const question = templateEngine.getQuestion('reclamo-cmf', 'bienvenida', {});
+    const choices = templateEngine.getChoices('reclamo-cmf', 'bienvenida');
+    await client.sendMessage(chatId, formatMessage(question, choices));
+    return;
+  }
+
+  if (intencion === 'ALERTA') {
+    await sendChunked(client, chatId, formatForWhatsApp(response.response));
+    state.topic = 'welcome';
+    state.stepId = 'menu';
+    stateManager.set(chatId, state);
+    await client.sendMessage(chatId, WELCOME_MESSAGE);
+    return;
+  }
+
+  await sendChunked(client, chatId, formatForWhatsApp(response.response));
 }
 
-/**
- * Procesa un paso dentro de un template.
- */
+// ---------------------------------------------------------------------------
+// Template step (con validadores opcionales)
+// ---------------------------------------------------------------------------
 async function handleTemplateStep(chatId, userInput, state, client) {
   const currentStep = templateEngine.getStep(state.topic, state.stepId);
-
   if (!currentStep) {
-    // Paso no encontrado → resetear
     state.topic = 'default';
     state.stepId = null;
     stateManager.set(chatId, state);
@@ -261,25 +418,24 @@ async function handleTemplateStep(chatId, userInput, state, client) {
     return;
   }
 
-  // Mapear respuesta del usuario a valor de opción si es choice
   const choices = templateEngine.getChoices(state.topic, state.stepId);
-  const mappedInput = mapChoice(userInput, choices);
+  let mappedInput = mapChoice(userInput, choices);
 
-  // Verificar si quiere salir o reiniciar
-  const lowerInput = userInput.toLowerCase().trim();
-  if (lowerInput === 'salir' || lowerInput === 'cancelar' || lowerInput === 'restart' || lowerInput === 'menú' || lowerInput === 'menu') {
-    state.topic = 'welcome';
-    state.stepId = 'menu';
-    state.data = {};
-    stateManager.set(chatId, state);
-    await client.sendMessage(chatId, WELCOME_MESSAGE);
-    return;
+  if (currentStep.validate) {
+    const result = validate(currentStep.validate, mappedInput);
+    if (!result.ok) {
+      await client.sendMessage(
+        chatId,
+        `❌ ${result.error}\n\n${templateEngine.getQuestion(state.topic, state.stepId, state.data)}`
+      );
+      return;
+    }
+    mappedInput = result.value;
   }
 
-  // Procesar el paso
-  const result = templateEngine.processStep(chatId, mappedInput, state);
+  const stepResult = templateEngine.processStep(chatId, mappedInput, state);
 
-  if (result.exitToDefault) {
+  if (stepResult.exitToDefault) {
     state.topic = 'default';
     state.stepId = null;
     stateManager.set(chatId, state);
@@ -287,39 +443,41 @@ async function handleTemplateStep(chatId, userInput, state, client) {
     return;
   }
 
-  if (result.action === 'complete') {
-    // Template completado → enviar resumen al backend
-    const summary = buildSummary(result.data);
+  if (stepResult.action === 'complete') {
+    const summary = buildSummary(stepResult.data);
     try {
-      const response = await apiClient.chat({
-        message: summary,
-        conversation_id: state.conversationId,
-      });
-      await client.sendMessage(chatId, formatForWhatsApp(response.response));
+      const response = await withTyping(client, chatId, async () =>
+        apiClient.chat({ message: summary, conversation_id: state.conversationId })
+      );
+      await sendChunked(client, chatId, formatForWhatsApp(response.response));
     } catch (err) {
       console.error('[MessageHandler] Error sending summary:', err.message);
-      await client.sendMessage(chatId, '⚠️ Hubo un problema enviando tu caso al análisis. Tu información fue guardada. Intenta escribir "menú" para volver a empezar.');
+      await client.sendMessage(
+        chatId,
+        '⚠️ Hubo un problema enviando tu caso al análisis. Tu información fue guardada. ' +
+        'Escribe *menú* para volver a empezar.'
+      );
       return;
     }
-
-    // Resetear estado
     state.topic = 'welcome';
     state.stepId = 'menu';
     state.data = {};
     stateManager.set(chatId, state);
-    await client.sendMessage(chatId, '\n\n¿Necesitas algo más? Responde con el número:\n1️⃣ Otro reclamo\n2️⃣ Consulta\n3️⃣ Salir');
+    await client.sendMessage(
+      chatId,
+      '\n¿Necesitas algo más? Escribe *menú* para ver las opciones o *salir* para terminar.'
+    );
     return;
   }
 
-  if (result.action === 'ask') {
+  if (stepResult.action === 'ask') {
     stateManager.set(chatId, state);
-    const question = templateEngine.getQuestion(state.topic, result.step.id, state.data);
-    const nextChoices = templateEngine.getChoices(state.topic, result.step.id);
+    const question = templateEngine.getQuestion(state.topic, stepResult.step.id, state.data);
+    const nextChoices = templateEngine.getChoices(state.topic, stepResult.step.id);
     await client.sendMessage(chatId, formatMessage(question, nextChoices));
     return;
   }
 
-  // Fallback
   state.topic = 'default';
   stateManager.set(chatId, state);
   await handleBackendQuery(chatId, userInput, state.conversationId, client);
