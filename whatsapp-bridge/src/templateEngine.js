@@ -1,72 +1,112 @@
-'use strict';
-/**
- * templateEngine.js — Orquesta la máquina de estados de los templates.
- *
- * Responsabilidades:
- * - Cargar todos los templates registrados.
- * - Método processStep: avanza el estado y determina la acción siguiente.
- * - Métodos getQuestion, getChoices: exponen el contenido del paso actual.
- */
-
-const TEMPLATES = require('./templates/index');
+const reclamoCmf = require('./templates/reclamo-cmf');
+const consultaRapida = require('./templates/consulta-rapida');
+const derivacion = require('./templates/derivacion');
 
 /**
- * Avanza el estado de la conversación.
- *
- * @param {string} chatId — identificador de la conversación (solo para logs)
- * @param {string} userResponse — respuesta del usuario al paso actual
- * @param {object} state — estado completo de la conversación
- * @returns {{ action: 'ask', stepId: string } | { action: 'complete', data: object } | { action: 'exit_to_default' }}
+ * Registro de templates disponibles.
  */
-function processStep(chatId, userResponse, state) {
-  const template = TEMPLATES[state.topic];
-  if (!template) {
-    console.warn(`[templateEngine] Template desconocido: ${state.topic}`);
-    return { action: 'complete', data: state.data };
+const TEMPLATES = {
+  'reclamo-cmf': reclamoCmf,
+  'consulta-rapida': consultaRapida,
+  'derivacion': derivacion,
+};
+
+/**
+ * TemplateEngine — orquesta la máquina de estados de los templates.
+ */
+class TemplateEngine {
+  /**
+   * Procesa la respuesta del usuario en el paso actual del template.
+   * @param {string} chatId
+   * @param {string} userResponse - Texto enviado por el usuario.
+   * @param {object} state - Estado actual de la conversación.
+   * @returns {{ action: 'ask'|'complete', step?: object, data?: object }}
+   */
+  processStep(chatId, userResponse, state) {
+    const template = TEMPLATES[state.topic];
+    if (!template) {
+      return { action: 'complete', data: state.data };
+    }
+
+    const currentStep = template.getStep(state.stepId);
+    if (!currentStep) {
+      return { action: 'complete', data: state.data };
+    }
+
+    // Guardar respuesta del usuario
+    if (currentStep.saveAs) {
+      state.data[currentStep.saveAs] = userResponse;
+    }
+
+    // Verificar transiciones especiales
+    const transition = template.getTransition(state.stepId, userResponse);
+    if (transition === 'EXIT_TO_DEFAULT') {
+      return { action: 'complete', data: state.data, exitToDefault: true };
+    }
+
+    // Determinar siguiente paso
+    const nextStepId = transition || currentStep.next;
+    if (!nextStepId) {
+      // Último paso → completar
+      return { action: 'complete', data: state.data };
+    }
+
+    const nextStep = template.getStep(nextStepId);
+    state.stepId = nextStepId;
+
+    if (nextStep && nextStep.type === 'backend_call') {
+      return { action: 'complete', data: state.data };
+    }
+
+    return { action: 'ask', step: nextStep };
   }
 
-  const currentStepId = state.stepId;
-
-  // Guardar la respuesta del usuario
-  const saveAs = template.getSaveAs(currentStepId);
-  if (saveAs) {
-    state.data[saveAs] = userResponse;
+  /**
+   * Retorna el texto de la pregunta para un paso dado.
+   * @param {string} topic
+   * @param {string} stepId
+   * @param {object} data - Datos para interpolar en la pregunta.
+   * @returns {string}
+   */
+  getQuestion(topic, stepId, data = {}) {
+    const template = TEMPLATES[topic];
+    if (!template) return '';
+    const step = template.getStep(stepId);
+    if (!step) return '';
+    return this._interpolate(step.question, data);
   }
 
-  const nextStepId = template.getNextStep(currentStepId, userResponse, state.data);
-
-  if (nextStepId === '__EXIT_TO_DEFAULT__') {
-    return { action: 'exit_to_default' };
+  /**
+   * Retorna las opciones para un paso tipo choice.
+   * @param {string} topic
+   * @param {string} stepId
+   * @returns {Array|undefined}
+   */
+  getChoices(topic, stepId) {
+    const template = TEMPLATES[topic];
+    if (!template) return undefined;
+    const step = template.getStep(stepId);
+    if (!step) return undefined;
+    return step.choices;
   }
 
-  if (!nextStepId) {
-    return { action: 'complete', data: state.data };
+  /**
+   * Retorna el primer paso de un template.
+   * @param {string} topic
+   * @returns {object|null}
+   */
+  getFirstStep(topic) {
+    const template = TEMPLATES[topic];
+    if (!template) return null;
+    return template.getFirstStep();
   }
 
-  return { action: 'ask', stepId: nextStepId };
+  /**
+   * Interpola {variables} en un string.
+   */
+  _interpolate(text, data) {
+    return text.replace(/\{(\w+)\}/g, (match, key) => data[key] || match);
+  }
 }
 
-/**
- * Retorna el texto de la pregunta para el paso indicado.
- * @param {string} topic
- * @param {string} stepId
- * @param {object} data — datos acumulados para reemplazar placeholders
- * @returns {string|null}
- */
-function getQuestion(topic, stepId, data = {}) {
-  const template = TEMPLATES[topic];
-  return template ? template.getQuestion(stepId, data) : null;
-}
-
-/**
- * Retorna las opciones de un paso tipo "choice".
- * @param {string} topic
- * @param {string} stepId
- * @returns {Array<{label: string, value: string}>}
- */
-function getChoices(topic, stepId) {
-  const template = TEMPLATES[topic];
-  return template ? template.getChoices(stepId) : [];
-}
-
-module.exports = { processStep, getQuestion, getChoices };
+module.exports = TemplateEngine;

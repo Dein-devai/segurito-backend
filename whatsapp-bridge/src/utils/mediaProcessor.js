@@ -1,69 +1,37 @@
-'use strict';
-/**
- * mediaProcessor.js — Descarga y valida adjuntos de WhatsApp.
- *
- * Solo para imágenes en el MVP. PDFs y otros tipos se documentan como
- * "recibidos" pero se envían al backend sin base64 (usando description).
- */
-
-const MAX_MB = parseFloat(process.env.MAX_ATTACHMENT_MB) || 5;
-const MAX_B64_CHARS = MAX_MB * 1024 * 1024 * (4 / 3); // bytes → chars base64
-
-const SUPPORTED_MIME = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif']);
+const MAX_ATTACHMENT_MB = parseInt(process.env.MAX_ATTACHMENT_MB, 10) || 5;
+const MAX_ATTACHMENT_BYTES = MAX_ATTACHMENT_MB * 1024 * 1024;
 
 /**
- * Descarga el media de un mensaje WhatsApp y retorna un objeto Attachment
- * compatible con el schema del backend.
- *
- * @param {object} message — mensaje de whatsapp-web.js con hasMedia=true
- * @returns {Promise<{ok: true, attachment: object} | {ok: false, reason: string}>}
+ * Procesa archivos adjuntos de WhatsApp.
+ * Para el MVP: descarga y valida tamaño. No hace OCR.
+ * @param {import('whatsapp-web.js').Message} message
+ * @returns {Promise<{mimeType: string, filename: string, base64Data: string, sizeBytes: number, description?: string} | {error: string}>}
  */
 async function processMedia(message) {
-  let media;
   try {
-    media = await message.downloadMedia();
+    const media = await message.downloadMedia();
+    if (!media) {
+      return { error: 'No se pudo descargar el archivo adjunto. Intenta enviarlo de nuevo.' };
+    }
+
+    const sizeBytes = Math.ceil((media.data.length * 3) / 4);
+    if (sizeBytes > MAX_ATTACHMENT_BYTES) {
+      return {
+        error: `El archivo es muy grande (máximo ${MAX_ATTACHMENT_MB}MB). Intenta con un archivo más pequeño.`,
+      };
+    }
+
+    return {
+      mimeType: media.mimetype,
+      filename: media.filename || `adjunto.${media.mimetype.split('/')[1] || 'bin'}`,
+      base64Data: media.data,
+      sizeBytes,
+      description: `[Archivo adjunto: ${media.filename || 'documento'}]`,
+    };
   } catch (err) {
-    return { ok: false, reason: `No se pudo descargar el adjunto: ${err.message}` };
+    console.error('[MediaProcessor] Error processing media:', err.message);
+    return { error: 'Error al procesar el archivo adjunto.' };
   }
-
-  if (!media) {
-    return { ok: false, reason: 'El adjunto llegó vacío.' };
-  }
-
-  const { mimetype, data: base64Data, filename } = media;
-  const safeFilename = filename || `adjunto.${mimetype.split('/')[1] || 'bin'}`;
-
-  // Validar tamaño
-  if (base64Data.length > MAX_B64_CHARS) {
-    return {
-      ok: false,
-      reason: `El archivo es muy grande. Máximo ${MAX_MB} MB.`,
-    };
-  }
-
-  // Solo imágenes en el MVP
-  if (!SUPPORTED_MIME.has(mimetype)) {
-    // Para tipos no soportados como imágenes, informar que fue recibido.
-    return {
-      ok: true,
-      attachment: {
-        mime_type: mimetype,
-        filename: safeFilename,
-        base64_data: '',
-        description: `[Documento recibido: ${safeFilename}. Tipo: ${mimetype}. El bridge no procesó el contenido.]`,
-      },
-    };
-  }
-
-  return {
-    ok: true,
-    attachment: {
-      mime_type: mimetype,
-      filename: safeFilename,
-      base64_data: base64Data,
-      description: null,
-    },
-  };
 }
 
 module.exports = { processMedia };

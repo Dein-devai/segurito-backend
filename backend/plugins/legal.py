@@ -65,12 +65,10 @@ def _build_tool_consultar() -> ToolDef:
                 "n_results": {
                     "type": "integer",
                     "description": "Cantidad de artículos a recuperar (1-5).",
-                    "default": 3,
-                    "minimum": 1,
-                    "maximum": 5,
                 },
             },
-            "required": ["query"],
+            "required": ["query", "n_results"],
+            "additionalProperties": False,
         },
     )
 

@@ -1,16 +1,33 @@
-'use strict';
 /**
- * consulta-rapida.js — Template de consulta libre.
- *
- * No aplica flujo estructurado. El mensaje se envía directamente al backend.
+ * Template de consulta rápida — envío directo al backend.
  */
+const consultaRapida = {
+  getStep(stepId) {
+    if (stepId === 'envio_libre') {
+      return {
+        id: 'envio_libre',
+        type: 'backend_call',
+        question: 'generado_por_backend',
+        saveAs: null,
+        next: null,
+      };
+    }
+    return null;
+  },
 
-const FIRST_STEP = 'envio_libre';
+  getFirstStep() {
+    return {
+      id: 'envio_libre',
+      type: 'backend_call',
+      question: 'generado_por_backend',
+      saveAs: null,
+      next: null,
+    };
+  },
 
-function getNextStep() { return null; }
-function getQuestion() { return null; }
-function getChoices() { return []; }
-function getSaveAs() { return null; }
-function getStepType() { return 'backend_call'; }
+  getTransition() {
+    return null;
+  },
+};
 
-module.exports = { getNextStep, getQuestion, getChoices, getSaveAs, getStepType, FIRST_STEP };
+module.exports = consultaRapida;

@@ -1,72 +1,50 @@
-'use strict';
-/**
- * index.js — Punto de entrada del WhatsApp Bridge.
- *
- * Orden de arranque:
- * 1. Cargar variables de entorno (.env).
- * 2. Verificar que el backend responde /health.
- * 3. Crear e inicializar el cliente WhatsApp.
- * 4. Registrar el handler de mensajes.
- * 5. Graceful shutdown en SIGINT.
- */
-
 require('dotenv').config();
 
 const { createClient } = require('./client');
 const { handleMessage } = require('./messageHandler');
-const apiClient = require('./apiClient');
-
-const HEALTH_RETRY_INTERVAL_MS = 3000;
-const HEALTH_MAX_RETRIES = 10;
-
-/**
- * Espera hasta que el backend responda /health (con reintentos).
- */
-async function waitForBackend() {
-  console.log(`[bridge] Verificando backend en ${process.env.BACKEND_URL || 'http://localhost:8000'}…`);
-  for (let i = 1; i <= HEALTH_MAX_RETRIES; i++) {
-    try {
-      const h = await apiClient.health();
-      console.log(`[bridge] Backend disponible. Status: ${h.status}`);
-      return;
-    } catch (err) {
-      console.warn(`[bridge] Intento ${i}/${HEALTH_MAX_RETRIES} fallido: ${err.message}`);
-      if (i < HEALTH_MAX_RETRIES) {
-        await new Promise((r) => setTimeout(r, HEALTH_RETRY_INTERVAL_MS));
-      }
-    }
-  }
-  console.error('[bridge] El backend no respondió después de varios intentos. Abortando.');
-  process.exit(1);
-}
+const ApiClient = require('./apiClient');
 
 async function main() {
-  await waitForBackend();
+  console.log('[Bridge] Segurito WhatsApp Bridge starting...');
 
+  // Verificar que el backend está disponible
+  const api = new ApiClient();
+  const health = await api.health();
+  if (!health) {
+    console.warn('[Bridge] WARNING: Backend not reachable. Messages will fail until backend is up.');
+    console.warn('[Bridge] Make sure the backend is running: uvicorn main:app --reload');
+  } else {
+    console.log('[Bridge] Backend is healthy:', health.status);
+  }
+
+  // Crear cliente WhatsApp
   const client = createClient();
 
-  client.on('message', (message) => {
-    handleMessage(message, client).catch((err) => {
-      console.error('[bridge] Error no capturado en handleMessage:', err.message);
-    });
+  // Registrar handler de mensajes
+  client.on('message', async (message) => {
+    try {
+      await handleMessage(message, client);
+    } catch (err) {
+      console.error('[Bridge] Unhandled error in message handler:', err);
+    }
   });
+
+  // Inicializar
+  await client.initialize();
+  console.log('[Bridge] WhatsApp client initialized. Waiting for messages...');
 
   // Graceful shutdown
-  process.on('SIGINT', async () => {
-    console.log('\n[bridge] Cerrando conexión WhatsApp…');
-    try {
-      await client.destroy();
-    } catch {
-      // ignorar errores al cerrar
-    }
+  const shutdown = async (signal) => {
+    console.log(`\n[Bridge] Received ${signal}. Shutting down gracefully...`);
+    await client.destroy();
     process.exit(0);
-  });
+  };
 
-  console.log('[bridge] Inicializando cliente WhatsApp…');
-  await client.initialize();
+  process.on('SIGINT', () => shutdown('SIGINT'));
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
 }
 
 main().catch((err) => {
-  console.error('[bridge] Error fatal:', err.message);
+  console.error('[Bridge] Fatal error:', err);
   process.exit(1);
 });

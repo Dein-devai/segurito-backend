@@ -1,22 +1,31 @@
-'use strict';
+const derivacionJson = require('../../../plan/templates/derivacion.json');
+
 /**
- * derivacion.js — Template de derivación a otro organismo.
- *
- * Informa al usuario que el caso corresponde a otro organismo y envía
- * el mensaje al backend para una respuesta detallada.
+ * Template de derivación — informa al usuario a dónde derivar.
  */
+const derivacion = {
+  _steps: {},
 
-const FIRST_STEP = 'derivacion';
+  init() {
+    this._steps = {};
+    for (const step of derivacionJson.steps) {
+      this._steps[step.id] = step;
+    }
+  },
 
-function getNextStep() { return null; }
-function getQuestion() {
-  return (
-    'Tu caso parece corresponder a otro organismo. ' +
-    'Cuéntame más sobre el problema y te orientaré al canal correcto.'
-  );
-}
-function getChoices() { return []; }
-function getSaveAs() { return 'descripcion_derivacion'; }
-function getStepType() { return 'backend_call'; }
+  getStep(stepId) {
+    return this._steps[stepId] || null;
+  },
 
-module.exports = { getNextStep, getQuestion, getChoices, getSaveAs, getStepType, FIRST_STEP };
+  getFirstStep() {
+    return this._steps['mensaje_derivacion'] || null;
+  },
+
+  getTransition() {
+    return null;
+  },
+};
+
+derivacion.init();
+
+module.exports = derivacion;

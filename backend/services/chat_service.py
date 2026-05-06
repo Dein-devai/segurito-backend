@@ -1,14 +1,15 @@
-"""ChatService — orquesta la cascada Haiku → Sonnet → Opus con tool-use.
+"""ChatService — Agentic loop con tools por vertical y anti-alucinación.
 
-FM3:
+FM4:
 - Triage opcional (Haiku) decide escalación temprana.
-- Tool-loop principal usa modelo del ``ModelRouter`` por iteración (Sonnet
-  por defecto, Opus si triage marcó ``ESCALATE`` / hay keyword sensible /
-  iteración ≥ umbral).
-- Anthropic prompt caching (``cache_control: ephemeral``) en el system
-  prompt cuando ``settings.enable_prompt_cache``.
-- Extended thinking en escalación si ``settings.thinking_budget_tokens > 0``.
-- Recolección de ``ReasoningStep`` por cada llamada a la API (auditable).
+- Tool-loop principal: modelo único por loop (Sonnet por defecto, Opus si
+  triage marcó ESCALATE). El modelo no cambia entre iteraciones del loop.
+- `stop_reason == "end_turn"` como condición de salida.
+- Manejo de `pause_turn` (reenviar conversación si el server pausa).
+- Tools con `strict: True` forzan schema-conformant calls.
+- System prompt reforzado con sección anti-alucinación.
+- Anthropic prompt caching (`cache_control: ephemeral`) cuando está habilitado.
+- Extended thinking en escalación si `settings.thinking_budget_tokens > 0`.
 """
 from __future__ import annotations
 
@@ -25,7 +26,7 @@ from anthropic.types import (
     ToolUseBlock,
 )
 
-from backend.api.schemas import Attachment, ChatResponse, ReasoningStep, ToolTrace
+from backend.api.schemas import ChatResponse, ReasoningStep, ToolTrace
 from backend.core.exceptions import (
     LLMError,
     ToolLoopMaxIterationsError,
@@ -75,7 +76,7 @@ class _LoopOutcome:
 
 
 class ChatService:
-    """Caso de uso principal: una vuelta de chat con cascada multi-modelo."""
+    """Caso de uso principal: agentic loop con tools por vertical."""
 
     def __init__(
         self,
@@ -201,17 +202,17 @@ class ChatService:
         return escalate, step
 
     # --- core loop --------------------------------------------------------
-    def _call_main(
+    def _call_model(
         self,
         decision: RouteDecision,
         system: Any,
         anth_tools: list[dict[str, Any]],
         messages: list[dict[str, Any]],
     ) -> tuple[Message, int]:
-        """Llamada al modelo principal con thinking si aplica a Opus."""
+        """Llamada al modelo con thinking si aplica a Opus."""
         kwargs: dict[str, Any] = {
             "model": decision.model,
-            "max_tokens": 2048,
+            "max_tokens": 4096,
             "system": system,
             "tools": anth_tools,
             "messages": messages,
@@ -227,7 +228,6 @@ class ChatService:
                 "type": "enabled",
                 "budget_tokens": self._settings.thinking_budget_tokens,
             }
-            # Extended thinking exige temperature=1.
             kwargs["temperature"] = 1.0
 
         started = time.monotonic()
@@ -238,48 +238,6 @@ class ChatService:
         elapsed = int((time.monotonic() - started) * 1000)
         return response, elapsed
 
-    @staticmethod
-    def _build_user_content(
-        user_message: str,
-        attachments: list[Attachment] | None,
-    ) -> str | list[dict[str, Any]]:
-        """Envuelve el mensaje y adjuntos en el formato requerido por Anthropic.
-
-        Soporta imágenes base64 (image/jpeg, image/png, image/webp, image/gif).
-        Para el MVP, PDFs/docs deben venir pre-procesados como texto en
-        `attachment.description`.
-        """
-        wrapped_text = f"<user_input>\n{user_message}\n</user_input>"
-        if not attachments:
-            return wrapped_text
-
-        content: list[dict[str, Any]] = []
-        for att in attachments:
-            if att.mime_type.startswith("image/"):
-                content.append(
-                    {
-                        "type": "image",
-                        "source": {
-                            "type": "base64",
-                            "media_type": att.mime_type,
-                            "data": att.base64_data,
-                        },
-                    }
-                )
-            elif att.description:
-                # PDF u otro tipo: incluir el texto extraído como bloque de texto.
-                content.append(
-                    {
-                        "type": "text",
-                        "text": (
-                            f"[Adjunto: {att.filename}]\n{att.description}"
-                        ),
-                    }
-                )
-        # El texto del usuario siempre va al final.
-        content.append({"type": "text", "text": wrapped_text})
-        return content
-
     def _run_loop(
         self,
         user_message: str,
@@ -289,17 +247,41 @@ class ChatService:
         triage_escalate: bool,
         reasoning: list[ReasoningStep],
         conversation_id: str | None = None,
-        attachments: list[Attachment] | None = None,
+        user_content: list[dict[str, Any]] | None = None,
     ) -> _LoopOutcome:
-        wrapped = self._build_user_content(user_message, attachments)
+        """Agentic loop canónico: itera hasta end_turn o agotar iteraciones.
+
+        Usa un modelo fijo por todo el loop (Sonnet o Opus si triage escaló).
+        Condición de salida: ``stop_reason == "end_turn"``.
+        Maneja ``pause_turn`` reenviando la conversación.
+        """
+        if user_content is None:
+            user_content = [
+                {"type": "text", "text": f"<user_input>\n{user_message}\n</user_input>"}
+            ]
         messages: list[dict[str, Any]] = list(history) + [
-            {"role": "user", "content": wrapped}
+            {"role": "user", "content": user_content}
         ]
         traces: list[ToolTrace] = []
         started = time.monotonic()
         max_iter = self._settings.max_tool_iterations
         timeout_s = self._settings.tool_loop_timeout_s
         system = self._build_system(system_prompt)
+
+        # Modelo fijo para todo el loop
+        if triage_escalate:
+            decision = RouteDecision(
+                model=self._settings.model_escalation,
+                phase="escalation",
+                reason="escalación solicitada por triage",
+            )
+        else:
+            decision = RouteDecision(
+                model=self._settings.model_default,
+                phase="default",
+                reason="turno estándar: modelo por defecto",
+            )
+
         last_model: str | None = None
 
         for iteration in range(1, max_iter + 1):
@@ -307,20 +289,33 @@ class ChatService:
                 log.warning("tool loop timeout after %ss", timeout_s)
                 raise ToolLoopTimeoutError()
 
-            decision = self._router.main_model(
-                user_message,
-                iteration=iteration - 1,
-                escalate=triage_escalate,
-            )
             if self._rate_limiter is not None:
                 self._rate_limiter.check_model(decision.model, conversation_id)
-            response, elapsed = self._call_main(
-                decision, system, anth_tools, messages
-            )
+
+            response, elapsed = self._call_model(decision, system, anth_tools, messages)
             reasoning.append(self._record_step(decision, response, elapsed))
             last_model = decision.model
 
-            if response.stop_reason != "tool_use":
+            # --- end_turn: respuesta lista ---
+            if response.stop_reason == "end_turn":
+                return _LoopOutcome(
+                    text=self._extract_text(response),
+                    tools_used=traces,
+                    iterations=iteration,
+                    reasoning=reasoning,
+                    final_model=last_model,
+                )
+
+            # --- pause_turn: el servidor pausó, reenviar ---
+            if response.stop_reason == "pause_turn":
+                messages.append({"role": "assistant", "content": response.content})
+                log.info("pause_turn en iteración %d, reenviando", iteration)
+                continue
+
+            # --- tool_use: ejecutar tools y continuar ---
+            tool_use_blocks = [b for b in response.content if isinstance(b, ToolUseBlock)]
+            if not tool_use_blocks:
+                # Sin tool_use_blocks pero tampoco end_turn: extraer texto y salir
                 return _LoopOutcome(
                     text=self._extract_text(response),
                     tools_used=traces,
@@ -332,29 +327,14 @@ class ChatService:
             messages.append({"role": "assistant", "content": response.content})
 
             tool_results: list[dict[str, Any]] = []
-            for block in response.content:
-                if not isinstance(block, ToolUseBlock):
-                    continue
+            for block in tool_use_blocks:
                 traces.append(ToolTrace(name=block.name, input=dict(block.input)))
-                tool_text = self._registry.execute_tool(
-                    block.name, dict(block.input)
-                )
-                tool_results.append(
-                    {
-                        "type": "tool_result",
-                        "tool_use_id": block.id,
-                        "content": tool_text,
-                    }
-                )
-
-            if not tool_results:
-                return _LoopOutcome(
-                    text=self._extract_text(response),
-                    tools_used=traces,
-                    iterations=iteration,
-                    reasoning=reasoning,
-                    final_model=last_model,
-                )
+                result_text = self._registry.execute_tool(block.name, dict(block.input))
+                tool_results.append({
+                    "type": "tool_result",
+                    "tool_use_id": block.id,
+                    "content": result_text,
+                })
 
             messages.append({"role": "user", "content": tool_results})
 
@@ -366,7 +346,7 @@ class ChatService:
         self,
         message: str,
         conversation_id: str | None = None,
-        attachments: list[Attachment] | None = None,
+        attachments: list[dict[str, str]] | None = None,
     ) -> ChatResponse:
         interaction_id = str(uuid.uuid4())
         started = time.monotonic()
@@ -377,6 +357,26 @@ class ChatService:
         history = [
             {"role": turn.role, "content": turn.content} for turn in conv.turns
         ]
+
+        # Construir contenido del mensaje incluyendo attachments de imagen
+        user_content: list[dict[str, Any]] = []
+        user_content.append(
+            {"type": "text", "text": f"<user_input>\n{message}\n</user_input>"}
+        )
+        if attachments:
+            for att in attachments:
+                mime = att.get("mime_type", "")
+                if mime.startswith("image/"):
+                    user_content.append(
+                        {
+                            "type": "image",
+                            "source": {
+                                "type": "base64",
+                                "media_type": mime,
+                                "data": att["base64_data"],
+                            },
+                        }
+                    )
 
         reasoning: list[ReasoningStep] = []
         triage_escalate, triage_step = self._run_triage(message)
@@ -392,7 +392,7 @@ class ChatService:
                 triage_escalate=triage_escalate,
                 reasoning=reasoning,
                 conversation_id=conv.id,
-                attachments=attachments,
+                user_content=user_content,
             )
         except ToolLoopTimeoutError:
             outcome = _LoopOutcome(

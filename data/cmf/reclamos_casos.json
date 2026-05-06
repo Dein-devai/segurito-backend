@@ -2,120 +2,79 @@
   {
     "id": "reclamo-cobro-indebido-tarjeta",
     "titulo": "Cobro indebido en tarjeta de crédito",
-    "descripcion": "El banco cobró un cargo que no reconozco en mi estado de cuenta.",
+    "descripcion": "El banco cobró un cargo que no reconozco en mi estado de cuenta de tarjeta de crédito.",
     "entidad_tipo": "banco",
     "intencion": "RECLAMO_PRODUCTO",
-    "normativa_relacionada": [
-      "Ley 19.496 Art. 14 — derecho a que el proveedor informe verazmente",
-      "DFL 3 Art. 155 — obligación de informar cobros al titular"
-    ],
+    "normativa_relacionada": ["Ley 19.496 Art. 14", "Circular CMF N° 3.550"],
     "pasos_recomendados": [
-      "Reclamar directamente al banco por escrito (carta o formulario web).",
-      "Conservar número de reclamo y fecha.",
-      "Si el banco no responde en 10 días hábiles o rechaza sin fundamento, acudir a CMF Online (cmfchile.cl).",
-      "Adjuntar estado de cuenta y comprobante de notificación al banco."
+      "Reclamar directamente al banco por escrito",
+      "Si no responden en 10 días hábiles, acudir a CMF Online",
+      "Adjuntar estado de cuenta y comprobante de pago"
     ]
   },
   {
     "id": "reclamo-seguro-no-paga",
-    "titulo": "Aseguradora no paga siniestro",
-    "descripcion": "Mi aseguradora rechazó o ignoró el pago del siniestro de mi seguro de auto.",
+    "titulo": "Seguro que no paga siniestro",
+    "descripcion": "La aseguradora rechaza el pago de un siniestro sin justificación válida.",
     "entidad_tipo": "aseguradora",
     "intencion": "RECLAMO_SERVICIO",
-    "normativa_relacionada": [
-      "DFL 251 Art. 542 — obligación de pago oportuno del siniestro",
-      "Ley 19.496 Art. 23 — cláusulas abusivas en contratos de adhesión"
-    ],
+    "normativa_relacionada": ["Ley 19.496 Art. 23", "DFL 251 Ley de Seguros"],
     "pasos_recomendados": [
-      "Notificar formalmente a la aseguradora indicando número de póliza y siniestro.",
-      "Si no responde en 10 días hábiles, presentar reclamo en CMF Online.",
-      "Adjuntar póliza, declaración de siniestro y resolución de rechazo (si existe).",
-      "Si el monto lo amerita, considerar acción judicial civil."
+      "Reclamar por escrito a la aseguradora con copia de la póliza",
+      "Si no responden en 30 días, acudir a CMF Online",
+      "Si es seguro retail (garantía), derivar a SERNAC"
     ]
   },
   {
-    "id": "reclamo-cobranza-abusiva",
-    "titulo": "Cobranza telefónica abusiva por empresa de crédito",
-    "descripcion": "Empresa de crédito llama fuera de horario legal o a terceros para cobrar deuda.",
-    "entidad_tipo": "banco",
+    "id": "reclamo-cobranza-abusiva-mutuaria",
+    "titulo": "Cobranza abusiva en mutuaria",
+    "descripcion": "Intereses de cobranza superan el monto original o exceden la tasa máxima convencional.",
+    "entidad_tipo": "mutuaria",
+    "intencion": "RECLAMO_PRODUCTO",
+    "normativa_relacionada": ["DFL 3 Art. 11", "Ley 18.010", "Circular CMF N° 3.460"],
+    "pasos_recomendados": [
+      "Solicitar detalle de cargos y tasas por escrito",
+      "Verificar tasa máxima convencional vigente (CMF la publica)",
+      "Si excede, reclamar a la mutuaria y luego a CMF Online"
+    ]
+  },
+  {
+    "id": "reclamo-afp-no-devuelve",
+    "titulo": "AFP no devuelve aportes excesivos",
+    "descripcion": "La AFP rechaza la devolución de cotizaciones pagadas en exceso.",
+    "entidad_tipo": "AFP",
     "intencion": "RECLAMO_SERVICIO",
-    "normativa_relacionada": [
-      "Ley 19.496 Art. 37 — prácticas de cobranza abusivas prohibidas",
-      "Circular CMF N° 2.345 — normas de cobranza para bancos fiscalizados"
-    ],
+    "normativa_relacionada": ["DL 3500 Art. 22", "Circular CMF N° 2.000"],
     "pasos_recomendados": [
-      "Registrar fecha, hora y número desde el que llamaron.",
-      "Notificar al banco o empresa por escrito exigiendo cese de la práctica.",
-      "Presentar denuncia en SERNAC si la entidad no es fiscalizada por CMF.",
-      "Presentar reclamo en CMF Online si la entidad es un banco o financiera CMF."
+      "Solicitar certificado de cotizaciones a la AFP",
+      "Reclamar por escrito con el certificado como respaldo",
+      "Si no responden en 30 días, acudir a CMF Online"
     ]
   },
   {
-    "id": "reclamo-publicidad-engañosa-credito",
+    "id": "reclamo-seguro-desgravamen-no-solicitado",
+    "titulo": "Seguro de desgravamen cobrado sin consentimiento",
+    "descripcion": "El banco cobra un seguro de desgravamen que el cliente nunca solicitó ni firmó.",
+    "entidad_tipo": "banco",
+    "intencion": "RECLAMO_PRODUCTO",
+    "normativa_relacionada": ["Ley 19.496 Art. 12", "Circular CMF N° 3.550"],
+    "pasos_recomendados": [
+      "Solicitar copia del contrato del seguro al banco",
+      "Si no existe firma o consentimiento, exigir devolución de primas",
+      "Reclamar al banco y luego a CMF Online si no hay respuesta"
+    ]
+  },
+  {
+    "id": "reclamo-publicidad-enganosa-credito",
     "titulo": "Publicidad engañosa en crédito de consumo",
-    "descripcion": "El banco ofreció una tasa de interés en publicidad que al firmar era diferente.",
+    "descripcion": "El banco ofrece una tasa en publicidad y aplica otra distinta en el contrato.",
     "entidad_tipo": "banco",
     "intencion": "RECLAMO_INFORMACION",
-    "normativa_relacionada": [
-      "Ley 18.010 Art. 8 — obligación de informar la tasa de interés efectiva",
-      "Ley 19.496 Art. 28 — prohibición de publicidad falsa o engañosa"
-    ],
+    "normativa_relacionada": ["Ley 19.496 Art. 28", "Circular CMF N° 3.510"],
     "pasos_recomendados": [
-      "Conservar la publicidad original (panfleto, correo, captura de pantalla).",
-      "Reclamar al banco indicando la discrepancia entre publicidad y contrato.",
-      "Si no hay respuesta satisfactoria, presentar reclamo en CMF Online.",
-      "Puede complementar con denuncia en SERNAC por infracción a Ley del Consumidor."
-    ]
-  },
-  {
-    "id": "reclamo-afp-cotizaciones-no-enteradas",
-    "titulo": "AFP no registra cotizaciones descontadas por el empleador",
-    "descripcion": "El empleador descuenta las cotizaciones de la liquidación pero no las entera en la AFP.",
-    "entidad_tipo": "afp",
-    "intencion": "RECLAMO_PRODUCTO",
-    "normativa_relacionada": [
-      "DL 3.500 Art. 19 — obligación del empleador de enterar cotizaciones",
-      "Ley 17.322 — cobranza judicial de cotizaciones previsionales"
-    ],
-    "pasos_recomendados": [
-      "Verificar el estado de cuenta en la AFP (puede hacerse en línea).",
-      "Notificar al empleador por escrito exigiendo el entero inmediato.",
-      "Denunciar ante la Inspección del Trabajo si el empleador no regulariza.",
-      "La AFP puede iniciar acciones de cobranza judicial contra el empleador."
-    ]
-  },
-  {
-    "id": "reclamo-mutuaria-incumplimiento-credito",
-    "titulo": "Mutuaria no desembolsa crédito hipotecario aprobado",
-    "descripcion": "La mutuaria aprobó el crédito hipotecario pero se niega a desembolsar sin causa.",
-    "entidad_tipo": "mutuaria",
-    "intencion": "RECLAMO_SERVICIO",
-    "normativa_relacionada": [
-      "Ley 18.010 — operaciones de crédito de dinero",
-      "Ley 19.496 Art. 12 — derecho a retracto y cumplimiento del contrato"
-    ],
-    "pasos_recomendados": [
-      "Solicitar a la mutuaria explicación escrita de la negativa.",
-      "Revisar si la carta de aprobación tiene condiciones suspensivas incumplidas.",
-      "Presentar reclamo en CMF Online si la mutuaria es fiscalizada.",
-      "Consultar con un abogado si existe carta de aprobación sin condiciones."
-    ]
-  },
-  {
-    "id": "reclamo-corredora-operacion-no-autorizada",
-    "titulo": "Corredora de bolsa realizó operación no autorizada",
-    "descripcion": "Mi corredora vendió acciones de mi portafolio sin mi autorización.",
-    "entidad_tipo": "corredora",
-    "intencion": "RECLAMO_PRODUCTO",
-    "normativa_relacionada": [
-      "Ley 18.045 Art. 4 — prohibición de operaciones no autorizadas",
-      "Circular CMF N° 1.869 — normas de conducta para corredoras de bolsa"
-    ],
-    "pasos_recomendados": [
-      "Solicitar de inmediato el historial de órdenes y confirmaciones a la corredora.",
-      "Reclamar por escrito exigiendo reversión de la operación o compensación.",
-      "Presentar reclamo en CMF Online adjuntando historial de operaciones.",
-      "Si hay apropiación indebida, interponer querella criminal."
+      "Guardar la publicidad (pantallazo, folleto, etc.)",
+      "Reclamar al banco citando la publicidad vs contrato",
+      "Si no hay solución, acudir a SERNAC y CMF Online"
     ]
   }
 ]

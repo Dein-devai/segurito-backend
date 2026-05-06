@@ -1,65 +1,47 @@
-'use strict';
-/**
- * client.js — Factory de whatsapp-web.js Client.
- *
- * Crea y configura el cliente con LocalAuth. Registra los eventos de ciclo de
- * vida y maneja un único reintento de reconexión en caso de desconexión.
- */
-
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 
-const WA_CLIENT_ID = process.env.WA_CLIENT_ID || 'segurito-hackathon';
-const WA_DATA_PATH = process.env.WA_DATA_PATH || './.wwebjs_auth';
-
-let _reconnecting = false;
-
 /**
- * Crea e inicializa un cliente WhatsApp.
- * @returns {Client} instancia configurada (aún no inicializada).
+ * Crea y configura el cliente de whatsapp-web.js.
  */
 function createClient() {
+  const clientId = process.env.WA_CLIENT_ID || 'segurito-hackathon';
+  const dataPath = process.env.WA_DATA_PATH || './.wwebjs_auth';
+
   const client = new Client({
-    authStrategy: new LocalAuth({
-      clientId: WA_CLIENT_ID,
-      dataPath: WA_DATA_PATH,
-    }),
+    authStrategy: new LocalAuth({ clientId, dataPath }),
     puppeteer: {
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+      ],
     },
   });
 
   client.on('qr', (qr) => {
-    console.log('[bridge] Escanea el código QR para conectar WhatsApp:');
+    console.log('[WhatsApp] Escanea este QR con tu teléfono:');
     qrcode.generate(qr, { small: true });
   });
 
+  client.on('ready', () => {
+    console.log('[WhatsApp] Client is ready!');
+  });
+
   client.on('authenticated', () => {
-    console.log('[bridge] Autenticación exitosa.');
-    _reconnecting = false;
+    console.log('[WhatsApp] Autenticado exitosamente.');
   });
 
   client.on('auth_failure', (msg) => {
-    console.error('[bridge] Error de autenticación:', msg);
-  });
-
-  client.on('ready', () => {
-    console.log('[bridge] Client is ready!');
-    _reconnecting = false;
+    console.error('[WhatsApp] Error de autenticación:', msg);
   });
 
   client.on('disconnected', (reason) => {
-    console.warn('[bridge] Desconectado:', reason);
-    if (!_reconnecting) {
-      _reconnecting = true;
-      console.log('[bridge] Intentando reconectar en 5 s…');
-      setTimeout(() => {
-        client.initialize().catch((err) => {
-          console.error('[bridge] Reconexión falló:', err.message);
-          _reconnecting = false;
-        });
-      }, 5000);
-    }
+    console.warn('[WhatsApp] Desconectado:', reason);
+    console.log('[WhatsApp] Intentando reconectar...');
+    setTimeout(() => {
+      client.initialize();
+    }, 5000);
   });
 
   return client;

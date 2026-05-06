@@ -1,0 +1,67 @@
+[
+  {
+    "nombre": "Cobro indebido tarjeta",
+    "mensaje_inicial": "me cobraron 50.000 pesos que no reconozco en mi tarjeta del banco estado",
+    "respuestas_template": {
+      "tipo_entidad": "tarjeta de crédito",
+      "nombre_entidad": "Banco Estado",
+      "descripcion": "Cobro de 50.000 CLP no reconocido en estado de cuenta de abril",
+      "adjunto": "saltar",
+      "plazo": "1-3 meses",
+      "reclamo_previo": "No he reclamado"
+    },
+    "respuesta_esperada_keywords": ["Circular CMF", "Ley 19.496", "reclamar al banco", "CMF Online", "10 días"]
+  },
+  {
+    "nombre": "Seguro no pagado",
+    "mensaje_inicial": "mi seguro de auto no me quiere pagar el siniestro",
+    "respuestas_template": {
+      "tipo_entidad": "seguros",
+      "nombre_entidad": "MetLife",
+      "descripcion": "Aseguradora rechaza pago de siniestro vehicular sin justificación",
+      "adjunto": "saltar",
+      "plazo": "1-3 meses",
+      "reclamo_previo": "Sí, ya reclamé y no respondieron"
+    },
+    "respuesta_esperada_keywords": ["aseguradora", "póliza", "CMF Online", "30 días", "reclamo"]
+  },
+  {
+    "nombre": "Cobranza abusiva mutuaria",
+    "mensaje_inicial": "una mutuaria me cobra intereses que parecen abusivos, mucho más de lo que me prestaron",
+    "respuestas_template": {
+      "tipo_entidad": "otra",
+      "nombre_entidad": "Mutualidad ABC",
+      "descripcion": "Intereses de cobranza superan el monto original prestado",
+      "adjunto": "saltar",
+      "plazo": "3-6 meses",
+      "reclamo_previo": "No he reclamado"
+    },
+    "respuesta_esperada_keywords": ["mutuaria", "interés máximo", "DFL 3", "CMF", "tasa convencional"]
+  },
+  {
+    "nombre": "AFP no devuelve aportes",
+    "mensaje_inicial": "mi AFP no me quiere devolver los aportes que pagué de más",
+    "respuestas_template": {
+      "tipo_entidad": "AFP",
+      "nombre_entidad": "AFP Provida",
+      "descripcion": "AFP rechaza devolución de cotizaciones pagadas en exceso",
+      "adjunto": "saltar",
+      "plazo": "1-3 meses",
+      "reclamo_previo": "Sí, ya reclamé y me negaron"
+    },
+    "respuesta_esperada_keywords": ["AFP", "cotización", "CMF", "plazo", "reclamo"]
+  },
+  {
+    "nombre": "Seguro cobrado sin consentimiento",
+    "mensaje_inicial": "mi banco me está cobrando un seguro de desgravamen que nunca contraté",
+    "respuestas_template": {
+      "tipo_entidad": "banco",
+      "nombre_entidad": "Banco de Chile",
+      "descripcion": "Cargo mensual por seguro de desgravamen no solicitado en cuenta corriente",
+      "adjunto": "saltar",
+      "plazo": "Menos de 1 mes",
+      "reclamo_previo": "No he reclamado"
+    },
+    "respuesta_esperada_keywords": ["seguro de desgravamen", "cobro indebido", "CMF", "reclamar al banco", "Circular CMF"]
+  }
+]

@@ -5,10 +5,13 @@ from pydantic import BaseModel, Field
 
 
 class Attachment(BaseModel):
-    mime_type: str
-    filename: str
-    base64_data: str  # máximo ~5 MB decodificado
-    description: str | None = None  # OCR o texto extraído (puede colocarlo el bridge)
+    mime_type: str = Field(..., description="Tipo MIME del archivo, ej. image/jpeg")
+    filename: str = Field(..., description="Nombre del archivo original")
+    base64_data: str = Field(..., description="Contenido del archivo en base64")
+    description: str | None = Field(
+        default=None,
+        description="Texto extraído del archivo (OCR, descripción).",
+    )
 
 
 class ChatRequest(BaseModel):
@@ -17,7 +20,10 @@ class ChatRequest(BaseModel):
         default=None,
         description="Si se omite, el servidor genera uno nuevo (CONSULTA multi-turno).",
     )
-    attachments: list[Attachment] | None = None  # opcional; None = comportamiento anterior
+    attachments: list[Attachment] | None = Field(
+        default=None,
+        description="Archivos adjuntos opcionales (imágenes, documentos).",
+    )
 
 
 class ToolTrace(BaseModel):
