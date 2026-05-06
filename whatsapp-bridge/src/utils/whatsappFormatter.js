@@ -8,20 +8,22 @@
  * - ```monospace``` → ```monospace```
  *
  * Problemas que resuelve:
- * - Bullet points Unicode (•⁠ ⁠, •, ●, ‣) → emoji 1️⃣2️⃣3️⃣ o bullet simple
+ * - Bullet points Unicode (•⁠ ⁠, •, ●, ‣) → bullet simple o sub-item
  * - Headers markdown (### ##) → *negrita*
- * - Listas numeradas markdown → formato WhatsApp
+ * - Listas numeradas markdown → formato WhatsApp con emojis
+ * - Sub-bullets (indentados) → punto medio • en vez de número
  * - Espacios extra / caracteres invisibles
  */
 function formatForWhatsApp(text) {
   if (!text) return text;
 
   // Limpiar caracteres Unicode invisibles (zero-width, word joiner, etc.)
-  text = text.replace(/[​‌‍⁠﻿­]/g, '');
-  text = text.replace(/⁠/g, ''); // word joiner
-  text = text.replace(/​/g, ''); // zero-width space
-  text = text.replace(/﻿/g, ''); // BOM
-  text = text.replace(/­/g, ''); // soft hyphen
+  text = text.replace(/⁠/g, ''); // word joiner (U+2060)
+  text = text.replace(/​/g, ''); // zero-width space (U+200B)
+  text = text.replace(/﻿/g, ''); // BOM (U+FEFF)
+  text = text.replace(/­/g, ''); // soft hyphen (U+00AD)
+  text = text.replace(/‌/g, ''); // zero-width non-joiner (U+200C)
+  text = text.replace(/‍/g, ''); // zero-width joiner (U+200D)
 
   let lines = text.split('\n');
   let result = [];
@@ -30,7 +32,7 @@ function formatForWhatsApp(text) {
   for (let line of lines) {
     const trimmed = line.trim();
 
-    // Vacío → mantener
+    // Vacío → mantener (resetea contador)
     if (!trimmed) {
       listCounter = 0;
       result.push('');
@@ -52,25 +54,20 @@ function formatForWhatsApp(text) {
       continue;
     }
 
-    // Bullet points Unicode: •⁠ ⁠, •, ●, ‣, ◦ + contenido
-    const bulletMatch = trimmed.match(/^[•●‣◦]\s*(.*)/);
-    if (bulletMatch) {
-      listCounter++;
-      const content = boldMarkdownToWhatsApp(bulletMatch[1]);
-      result.push(`${listCounter}️⃣ ${content}`);
+    // Sub-bullets indentados (2+ espacios o tab + guión/punto)
+    // Estos son sub-items de una lista, NO se numeran
+    const subBulletMatch = trimmed.match(/^[•●‣◦]\s+(.*)/);
+    const subDashMatch = trimmed.match(/^[-*]\s+(.+)/);
+    // Detectar si es un sub-item: está indentado o es un bullet después de
+    // un item numerado y el contenido es corto (URL, teléfono, nota)
+    if (subBulletMatch || (subDashMatch && !trimmed.startsWith('**'))) {
+      const content = boldMarkdownToWhatsApp(subBulletMatch ? subBulletMatch[1] : subDashMatch[1]);
+      // Sub-bullet: usar punto medio, no número
+      result.push(`  • ${content}`);
       continue;
     }
 
-    // Bullet points con guión: - texto
-    const dashMatch = trimmed.match(/^[-*]\s+(.+)/);
-    if (dashMatch && !trimmed.startsWith('**')) {
-      listCounter++;
-      const content = boldMarkdownToWhatsApp(dashMatch[1]);
-      result.push(`${listCounter}️⃣ ${content}`);
-      continue;
-    }
-
-    // Listas numeradas markdown: 1. texto
+    // Listas numeradas markdown: 1. texto → emoji numerado
     const numMatch = trimmed.match(/^(\d+)[.)]\s+(.+)/);
     if (numMatch) {
       const num = parseInt(numMatch[1], 10);
@@ -81,7 +78,7 @@ function formatForWhatsApp(text) {
       continue;
     }
 
-    // Blockquote: > texto
+    // Blockquote: > texto → cursiva indentada
     if (trimmed.startsWith('>')) {
       const content = boldMarkdownToWhatsApp(trimmed.replace(/^>\s*/, ''));
       result.push(`   _${content}_`);
@@ -112,7 +109,6 @@ function formatForWhatsApp(text) {
 
 /**
  * Convierte **bold** markdown a *bold* de WhatsApp.
- * Maneja: **texto**, *texto* (si no es italic), y combinaciones.
  */
 function boldMarkdownToWhatsApp(text) {
   if (!text) return text;
@@ -120,11 +116,9 @@ function boldMarkdownToWhatsApp(text) {
   // **bold** → *bold* (WhatsApp)
   let result = text.replace(/\*\*(.+?)\*\*/g, '*$1*');
 
-  // Limpiar caracteres Unicode invisibles (zero-width spaces, etc.)
-  result = result.replace(/[​‌‍⁠﻿­]/g, '');
-
-  // Limpiar ⁠ (word joiner) que aparece en bullets de Anthropic
+  // Limpiar caracteres Unicode invisibles residuales
   result = result.replace(/⁠/g, '');
+  result = result.replace(/​/g, '');
 
   return result;
 }
