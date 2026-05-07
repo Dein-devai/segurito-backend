@@ -31,15 +31,33 @@ log = get_logger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:  # noqa: ARG001
+    import asyncio
+
     settings = get_settings_dep()
     configure_logging(settings.log_level)
     log.info("starting Segurito API")
     _warn_if_public_bind()
     registry = get_registry_dep()
     get_repository_dep()
-    _ensure_collections_ingested(registry)
-    yield
-    log.info("stopping Segurito API")
+    # Auto-ingesta en background: reindexar el corpus puede tomar decenas de
+    # segundos en cold start y excede el port-scan timeout de Render. Se
+    # ejecuta en un thread para no bloquear el bind del puerto. Si una request
+    # de RAG llega antes de terminar, simplemente verá la colección vacía
+    # hasta que el thread complete (caso aceptable: las primeras consultas
+    # responderán sin RAG en lugar de derribar el deploy).
+    ingest_task = asyncio.create_task(
+        asyncio.to_thread(_ensure_collections_ingested, registry)
+    )
+    try:
+        yield
+    finally:
+        log.info("stopping Segurito API")
+        if not ingest_task.done():
+            ingest_task.cancel()
+        try:
+            await ingest_task
+        except (asyncio.CancelledError, Exception):  # noqa: BLE001
+            pass
 
 
 def _ensure_collections_ingested(registry) -> None:
