@@ -47,3 +47,7 @@ services:
         value: /opt/render/project/src/segurito.db
       - key: SEGURITO_CHROMA_PATH
         value: /opt/render/project/src/chroma_db
+      - key: SUPABASE_DB_URL
+        sync: false  # postgresql://postgres:<pass>@db.<ref>.supabase.co:5432/postgres
+      - key: VOYAGE_API_KEY
+        sync: false  # https://dash.voyageai.com → API keys

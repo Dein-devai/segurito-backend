@@ -5,7 +5,8 @@ fastapi==0.136.1
 uvicorn[standard]==0.46.0
 pydantic==2.13.2
 pydantic-settings==2.14.0
-chromadb==1.5.8
+psycopg[binary]==3.2.10
+psycopg-pool==3.2.6
 mcp==1.27.0
 # Auth + OAuth (Google) — JWT HS256 implementado in-house, solo HTTP cliente.
 httpx==0.28.1

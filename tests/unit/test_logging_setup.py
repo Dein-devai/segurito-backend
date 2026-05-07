@@ -40,4 +40,4 @@ def test_noisy_libs_are_silenced() -> None:
     configure_logging("DEBUG")
 
     assert logging.getLogger("httpx").level == logging.WARNING
-    assert logging.getLogger("chromadb").level == logging.WARNING
+    assert logging.getLogger("psycopg").level == logging.WARNING

@@ -1,68 +1,199 @@
-"""VectorStore parametrizado por colección.
+"""VectorStore sobre Supabase Postgres + pgvector + Voyage embeddings.
 
-Reemplaza el `vector_store.py` original que tenía la colección hardcoded.
-Cada organismo tiene su propia instancia (su propia colección Chroma).
+Reemplaza la implementación anterior basada en ChromaDB. Ventajas:
+- Sin onnxruntime/torch en el proceso web → footprint <100 MB.
+- Persistencia gestionada por Supabase: no hay reindex en cold start.
+- Embeddings vía Voyage AI (HTTP), nada en RAM.
 
-Patrón: el embedder y el cliente Chroma son singletons del proceso, pero la
-colección se identifica por nombre.
-
-Embeddings: usamos ``DefaultEmbeddingFunction`` de ChromaDB (ONNX MiniLM-L6).
-Es ligero (~80MB), no requiere PyTorch y permite que el deploy quepa en planes
-free de 512MB. Reemplazó al modelo paraphrase-multilingual-MiniLM-L12-v2 que
-arrastraba ~500MB de RAM y mataba el proceso por OOM.
+Compatibilidad: la clase ``VectorStore`` conserva la interfaz pública usada
+por los plugins (search/get/ingest/count/reset). Internamente expone un
+``_collection`` con métodos query/get/upsert/count que mimetizan la API de
+chromadb.Collection — los tests con MagicMock siguen funcionando sin cambios.
 """
 from __future__ import annotations
 
 import json
+import os
 from functools import lru_cache
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import Any
+
+import httpx
 
 from backend.core.models import ServiceItem
 from backend.logging_setup import get_logger
 from backend.settings import get_settings
 
-if TYPE_CHECKING:
-    import chromadb
-
 log = get_logger(__name__)
 
 
+# --- Voyage embeddings -------------------------------------------------------
+
+def _embed_batch(texts: list[str], *, input_type: str = "document") -> list[list[float]]:
+    """Calcula embeddings de una lista de textos vía Voyage AI."""
+    if not texts:
+        return []
+    settings = get_settings()
+    api_key = settings.voyage_api_key or os.getenv("VOYAGE_API_KEY", "")
+    if not api_key:
+        raise RuntimeError(
+            "VOYAGE_API_KEY no configurada. Embeddings RAG no disponibles."
+        )
+    payload = {
+        "input": texts,
+        "model": settings.embed_model_name,
+        "input_type": input_type,
+    }
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+    with httpx.Client(timeout=30.0) as client:
+        resp = client.post(settings.voyage_api_url, headers=headers, json=payload)
+        resp.raise_for_status()
+        data = resp.json()
+    return [item["embedding"] for item in data["data"]]
+
+
+def _embed(text: str, *, input_type: str = "query") -> list[float]:
+    """Embedding de un único texto. Por defecto modo query."""
+    return _embed_batch([text], input_type=input_type)[0]
+
+
+def _vector_literal(vec: list[float]) -> str:
+    """pgvector accepts the textual form '[v1,v2,...]'."""
+    return "[" + ",".join(f"{x:.7f}" for x in vec) + "]"
+
+
+# --- Postgres pool -----------------------------------------------------------
+
 @lru_cache(maxsize=1)
-def _get_embedding_function() -> Any:
-    """Embedding function compartida del proceso (ONNX, sin PyTorch)."""
-    from chromadb.utils import embedding_functions
+def _get_pool() -> Any:
+    """Pool de conexiones psycopg para Supabase."""
+    from psycopg_pool import ConnectionPool
 
-    log.info("using ChromaDB DefaultEmbeddingFunction (ONNX MiniLM-L6)")
-    return embedding_functions.DefaultEmbeddingFunction()
-
-
-@lru_cache(maxsize=1)
-def _get_chroma_client() -> chromadb.api.ClientAPI:
-    import chromadb
-    from chromadb.config import Settings as ChromaSettings
-
-    path = get_settings().chroma_db_path
-    path.mkdir(parents=True, exist_ok=True)
-    return chromadb.PersistentClient(
-        path=str(path),
-        settings=ChromaSettings(anonymized_telemetry=False),
+    url = get_settings().supabase_db_url
+    if not url:
+        raise RuntimeError("SUPABASE_DB_URL no configurada.")
+    log.info("opening Supabase pgvector pool")
+    pool = ConnectionPool(
+        conninfo=url,
+        min_size=1,
+        max_size=4,
+        kwargs={"autocommit": True},
+        open=True,
     )
+    return pool
 
 
-def _embed(text: str) -> list[float]:
-    """Embedding para un único texto. Mantenido por compatibilidad."""
-    ef = _get_embedding_function()
-    return list(ef([text])[0])
+# --- Adapter Chroma-like sobre la tabla rag_documents -----------------------
 
+class _PgVectorCollection:
+    """Mimetiza la interfaz de chromadb.Collection usada por VectorStore."""
+
+    def __init__(self, name: str) -> None:
+        self.name = name
+
+    @staticmethod
+    def _where_clause(where: dict | None) -> tuple[str, list[Any]]:
+        if not where:
+            return "", []
+        clauses, params = [], []
+        for k, v in where.items():
+            clauses.append("metadata->>%s = %s")
+            params.extend([k, v])
+        return " AND " + " AND ".join(clauses), params
+
+    def upsert(
+        self,
+        *,
+        ids: list[str],
+        documents: list[str],
+        metadatas: list[dict],
+        embeddings: list[list[float]],
+    ) -> None:
+        sql = (
+            "INSERT INTO rag_documents (collection, id, document, metadata, embedding) "
+            "VALUES (%s, %s, %s, %s::jsonb, %s::vector) "
+            "ON CONFLICT (collection, id) DO UPDATE SET "
+            "  document = EXCLUDED.document, "
+            "  metadata = EXCLUDED.metadata, "
+            "  embedding = EXCLUDED.embedding"
+        )
+        with _get_pool().connection() as conn, conn.cursor() as cur:
+            for rid, doc, meta, emb in zip(ids, documents, metadatas, embeddings):
+                cur.execute(
+                    sql,
+                    (self.name, rid, doc, json.dumps(meta), _vector_literal(emb)),
+                )
+
+    def query(
+        self,
+        *,
+        query_embeddings: list[list[float]],
+        n_results: int,
+        where: dict | None = None,
+        include: list[str] | None = None,  # noqa: ARG002
+    ) -> dict:
+        if not query_embeddings:
+            return {"ids": [[]], "documents": [[]], "metadatas": [[]], "distances": [[]]}
+        emb_lit = _vector_literal(query_embeddings[0])
+        where_sql, where_params = self._where_clause(where)
+        sql = (
+            "SELECT id, document, metadata, embedding <=> %s::vector AS distance "
+            "FROM rag_documents WHERE collection = %s"
+            f"{where_sql} "
+            "ORDER BY embedding <=> %s::vector "
+            "LIMIT %s"
+        )
+        params: list[Any] = [emb_lit, self.name, *where_params, emb_lit, n_results]
+        with _get_pool().connection() as conn, conn.cursor() as cur:
+            cur.execute(sql, params)
+            rows = cur.fetchall()
+        ids = [r[0] for r in rows]
+        docs = [r[1] for r in rows]
+        metas = [r[2] for r in rows]
+        dists = [float(r[3]) for r in rows]
+        return {
+            "ids": [ids],
+            "documents": [docs],
+            "metadatas": [metas],
+            "distances": [dists],
+        }
+
+    def get(
+        self,
+        *,
+        ids: list[str],
+        include: list[str] | None = None,  # noqa: ARG002
+    ) -> dict:
+        if not ids:
+            return {"ids": [], "documents": [], "metadatas": []}
+        sql = (
+            "SELECT id, document, metadata FROM rag_documents "
+            "WHERE collection = %s AND id = ANY(%s)"
+        )
+        with _get_pool().connection() as conn, conn.cursor() as cur:
+            cur.execute(sql, (self.name, ids))
+            rows = cur.fetchall()
+        return {
+            "ids": [r[0] for r in rows],
+            "documents": [r[1] for r in rows],
+            "metadatas": [r[2] for r in rows],
+        }
+
+    def count(self) -> int:
+        sql = "SELECT count(*) FROM rag_documents WHERE collection = %s"
+        with _get_pool().connection() as conn, conn.cursor() as cur:
+            cur.execute(sql, (self.name,))
+            row = cur.fetchone()
+        return int(row[0]) if row else 0
+
+
+# --- VectorStore (interfaz pública) -----------------------------------------
 
 class VectorStore:
-    """Una instancia por colección (= por organismo).
-
-    No se carga al construirse; la colección se materializa de forma lazy
-    en la primera operación. Esto permite construir VectorStore en tests
-    sin tocar Chroma.
-    """
+    """Una instancia por colección lógica (= por organismo)."""
 
     def __init__(self, collection_name: str) -> None:
         self.collection_name = collection_name
@@ -70,22 +201,19 @@ class VectorStore:
 
     def _collection_handle(self) -> Any:
         if self._collection is None:
-            client = _get_chroma_client()
-            self._collection = client.get_or_create_collection(
-                name=self.collection_name,
-                metadata={"hnsw:space": "cosine"},
-                embedding_function=_get_embedding_function(),
-            )
+            self._collection = _PgVectorCollection(self.collection_name)
         return self._collection
 
     def reset(self) -> None:
-        """Elimina la colección. Idempotente."""
-        client = _get_chroma_client()
         try:
-            client.delete_collection(self.collection_name)
+            with _get_pool().connection() as conn, conn.cursor() as cur:
+                cur.execute(
+                    "DELETE FROM rag_documents WHERE collection = %s",
+                    (self.collection_name,),
+                )
             log.info("collection %s deleted", self.collection_name)
-        except Exception:  # noqa: BLE001
-            log.info("collection %s did not exist", self.collection_name)
+        except Exception as exc:  # noqa: BLE001
+            log.warning("collection %s reset failed: %s", self.collection_name, exc)
         self._collection = None
 
     def ingest(
@@ -96,12 +224,6 @@ class VectorStore:
         valid_intenciones: tuple[str, ...] = ("RECLAMO", "CONSULTA", "TRAMITE"),
         min_doc_chars: int = 50,
     ) -> int:
-        """Ingesta items en formato {id, document, metadata}.
-
-        Filtra por longitud. Si ``intencion_field`` es None, no aplica
-        filtro por intención (útil para corpus sin taxonomía de intención,
-        como el corpus legal). Idempotente (upsert).
-        """
         if intencion_field is None:
             valid = [
                 it for it in items
@@ -117,24 +239,23 @@ class VectorStore:
             "ingesting %d/%d items into %s",
             len(valid), len(items), self.collection_name,
         )
-
         if not valid:
             return int(self._collection_handle().count())
 
         ids = [it["id"] for it in valid]
         documents = [it["document"] for it in valid]
         metadatas = [it["metadata"] for it in valid]
+        embeddings = _embed_batch(documents, input_type="document")
 
-        # La embedding_function de la colección calcula los vectores.
         self._collection_handle().upsert(
             ids=ids,
             documents=documents,
             metadatas=metadatas,
+            embeddings=embeddings,
         )
         return int(self._collection_handle().count())
 
     def ingest_from_json(self, path: Path, **kwargs: Any) -> int:
-        """Lee items de un archivo JSON y los ingesta."""
         items = json.loads(path.read_text(encoding="utf-8"))
         return self.ingest(items, **kwargs)
 
@@ -145,22 +266,23 @@ class VectorStore:
         intencion: str | None = None,
         n_results: int = 3,
     ) -> list[ServiceItem]:
-        """Búsqueda semántica con filtro opcional por intención."""
         if not query.strip():
             return []
-
         where = {"intencion": intencion} if intencion else None
-        results = self._collection_handle().query(
-            query_texts=[query],
-            n_results=n_results,
-            where=where,
-            include=["documents", "metadatas", "distances"],
-        )
+        try:
+            results = self._collection_handle().query(
+                query_embeddings=[_embed(query, input_type="query")],
+                n_results=n_results,
+                where=where,
+                include=["documents", "metadatas", "distances"],
+            )
+        except Exception as exc:  # noqa: BLE001
+            log.warning("search failed (%s); returning empty", exc)
+            return []
 
         ids = results.get("ids") or [[]]
         if not ids[0]:
             return []
-
         out: list[ServiceItem] = []
         for i in range(len(ids[0])):
             out.append(
@@ -174,11 +296,14 @@ class VectorStore:
         return out
 
     def get(self, service_id: str) -> ServiceItem | None:
-        """Retorna un item por id, o None si no existe."""
-        res = self._collection_handle().get(
-            ids=[service_id],
-            include=["documents", "metadatas"],
-        )
+        try:
+            res = self._collection_handle().get(
+                ids=[service_id],
+                include=["documents", "metadatas"],
+            )
+        except Exception as exc:  # noqa: BLE001
+            log.warning("get failed (%s)", exc)
+            return None
         if not res["ids"]:
             return None
         return ServiceItem(
@@ -188,4 +313,7 @@ class VectorStore:
         )
 
     def count(self) -> int:
-        return int(self._collection_handle().count())
+        try:
+            return int(self._collection_handle().count())
+        except Exception:  # noqa: BLE001
+            return 0

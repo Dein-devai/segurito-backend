@@ -211,7 +211,7 @@ def _check_runtime_deps() -> str | None:
     rápido con instrucciones útiles (probable causa: venv no activado).
     """
     missing = []
-    for mod in ("chromadb",):
+    for mod in ("psycopg",):
         try:
             __import__(mod)
         except ImportError:

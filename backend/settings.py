@@ -103,10 +103,21 @@ class Settings(BaseSettings):
     log_path: Path = Field(default=ROOT_DIR / "interaction_log.jsonl", alias="SEGURITO_LOG_PATH")
     db_path: Path = Field(default=ROOT_DIR / "segurito.db", alias="SEGURITO_DB_PATH")
 
-    # --- Embedding ----------------------------------------------------------
+    # --- Vector store (Supabase + pgvector) --------------------------------
+    # Si supabase_db_url está vacío, VectorStore opera en modo no-op
+    # (search devuelve []). Útil para tests / arranque sin DB.
+    supabase_db_url: str = Field(default="", alias="SUPABASE_DB_URL")
+
+    # --- Embedding (Voyage AI) ---------------------------------------------
     embed_model_name: str = Field(
-        default="paraphrase-multilingual-MiniLM-L12-v2",
+        default="voyage-3-lite",
         alias="SEGURITO_EMBED_MODEL",
+    )
+    embed_dim: int = Field(default=512, alias="SEGURITO_EMBED_DIM")
+    voyage_api_key: str = Field(default="", alias="VOYAGE_API_KEY")
+    voyage_api_url: str = Field(
+        default="https://api.voyageai.com/v1/embeddings",
+        alias="VOYAGE_API_URL",
     )
 
     # --- Plugins ------------------------------------------------------------
@@ -160,9 +171,15 @@ class Settings(BaseSettings):
             stripped = value.strip()
             if not stripped:
                 return ()
-            # Si parece JSON, dejar que pydantic lo procese.
-            if stripped.startswith("[") or stripped.startswith("("):
-                return value
+            # Soporte JSON array: ["a","b"]
+            if stripped.startswith("["):
+                import json as _json
+                try:
+                    parsed = _json.loads(stripped)
+                    if isinstance(parsed, list):
+                        return tuple(str(x) for x in parsed)
+                except _json.JSONDecodeError:
+                    pass
             return tuple(item.strip() for item in stripped.split(",") if item.strip())
         return value
 

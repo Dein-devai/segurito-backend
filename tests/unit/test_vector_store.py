@@ -33,7 +33,11 @@ def stub_embed(monkeypatch: pytest.MonkeyPatch) -> None:
     """Reemplaza _embed por una función trivial — no carga el modelo real."""
     monkeypatch.setattr(
         "backend.vector_store._embed",
-        lambda text: [float(len(text))] * 3,
+        lambda text, **_kw: [float(len(text))] * 3,
+    )
+    monkeypatch.setattr(
+        "backend.vector_store._embed_batch",
+        lambda texts, **_kw: [[float(len(t))] * 3 for t in texts],
     )
 
 

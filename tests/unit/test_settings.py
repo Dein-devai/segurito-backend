@@ -12,7 +12,7 @@ def test_settings_loads_with_defaults(fresh_settings) -> None:
     assert fresh_settings.model_chat == "claude-sonnet-4-5"
     assert fresh_settings.max_tool_iterations == 5
     assert fresh_settings.tool_loop_timeout_s == 30.0
-    assert fresh_settings.embed_model_name == "paraphrase-multilingual-MiniLM-L12-v2"
+    assert fresh_settings.embed_model_name == "voyage-3-lite"
 
 
 def test_settings_reads_from_env(monkeypatch: pytest.MonkeyPatch) -> None:

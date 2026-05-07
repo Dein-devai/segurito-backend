@@ -36,7 +36,8 @@ def configure_logging(level: str = "INFO") -> None:
     # Silenciar libs ruidosas
     logging.getLogger("httpx").setLevel(logging.WARNING)
     logging.getLogger("httpcore").setLevel(logging.WARNING)
-    logging.getLogger("chromadb").setLevel(logging.WARNING)
+    logging.getLogger("psycopg").setLevel(logging.WARNING)
+    logging.getLogger("psycopg.pool").setLevel(logging.WARNING)
 
     _CONFIGURED = True
 
