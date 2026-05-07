@@ -8,9 +8,10 @@ from __future__ import annotations
 
 from functools import lru_cache
 from pathlib import Path
+from typing import Annotated
 
-from pydantic import Field
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import Field, field_validator
+from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 
@@ -47,7 +48,7 @@ class Settings(BaseSettings):
     thinking_budget_tokens: int = Field(
         default=2048, alias="SEGURITO_THINKING_BUDGET"
     )
-    escalation_keywords: tuple[str, ...] = Field(
+    escalation_keywords: Annotated[tuple[str, ...], NoDecode] = Field(
         default=(
             "demanda",
             "tribunal",
@@ -109,13 +110,16 @@ class Settings(BaseSettings):
     )
 
     # --- Plugins ------------------------------------------------------------
-    enabled_organismos: tuple[str, ...] = Field(
+    enabled_organismos: Annotated[tuple[str, ...], NoDecode] = Field(
         default=("cmf", "legal", "sernac", "sii"),
         alias="SEGURITO_ENABLED_ORGANISMOS",
     )
 
     # --- API ----------------------------------------------------------------
-    cors_origins: tuple[str, ...] = Field(default=("*",), alias="SEGURITO_CORS_ORIGINS")
+    cors_origins: Annotated[tuple[str, ...], NoDecode] = Field(
+        default=("*",), alias="SEGURITO_CORS_ORIGINS"
+    )
+    cors_origin_regex: str = Field(default="", alias="SEGURITO_CORS_ORIGIN_REGEX")
     log_level: str = Field(default="INFO", alias="SEGURITO_LOG_LEVEL")
 
     # --- Auth & admin (deploy público) -------------------------------------
@@ -138,6 +142,29 @@ class Settings(BaseSettings):
     conversation_ttl_seconds: int = Field(
         default=1800, alias="SEGURITO_CONVERSATION_TTL"
     )
+
+    @field_validator(
+        "cors_origins",
+        "enabled_organismos",
+        "escalation_keywords",
+        mode="before",
+    )
+    @classmethod
+    def _split_csv(cls, value):
+        """Permite definir tuplas como CSV en variables de entorno.
+
+        Pydantic-settings espera JSON por defecto para tipos compuestos. Aquí
+        aceptamos también strings tipo ``"a,b,c"`` y los partimos en tupla.
+        """
+        if isinstance(value, str):
+            stripped = value.strip()
+            if not stripped:
+                return ()
+            # Si parece JSON, dejar que pydantic lo procese.
+            if stripped.startswith("[") or stripped.startswith("("):
+                return value
+            return tuple(item.strip() for item in stripped.split(",") if item.strip())
+        return value
 
 
 @lru_cache(maxsize=1)

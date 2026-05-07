@@ -25,6 +25,8 @@ services:
         sync: false
       - key: SEGURITO_CORS_ORIGINS
         sync: false  # ej: https://segurito-frontend.vercel.app,http://localhost:5173
+      - key: SEGURITO_CORS_ORIGIN_REGEX
+        sync: false  # ej: ^https://po-c-mvp-challenge-front-.*\.vercel\.app$
       - key: ADMIN_TOKEN
         generateValue: true
       - key: JWT_SECRET

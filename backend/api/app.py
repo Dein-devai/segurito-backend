@@ -67,10 +67,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         lifespan=lifespan,
     )
     cors_origins = list(settings.cors_origins)
-    if cors_origins == ["*"]:
+    cors_origin_regex = settings.cors_origin_regex.strip() or None
+    if cors_origins == ["*"] and not cors_origin_regex:
         log.warning(
             "CORS abierto a *: aceptable solo en dev local. "
-            "En producción configura SEGURITO_CORS_ORIGINS con dominios exactos."
+            "En producción configura SEGURITO_CORS_ORIGINS con dominios exactos "
+            "o SEGURITO_CORS_ORIGIN_REGEX para previews dinámicos."
         )
         # Con allow_credentials=False puedes usar wildcard.
         app.add_middleware(
@@ -81,9 +83,13 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             allow_credentials=False,
         )
     else:
+        # Si solo hay regex (sin lista explícita), no usamos el wildcard como
+        # lista ya que sería incompatible con allow_credentials=True.
+        explicit_origins = [] if cors_origins == ["*"] else cors_origins
         app.add_middleware(
             CORSMiddleware,
-            allow_origins=cors_origins,
+            allow_origins=explicit_origins,
+            allow_origin_regex=cors_origin_regex,
             allow_methods=["*"],
             allow_headers=["*"],
             allow_credentials=True,
