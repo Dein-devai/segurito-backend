@@ -3,8 +3,13 @@
 Reemplaza el `vector_store.py` original que tenía la colección hardcoded.
 Cada organismo tiene su propia instancia (su propia colección Chroma).
 
-Patrón: el modelo de embeddings y el cliente Chroma son singletons del proceso
-(cargar el modelo es caro), pero la colección se identifica por nombre.
+Patrón: el embedder y el cliente Chroma son singletons del proceso, pero la
+colección se identifica por nombre.
+
+Embeddings: usamos ``DefaultEmbeddingFunction`` de ChromaDB (ONNX MiniLM-L6).
+Es ligero (~80MB), no requiere PyTorch y permite que el deploy quepa en planes
+free de 512MB. Reemplazó al modelo paraphrase-multilingual-MiniLM-L12-v2 que
+arrastraba ~500MB de RAM y mataba el proceso por OOM.
 """
 from __future__ import annotations
 
@@ -19,19 +24,17 @@ from backend.settings import get_settings
 
 if TYPE_CHECKING:
     import chromadb
-    from sentence_transformers import SentenceTransformer
 
 log = get_logger(__name__)
 
 
 @lru_cache(maxsize=1)
-def _get_model() -> SentenceTransformer:
-    from sentence_transformers import SentenceTransformer
+def _get_embedding_function() -> Any:
+    """Embedding function compartida del proceso (ONNX, sin PyTorch)."""
+    from chromadb.utils import embedding_functions
 
-    name = get_settings().embed_model_name
-    log.info("loading embedding model %s", name)
-    model: SentenceTransformer = SentenceTransformer(name)
-    return model
+    log.info("using ChromaDB DefaultEmbeddingFunction (ONNX MiniLM-L6)")
+    return embedding_functions.DefaultEmbeddingFunction()
 
 
 @lru_cache(maxsize=1)
@@ -48,7 +51,9 @@ def _get_chroma_client() -> chromadb.api.ClientAPI:
 
 
 def _embed(text: str) -> list[float]:
-    return _get_model().encode(text, normalize_embeddings=False).tolist()
+    """Embedding para un único texto. Mantenido por compatibilidad."""
+    ef = _get_embedding_function()
+    return list(ef([text])[0])
 
 
 class VectorStore:
@@ -69,6 +74,7 @@ class VectorStore:
             self._collection = client.get_or_create_collection(
                 name=self.collection_name,
                 metadata={"hnsw:space": "cosine"},
+                embedding_function=_get_embedding_function(),
             )
         return self._collection
 
@@ -118,13 +124,12 @@ class VectorStore:
         ids = [it["id"] for it in valid]
         documents = [it["document"] for it in valid]
         metadatas = [it["metadata"] for it in valid]
-        embeddings = [_embed(d) for d in documents]
 
+        # La embedding_function de la colección calcula los vectores.
         self._collection_handle().upsert(
             ids=ids,
             documents=documents,
             metadatas=metadatas,
-            embeddings=embeddings,
         )
         return int(self._collection_handle().count())
 
@@ -146,7 +151,7 @@ class VectorStore:
 
         where = {"intencion": intencion} if intencion else None
         results = self._collection_handle().query(
-            query_embeddings=[_embed(query)],
+            query_texts=[query],
             n_results=n_results,
             where=where,
             include=["documents", "metadatas", "distances"],

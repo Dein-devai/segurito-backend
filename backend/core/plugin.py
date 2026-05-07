@@ -71,6 +71,14 @@ class OrganismoPlugin(ABC):
         """Renderiza un ServiceItem como markdown para el LLM."""
         ...
 
+    def ingest_data(self) -> int | None:
+        """Hook opcional: ingesta `data_path` en la colección si está vacía.
+
+        Devuelve el conteo final de la colección, o None si el plugin no
+        usa VectorStore. Default: no-op (plugins sin RAG lo omiten).
+        """
+        return None
+
     def __repr__(self) -> str:
         estado = "activo" if self.activo else "stub"
         return f"<{self.__class__.__name__} key={self.key!r} ({estado})>"

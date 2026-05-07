@@ -211,7 +211,7 @@ def _check_runtime_deps() -> str | None:
     rápido con instrucciones útiles (probable causa: venv no activado).
     """
     missing = []
-    for mod in ("chromadb", "sentence_transformers"):
+    for mod in ("chromadb",):
         try:
             __import__(mod)
         except ImportError:

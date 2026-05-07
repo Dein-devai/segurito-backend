@@ -35,10 +35,29 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:  # noqa: ARG001
     configure_logging(settings.log_level)
     log.info("starting Segurito API")
     _warn_if_public_bind()
-    get_registry_dep()
+    registry = get_registry_dep()
     get_repository_dep()
+    _ensure_collections_ingested(registry)
     yield
     log.info("stopping Segurito API")
+
+
+def _ensure_collections_ingested(registry) -> None:
+    """Llama a ``plugin.ingest_data()`` para poblar colecciones vacías.
+
+    Se ejecuta al startup. Si el plugin no usa RAG el hook devuelve None y
+    no hace nada. Si la colección ya tiene datos, también es no-op.
+    """
+    for plugin in registry.all_plugins():
+        try:
+            count = plugin.ingest_data()
+        except Exception as exc:  # noqa: BLE001
+            log.warning(
+                "ingest_data falló para plugin %s: %s", plugin.key, exc,
+            )
+            continue
+        if count is not None:
+            log.info("plugin %s collection size=%d", plugin.key, count)
 
 
 def _warn_if_public_bind() -> None:

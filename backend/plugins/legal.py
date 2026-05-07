@@ -154,3 +154,19 @@ class LegalCorpusPlugin(OrganismoPlugin):
         return header + "\n\n---\n\n".join(
             self.format_service(r) for r in results
         )
+
+    # -- ingest -------------------------------------------------------------
+    def ingest_data(self) -> int | None:
+        """Ingesta el JSON del corpus legal si la colección está vacía."""
+        if not self.data_path.exists():
+            return None
+        try:
+            current = self._store.count()
+        except Exception:  # noqa: BLE001
+            current = 0
+        if current > 0:
+            return current
+        return self._store.ingest_from_json(
+            self.data_path,
+            intencion_field=None,
+        )

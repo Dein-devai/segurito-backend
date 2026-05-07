@@ -233,3 +233,20 @@ class CmfPlugin(OrganismoPlugin):
         if item is None:
             return f"No existe el servicio con id={service_id!r}."
         return self.format_service(item)
+
+    # -- ingest -------------------------------------------------------------
+    def ingest_data(self) -> int | None:
+        """Ingesta el JSON de servicios CMF si la colección está vacía."""
+        if not self.data_path.exists():
+            return None
+        try:
+            current = self._store.count()
+        except Exception:  # noqa: BLE001
+            current = 0
+        if current > 0:
+            return current
+        return self._store.ingest_from_json(
+            self.data_path,
+            intencion_field="intencion",
+            valid_intenciones=VALID_INTENCIONES_CMF,
+        )
